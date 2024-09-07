@@ -10,7 +10,7 @@ try {
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
     
     if ($result) {
-        echo "Veritabanı bağlantısı başarılı!";
+        echo "Veritabanı bağlantısı başarılıdır!";
     } else {
         echo "Veritabanı bağlantısı başarılı ancak sorgu sonuçsuz.";
     }

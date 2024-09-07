@@ -72,6 +72,12 @@ a:-webkit-any-link {
 
 .w-50{
     width: 50%;
+    @media (max-width: 1200px) {
+        
+        width: 100%;
+
+      }
+    
 }
 
 #arrowup{

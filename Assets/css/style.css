@@ -1625,6 +1625,7 @@ body.dark-mode {
         -ms-flex-direction: column;
             flex-direction: column;
     margin: 20px auto;
+    width: 100% !important;
   }
 }
 
@@ -1882,6 +1883,11 @@ a:-webkit-any-link {
 
 .w-50 {
   width: 50%;
+}
+@media (max-width: 1200px) {
+  .w-50 {
+    width: 100%;
+  }
 }
 
 #arrowup {

@@ -726,7 +726,7 @@
 
     </div>
 
-
+<?php require "views/contents/footer.php"?>
 
 
 

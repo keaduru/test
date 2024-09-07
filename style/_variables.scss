@@ -1,0 +1,111 @@
+//#region COLORS
+
+$light-background:  #ffffff;
+$light-color:       #181818;
+$dark-background:   #191a1f;
+$dark-color:        #f9fafb;
+$orangedark:        #dc831c;
+$primary:           #2163e8;
+$ice:               #4f9ef8;
+$gray:              #c5c6ca;
+$gray-text:         #8d8c90;
+$red:               #d6293b;
+$green:             #49bc87;
+$blue:              #007bff;
+$indigo:            #302e34;
+$purple:            #6f42c1;
+$pink:              #e83e8c;
+$orange:            #fd7e14;
+$yellow:            #f7c32e;
+
+
+// Dinamik Alpha Değeri
+$alpha-value: 0.1;
+
+// Alpha değeriyle renkleri dönüştürme fonksiyonu
+@function rgba-color($color, $alpha) {
+@return rgba(red($color), green($color), blue($color), $alpha);
+};
+
+// Tüm renkler için opaklık (alpha) değeri uygulamak
+    $colors-with-alpha: (
+    light-background: rgba-color($light-background, $alpha-value),
+    light-color: rgba-color($light-color, $alpha-value),
+    dark-background: rgba-color($dark-background, $alpha-value),
+    dark-color: rgba-color($dark-color, $alpha-value),
+    orangedark: rgba-color($orangedark, $alpha-value),
+    primary: rgba-color($primary, $alpha-value),
+    ice: rgba-color($ice, $alpha-value),
+    gray: rgba-color($gray, $alpha-value),
+    gray-text: rgba-color($gray, $alpha-value),
+    red: rgba-color($red, $alpha-value),
+    green: rgba-color($green, $alpha-value),
+    blue: rgba-color($blue, $alpha-value),
+    indigo: rgba-color($indigo, $alpha-value),
+    purple: rgba-color($purple, $alpha-value),
+    pink: rgba-color($pink, $alpha-value),
+    orange: rgba-color($orange, $alpha-value),
+    yellow: rgba-color($yellow, $alpha-value)
+    );
+
+
+
+
+    // Dinamik metin rengi hesaplama fonksiyonu
+    @function lighten-color($color, $amount) {
+    @return lighten($color, $amount);
+    }
+
+// Renkler
+$colors: (
+    primary: $primary,
+    blue: $blue,
+    light-background: $light-background,
+    light-color: $light-color,
+    dark-background: $dark-background,
+    dark-color: $dark-color,
+    orangedark: $orangedark,
+    ice: $ice,
+    gray: $gray,
+    gray-text: $gray-text,
+    red: $red,
+    green: $green,
+    indigo: $indigo,
+    purple: $purple,
+    pink: $pink,
+    orange: $orange,
+    yellow: $yellow
+);
+
+// Dinamik sınıflar oluşturma
+@each $name, $color in $colors {
+    .#{$name} {
+    background-color: $color;
+    color: lighten-color($color, 45%); // Metin rengini arka plan renginden daha açık yap
+
+    &:hover {
+        background-color: lighten-color($color, 45%);
+        color: $color;
+    }
+    }
+}
+    // Dinamik fade sınıflar oluşturma mixin'i
+    @mixin fade-class($name, $color, $fade-color) {
+        background-color: $fade-color;
+        color: $color;
+    
+        &:hover {
+        background-color: $color;
+        color: $dark-color;
+        }
+    }
+    
+    // Her renk için fade sınıfları oluşturma
+    @each $name, $color in $colors {
+        .#{$name}fade {
+        @include fade-class($name, $color, map-get($colors-with-alpha, $name));
+        }
+    }
+
+//#endregion COLORS    
+

@@ -1,0 +1,37 @@
+/.vscode
+    settings.json
+/Assets
+    /css
+        style.css
+        style.css.map
+    /fontawasome
+        lots of file...
+    /images
+        denizmanzara.jpeg
+        dodo.jpeg
+        ...
+    /js
+        app.js
+        jqery.js
+/config
+/contollers
+/helpers
+/models
+/panel
+    /contollers
+    /views
+    index.php
+    login.php
+/routes
+/style
+    _card.scss
+    _container.scss
+    _elements.scss
+    _fontsizeandtheme.scss
+    _footer.scss
+    _variables.scss
+    style.scss
+/views
+dosyayapısı.txt
+index.php
+sitemap.xml

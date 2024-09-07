@@ -1,0 +1,30 @@
+//#region font sizes & theme
+body{
+
+
+    &.small-font {
+    font-size: 14px;
+    letter-spacing: 0.1px;
+  }
+    &.medium-font {
+    font-size: 16px;
+    letter-spacing: normal;
+    }
+  
+    &.large-font {
+    font-size: 18px;
+    letter-spacing: 2px;
+    }
+    &.light-mode {
+    background-color: $light-background;
+    color: $light-color;
+
+    }
+
+    &.dark-mode {
+    background-color: $dark-background;
+    color: $dark-color;
+    }
+}
+//#endregion
+

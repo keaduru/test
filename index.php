@@ -117,7 +117,7 @@
                 <h3 class="bordershadow">Son Eklenenler ve Dikkat Çekenler</h3>
                     <div class="card-main-container">
                     <div class="w-50 cards">
-                        <div class="card-container-big" data-image="images/selale.jpeg">
+                        <div class="card-container-big" data-image="Assets/images/selale.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="new">
@@ -148,7 +148,7 @@
                         </div>
                         
                     <div class="w-50 cards">
-                            <div class="card-container-md" data-image="images/orman.jpeg">
+                            <div class="card-container-md" data-image="Assets/images/orman.jpeg">
                                 <span><i class="fa-regular fa-eye">123</i></span>
                                 <a href="#" class="badge green">Teknoloji</a>
                                 <div class="favori">
@@ -175,7 +175,7 @@
                                     </div>
                                 </div>
                         
-                                <div class="card-container-sm" data-image="images/panaroma.jpeg">
+                                <div class="card-container-sm" data-image="Assets/images/pnrm.jpeg">
                                     <span><i class="fa-regular fa-eye">123</i></span>
                                     <a href="#" class="badge green">Teknoloji</a>
                                     <div class="favori">
@@ -201,7 +201,7 @@
                                         
                                     </div>
                                 </div>
-                                <div class="card-container-sm" data-image="images/dodo.jpeg">
+                                <div class="card-container-sm" data-image="Assets/images/dodo.jpeg">
                                     <span><i class="fa-regular fa-eye">123</i></span>
                                     <a href="#" class="badge green">Teknoloji</a>
                                     <div class="favori">
@@ -246,7 +246,7 @@
                  <div id="content-slider">
 
                     <div class="w-100 cards">
-                        <div class="card-container-main" data-image="images/orman.jpeg">
+                        <div class="card-container-main" data-image="Assets/images/orman.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -273,7 +273,7 @@
                                 </div>
                         </div>
                 
-                        <div class="card-container-main" data-image="images/panaroma.jpeg">
+                        <div class="card-container-main" data-image="Assets/images/pnrm.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -299,7 +299,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main" data-image="images/dodo.jpeg">
+                        <div class="card-container-main" data-image="Assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -325,7 +325,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main" data-image="images/dodo.jpeg">
+                        <div class="card-container-main" data-image="Assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -351,7 +351,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main" data-image="images/dodo.jpeg">
+                        <div class="card-container-main" data-image="Assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -377,7 +377,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main " data-image="images/dodo.jpeg">
+                        <div class="card-container-main " data-image="Assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -403,7 +403,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main hidden" data-image="images/dodo.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -429,7 +429,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main hidden" data-image="images/dodo.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -455,7 +455,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main hidden" data-image="images/dodo.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -481,7 +481,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main hidden" data-image="images/dodo.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -507,7 +507,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main hidden" data-image="images/selale.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/selale.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -533,7 +533,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main hidden" data-image="images/orman.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/orman.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -559,7 +559,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-main hidden" data-image="images/orman.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/orman.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -585,7 +585,7 @@
                                 
                             </div>
                         </div> 
-                        <div class="card-container-main hidden" data-image="images/selale.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/selale.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -611,7 +611,7 @@
                                 
                             </div>
                         </div>                        
-                        <div class="card-container-main hidden" data-image="images/panaroma.jpeg">
+                        <div class="card-container-main hidden" data-image="Assets/images/pnrm.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -672,7 +672,7 @@
 
                         <div class="newcont">
                             <div class="newcontimg">
-                                <img src="images/orman.jpeg" alt="" srcset="">
+                                <img src="Assets/images/orman.jpeg" alt="" srcset="">
                                 
                             </div>
                             <div class="newconttitle">    
@@ -685,7 +685,7 @@
                         </div>
                         <div class="newcont">
                             <div class="newcontimg">
-                                <img src="images/denizmanzara.jpeg" alt="" srcset="">
+                                <img src="Assets/images/denizmanzara.jpeg" alt="" srcset="">
                                 
                             </div>
                             <div class="newconttitle">    

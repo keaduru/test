@@ -1,212 +1,834 @@
-.cards {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
+.cards{
+    
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    @media (max-width: 1200px) {
+        width: 100%;
+        
 
-  @media (max-width: 1200px) {
-      width: 100%;
-  }
-
-  .card-container {
-      display: flex;
-      border: 1px transparent outset;
-      margin: 10px;
-      flex-direction: column;
-      position: relative;
-      align-items: start;
-      justify-content: space-between;
-      color: $dark-color;
-      border-radius: 2%;
-      background-size: 100% 100%;                
-      background-repeat: no-repeat;
-      padding: 20px;
-      transition: background-size 3s ease;
-      overflow: hidden;
-
-      @media (max-width: 1200px) {
-          width: 100%;
       }
+    
 
-      &-big {
-          height: 620px;
+    .card-container-big {
+        display: flex;
+        border:1px transparent outset;
+        margin:10px;
+        flex-direction: column;
+        position: relative;
+        align-items: flex-start;
+        justify-content: space-between;
+        color: $dark-color;
+        border-radius: 2%;
+        background-size: 100% 100%;                
+        background-repeat: no-repeat;
+        padding: 20px;
+        width: 100%;
+        height: 620px;
+        transition: background-size 3s ease;// Geçiş süresini artırarak yavaşlatın
+        overflow: hidden;
+        @media (max-width: 1200px) {
+            width: 100%;
+            height: 450px;
 
-          @media (max-width: 1200px) {
-              height: 450px;
-          }
-      }
-
-      &-md {
-          height: 250px;
-
-          @media (max-width: 1200px) {
-              height: 450px;
-          }
-      }
-
-      &-sm {
-          width: 45%;
-          height: 350px;
-
-          @media (max-width: 1200px) {
-              width: 100%;
-              height: 450px;
           }
 
-          @media (min-width: 1200px) {
-              font-size: 0.7rem;
-          }
-      }
 
-      &-main {
-          width: 45%;
-          height: 300px;
+        .new{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: small;
+            width: 10%;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: $orange;
+            box-shadow: 0 2px $pink;
+            
 
-          @media (max-width: 1200px) {
-              height: 450px;
-          }
+        }
+        .favori{
+            display: flex;
+            font-size: small;
+            width: 10%;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            bottom:0;
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: $red;
+            box-shadow: 0 2px $purple;
 
-          @media (min-width: 1200px) {
-              font-size: 0.7rem;
-          }
-      }
+        }
 
-      .new, .favori {
-          display: flex;
-          font-size: small;
-          width: 10%;
-          height: 40px;
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          justify-content: center;
-          align-items: center;
-          border-top-left-radius: 20px;
-          border-bottom-right-radius: 20px;
-      }
+        .title{
+            width: max-content;
+            h1, h2, h3, h4, h5, h6 {
+                position: relative;
 
-      .new {
-          background-color: $orange;
-          box-shadow: 0 2px $pink;
-      }
-
-      .favori {
-          background-color: $red;
-          box-shadow: 0 2px $purple;
-      }
-
-      .title {
-          width: max-content;
-
-          h1, h2, h3, h4, h5, h6 {
-              position: relative;
-
-              &::after {
-                  content: '';
-                  position: absolute;
-                  left: 0;
-                  bottom: 0;
-                  width: 100%;
-                  height: 2px;
-                  background-color: currentColor;
-                  transform: scaleX(0);
-                  transform-origin: bottom right;
-                  transition: transform 2s ease;
-              }
-          }
-      }
-
-      &:hover {
+                &::after{
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 2px; // Çizgi kalınlığı
+                background-color: currentColor; // Renk, metin rengiyle uyumlu olacak
+                transform: scaleX(0); // Başlangıçta görünmez
+                transform-origin: bottom right;
+                transition: transform 2s ease; // Yavaş geçiş efekti
+                transform-origin: bottom right;
+                }
+            }
+        }
+      
+        &:hover {
           cursor: pointer;
-          background-size: 110% 110%;
+          background-size: 110% 110%; // Arka plan resmini %110 boyutuna çıkararak yaklaştırma efekti
+          
+          .title{
+            width: max-content;
+            h1, h2, h3, h4, h5, h6 {
+                position: relative;
+            
+                &::after {
+                    transform: scaleX(1); // Hover durumunda görünür
+                    transform-origin: bottom left;
+                }
 
-          .title h1, h2, h3, h4, h5, h6 {
-              &::after {
-                  transform: scaleX(1);
-                  transform-origin: bottom left;
-              }
+            }
+            
           }
-      }
 
-      span {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          font-size: small;
-          transition: all 1s ease-in-out;
-          $my-alpha: 0.3;
-          background-color: rgba-color($red, $my-alpha);
-          border-bottom: 1px solid transparent;
-          background-image: linear-gradient(to right, $green 100%, transparent 0%);
-          background-position: 100% 100%;
-          background-size: 0% 1px;
-          background-repeat: no-repeat;
-          color: $light-background;
 
-          &:hover {
+
+        
+        }
+
+
+          span {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: small;
+            transition: all 1s ease-in-out;
+            $my-alpha: 0.3;
+            background-color: rgba-color($red, $my-alpha);
+            border-bottom: 1px solid transparent;
+            background-image: linear-gradient(to right, $green 100%, transparent 0%);
+            background-position: 100% 100%;
+            background-size: 0% 1px;
+            background-repeat: no-repeat;
+            color:$light-background;
+          
+            &:hover {
               font-size: large;
               background-size: 100% 1px;
               background-position: 0% 100%;
-              cursor: default;
-          }
-
-          &:not(:hover) {
+              cursor:default
+            }
+          
+            &:not(:hover) {
               background-size: 0% 1px;
               background-position: 100% 100%;
-          }
-      }
-
-      .card {
-          display: flex;
-          flex-direction: column;
-          background-color: rgba(70,70,70,0.5);
-          box-shadow: 4px 4px 10px rgba(150,255,100,0.5);
-          width: 100%;
-          padding: 20px;
-          border-radius: 15px;
-
-          .card-content {
-              margin-bottom: 50px;
+            }
           }
 
-          .bilgi {
-              display: flex;
-              justify-content: center;
-              align-items: end;
+          
+          
+    .card{
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(70,70,70,0.5);
+        box-shadow: 4px 4px 10px rgba(150,255,100,0.5);
+        width: 100%;
+        padding: 20px;
+        border-radius: 15px;
+        .card-content{
 
-              ul {
-                  list-style: none;
-                  display: flex;
-                  flex-wrap: wrap;
-                  padding: 0;
-                  margin: 0;
-                  align-items: center;
-                  border-top: 1px solid black;
+            margin-bottom: 50px;
+            
+            
+        }
 
-                  li {
-                      display: flex;
-                      border: 1px outset transparent;
-                      align-items: center;
-                      padding: 5px;
-                      margin-left: 5px;
-                      font-size: small;
+        
+        
+          
+        .bilgi{
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            
+            
 
-                      i {
-                          margin-right: 4px;
-                          $my-alpha: 0.8;
-                          color: rgba-color($light-background, $my-alpha);
-                          $my-alpha: 0.3;
-                          background-color: rgba-color($blue, $my-alpha);
+            ul{
+                list-style: none;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 0;
+                margin: 0;
+                align-items: center;
+                border-top:1px solid black;
+                
+                li{
+                    display: flex;
+                    border:1px outset transparent;
+                    align-items: center;
+                    padding: 5px;
+                    margin-left:5px;
+                    font-size: small;
+                    i{             
+                        margin-right: 4px;               
 
-                          &:hover {
-                              font-size: medium;
-                              $my-alpha: 1;
-                              color: rgba-color($light-background, $my-alpha);
-                              background-color: rgba-color($primary, $my-alpha);
-                          }
-                      }
-                  }
-              }
+                        $my-alpha: 0.8;
+                        color: rgba-color($light-background, $my-alpha);
+
+                        $my-alpha: 0.3;
+                        background-color: rgba-color($blue, $my-alpha);
+
+                        &:hover{
+                            font-size: medium;
+                            $my-alpha: 1;
+                            color: rgba-color($light-background, $my-alpha);
+
+                            $my-alpha: 1;
+                            background-color: rgba-color($primary, $my-alpha);
+
+                        }
+                    }
+                    
+                    
+                }
+            }
+        }
+        
+
+    }
+    }
+    .card-container-md {
+        display: flex;
+        border:1px transparent outset;
+        margin:10px;
+        flex-direction: column;
+        position: relative;
+        align-items: flex-start;
+        justify-content: space-between;
+        color: $dark-color;
+        border-radius: 2%;
+        background-size: 100% 100%;                
+        background-repeat: no-repeat;
+        padding: 20px;
+        width: 100%;
+        height: 250px;
+        transition: background-size 3s ease;// Geçiş süresini artırarak yavaşlatın
+        overflow: hidden;
+        @media (max-width: 1200px) {
+            width: 100%;
+            height: 450px;
+
           }
-      }
-  }
+
+
+
+        .new{
+            display: flex;
+            font-size: small;
+            width: 10%;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            justify-content: space-evenly;
+            align-items: center;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: $orange;
+            box-shadow: 0 2px $pink;
+            
+
+        }
+        .favori{
+            display: flex;
+            font-size: small;
+            width: 10%;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            bottom:0;
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: $red;
+            box-shadow: 0 2px $purple;
+
+        }
+
+        .title{
+            width: max-content;
+            h1, h2, h3, h4, h5, h6 {
+                position: relative;
+
+                &::after{
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 2px; // Çizgi kalınlığı
+                background-color: currentColor; // Renk, metin rengiyle uyumlu olacak
+                transform: scaleX(0); // Başlangıçta görünmez
+                transform-origin: bottom right;
+                transition: transform 2s ease; // Yavaş geçiş efekti
+                transform-origin: bottom right;
+                }
+            }
+        }
+      
+        &:hover {
+          cursor: pointer;
+          background-size: 110% 110%; // Arka plan resmini %110 boyutuna çıkararak yaklaştırma efekti
+          
+          .title{
+            width: max-content;
+            h1, h2, h3, h4, h5, h6 {
+                position: relative;
+            
+                &::after {
+                    transform: scaleX(1); // Hover durumunda görünür
+                    transform-origin: bottom left;
+                }
+
+            }
+            
+          }
+
+
+
+        
+        }
+
+
+          span {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: small;
+            transition: all 1s ease-in-out;
+            $my-alpha: 0.3;
+            background-color: rgba-color($red, $my-alpha);
+            border-bottom: 1px solid transparent;
+            background-image: linear-gradient(to right, $green 100%, transparent 0%);
+            background-position: 100% 100%;
+            background-size: 0% 1px;
+            background-repeat: no-repeat;
+            color:$light-background;
+          
+            &:hover {
+              font-size: large;
+              background-size: 100% 1px;
+              background-position: 0% 100%;
+              cursor:default
+            }
+          
+            &:not(:hover) {
+              background-size: 0% 1px;
+              background-position: 100% 100%;
+            }
+          }
+
+          
+          
+    .card{
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(70,70,70,0.5);
+        box-shadow: 4px 4px 10px rgba(150,255,100,0.5);
+        width: 100%;
+        padding: 20px;
+        border-radius: 15px;
+        .card-content{
+
+            margin-bottom: 50px;
+            
+            
+        }
+
+        
+        
+          
+        .bilgi{
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            
+            
+
+            ul{
+                list-style: none;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 0;
+                margin: 0;
+                align-items: center;
+                border-top:1px solid black;
+                
+                li{
+                    display: flex;
+                    border:1px outset transparent;
+                    align-items: center;
+                    padding: 5px;
+                    margin-left:5px;
+                    font-size: small;
+                    i{             
+                        margin-right: 4px;               
+
+                        $my-alpha: 0.8;
+                        color: rgba-color($light-background, $my-alpha);
+
+                        $my-alpha: 0.3;
+                        background-color: rgba-color($blue, $my-alpha);
+
+                        &:hover{
+                            font-size: medium;
+                            $my-alpha: 1;
+                            color: rgba-color($light-background, $my-alpha);
+
+                            $my-alpha: 1;
+                            background-color: rgba-color($primary, $my-alpha);
+
+                        }
+                    }
+                    
+                    
+                }
+            }
+        }
+        
+
+    }
+    }
+    .card-container-sm {
+        display: flex;
+        border:1px transparent outset;
+        margin:10px;
+        flex-direction: column;
+        position: relative;
+        align-items: flex-start;
+        justify-content: space-between;
+        color: $dark-color;
+        border-radius: 2%;
+        background-size: 100% 100%;                
+        background-repeat: no-repeat;
+        padding: 20px;
+        width: 45%;
+        height: 350px;
+        transition: background-size 3s ease;// Geçiş süresini artırarak yavaşlatın
+        overflow: hidden;
+        @media (max-width: 1200px) {
+            width: 100%;
+            height: 450px;
+
+          }
+
+          @media (min-width: 1200px) {
+            font-size: 0.7rem;
+
+          }
+
+        .new{
+            display: flex;
+            font-size: small;
+            width: 10%;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            justify-content: space-evenly;
+            align-items: center;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: $orange;
+            box-shadow: 0 2px $pink;
+            
+
+        }
+        .favori{
+            display: flex;
+            font-size: small;
+            width: 10%;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            bottom:0;
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: $red;
+            box-shadow: 0 2px $purple;
+
+        }
+
+        .title{
+            width: max-content;
+
+
+            h1, h2, h3, h4, h5, h6 {
+                position: relative;
+
+                &::after{
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 2px; // Çizgi kalınlığı
+                background-color: currentColor; // Renk, metin rengiyle uyumlu olacak
+                transform: scaleX(0); // Başlangıçta görünmez
+                transform-origin: bottom right;
+                transition: transform 2s ease; // Yavaş geçiş efekti
+                transform-origin: bottom right;
+                }
+            }
+        }
+      
+        &:hover {
+          cursor: pointer;
+          background-size: 110% 110%; // Arka plan resmini %110 boyutuna çıkararak yaklaştırma efekti
+          
+          .title{
+            width: max-content;
+            h1, h2, h3, h4, h5, h6 {
+                position: relative;
+            
+                &::after {
+                    transform: scaleX(1); // Hover durumunda görünür
+                    transform-origin: bottom left;
+                }
+
+            }
+            
+          }
+
+
+
+        
+        }
+
+
+          span {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: small;
+            transition: all 1s ease-in-out;
+            $my-alpha: 0.3;
+            background-color: rgba-color($red, $my-alpha);
+            border-bottom: 1px solid transparent;
+            background-image: linear-gradient(to right, $green 100%, transparent 0%);
+            background-position: 100% 100%;
+            background-size: 0% 1px;
+            background-repeat: no-repeat;
+            color:$light-background;
+          
+            &:hover {
+              font-size: large;
+              background-size: 100% 1px;
+              background-position: 0% 100%;
+              cursor:default
+            }
+          
+            &:not(:hover) {
+              background-size: 0% 1px;
+              background-position: 100% 100%;
+            }
+          }
+
+          
+          
+    .card{
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(70,70,70,0.5);
+        box-shadow: 4px 4px 10px rgba(150,255,100,0.5);
+        width: 100%;
+        padding: 20px;
+        border-radius: 15px;
+        .card-content{
+
+            margin-bottom: 50px;
+            
+            
+        }
+
+        
+        
+          
+        .bilgi{
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            
+            
+
+            ul{
+                list-style: none;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 0;
+                margin: 0;
+                align-items: center;
+                border-top:1px solid black;
+                
+                li{
+                    display: flex;
+                    border:1px outset transparent;
+                    align-items: center;
+                    padding: 5px;
+                    margin-left:5px;
+                    font-size: small;
+                    i{             
+                        margin-right: 4px;               
+
+                        $my-alpha: 0.8;
+                        color: rgba-color($light-background, $my-alpha);
+
+                        $my-alpha: 0.3;
+                        background-color: rgba-color($blue, $my-alpha);
+
+                        &:hover{
+                            font-size: medium;
+                            $my-alpha: 1;
+                            color: rgba-color($light-background, $my-alpha);
+
+                            $my-alpha: 1;
+                            background-color: rgba-color($primary, $my-alpha);
+
+                        }
+                    }
+                    
+                    
+                }
+            }
+        }
+        
+
+    }
+    }
+    .card-container-main {
+        display: flex;
+        border:2px $gray-text groove;
+        margin:10px;
+        flex-direction: column;
+        position: relative;
+        align-items: flex-start;
+        justify-content: space-around;
+        color: $dark-color;
+        border-radius: 2%;
+        background-size: 100% 100%;                
+        background-repeat: no-repeat;
+        padding: 20px;
+        width: 45%;
+        height: 300px;
+        transition: background-size 3s ease;// Geçiş süresini artırarak yavaşlatın
+        overflow: hidden;
+        @media (max-width: 1200px) {
+            width: 100%;
+            height: 450px;
+
+          }
+
+          @media (min-width: 1200px) {
+            font-size: 0.7rem;
+
+          }
+
+        .new{
+            display: flex;
+            font-size: small;
+            width: 10%;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            justify-content: space-evenly;
+            align-items: center;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: $orange;
+            box-shadow: 0 2px $pink;
+            
+
+        }
+        .favori{
+            display: flex;
+            font-size: small;
+            width: 10%;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            bottom:0;
+            justify-content: center;
+            align-items: center;
+            border-top-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            background-color: $red;
+            box-shadow: 0 2px $purple;
+
+        }
+
+        .title{
+            width: max-content;
+
+
+            h1, h2, h3, h4, h5, h6 {
+                position: relative;
+
+                &::after{
+                content: '';
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 100%;
+                height: 2px; // Çizgi kalınlığı
+                background-color: currentColor; // Renk, metin rengiyle uyumlu olacak
+                transform: scaleX(0); // Başlangıçta görünmez
+                transform-origin: bottom right;
+                transition: transform 2s ease; // Yavaş geçiş efekti
+                transform-origin: bottom right;
+                }
+            }
+        }
+      
+        &:hover {
+          cursor: pointer;
+          background-size: 110% 110%; // Arka plan resmini %110 boyutuna çıkararak yaklaştırma efekti
+          
+          .title{
+            width: max-content;
+            h1, h2, h3, h4, h5, h6 {
+                position: relative;
+            
+                &::after {
+                    transform: scaleX(1); // Hover durumunda görünür
+                    transform-origin: bottom left;
+                }
+
+            }
+            
+          }
+
+
+
+        
+        }
+
+
+          span {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: small;
+            transition: all 1s ease-in-out;
+            $my-alpha: 0.3;
+            background-color: rgba-color($red, $my-alpha);
+            border-bottom: 1px solid transparent;
+            background-image: linear-gradient(to right, $green 100%, transparent 0%);
+            background-position: 100% 100%;
+            background-size: 0% 1px;
+            background-repeat: no-repeat;
+            color:$light-background;
+          
+            &:hover {
+              font-size: large;
+              background-size: 100% 1px;
+              background-position: 0% 100%;
+              cursor:default
+            }
+          
+            &:not(:hover) {
+              background-size: 0% 1px;
+              background-position: 100% 100%;
+            }
+          }
+
+          
+          
+    .card{
+        display: flex;
+        flex-direction: column;
+        background-color: rgba(70,70,70,0.5);
+        box-shadow: 4px 4px 10px rgba(150,255,100,0.5);
+        width: 100%;
+        padding: 20px;
+        border-radius: 15px;
+        .card-content{
+
+            margin-bottom: 50px;
+            
+            
+        }
+
+        
+        
+          
+        .bilgi{
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            
+            
+
+            ul{
+                list-style: none;
+                display: flex;
+                flex-wrap: wrap;
+                padding: 0;
+                margin: 0;
+                align-items: center;
+                border-top:1px solid black;
+                
+                li{
+                    display: flex;
+                    border:1px outset transparent;
+                    align-items: center;
+                    padding: 5px;
+                    margin-left:5px;
+                    font-size: small;
+                    i{             
+                        margin-right: 4px;               
+
+                        $my-alpha: 0.8;
+                        color: rgba-color($light-background, $my-alpha);
+
+                        $my-alpha: 0.3;
+                        background-color: rgba-color($blue, $my-alpha);
+
+                        &:hover{
+                            font-size: medium;
+                            $my-alpha: 1;
+                            color: rgba-color($light-background, $my-alpha);
+
+                            $my-alpha: 1;
+                            background-color: rgba-color($primary, $my-alpha);
+
+                        }
+                    }
+                    
+                    
+                }
+            }
+        }
+        
+
+    }
+    }
 }

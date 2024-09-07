@@ -28,25 +28,25 @@ $alpha-value: 0.1;
 };
 
 // Tüm renkler için opaklık (alpha) değeri uygulamak
-    $colors-with-alpha: (
-    light-background: rgba-color($light-background, $alpha-value),
-    light-color: rgba-color($light-color, $alpha-value),
-    dark-background: rgba-color($dark-background, $alpha-value),
-    dark-color: rgba-color($dark-color, $alpha-value),
-    orangedark: rgba-color($orangedark, $alpha-value),
-    primary: rgba-color($primary, $alpha-value),
-    ice: rgba-color($ice, $alpha-value),
-    gray: rgba-color($gray, $alpha-value),
-    gray-text: rgba-color($gray, $alpha-value),
-    red: rgba-color($red, $alpha-value),
-    green: rgba-color($green, $alpha-value),
-    blue: rgba-color($blue, $alpha-value),
-    indigo: rgba-color($indigo, $alpha-value),
-    purple: rgba-color($purple, $alpha-value),
-    pink: rgba-color($pink, $alpha-value),
-    orange: rgba-color($orange, $alpha-value),
-    yellow: rgba-color($yellow, $alpha-value)
-    );
+$colors-with-alpha: (
+    'light-background': rgba-color($light-background, $alpha-value),
+    'light-color': rgba-color($light-color, $alpha-value),
+    'dark-background': rgba-color($dark-background, $alpha-value),
+    'dark-color': rgba-color($dark-color, $alpha-value),
+    'orangedark': rgba-color($orangedark, $alpha-value),
+    'primary': rgba-color($primary, $alpha-value),
+    'ice': rgba-color($ice, $alpha-value),
+    'gray': rgba-color($gray, $alpha-value),
+    'gray-text': rgba-color($gray-text, $alpha-value),
+    'red': rgba-color($red, $alpha-value),
+    'green': rgba-color($green, $alpha-value),
+    'blue': rgba-color($blue, $alpha-value),
+    'indigo': rgba-color($indigo, $alpha-value),
+    'purple': rgba-color($purple, $alpha-value),
+    'pink': rgba-color($pink, $alpha-value),
+    'orange': rgba-color($orange, $alpha-value),
+    'yellow': rgba-color($yellow, $alpha-value)
+  );
 
 
 
@@ -58,24 +58,24 @@ $alpha-value: 0.1;
 
 // Renkler
 $colors: (
-    primary: $primary,
-    blue: $blue,
-    light-background: $light-background,
-    light-color: $light-color,
-    dark-background: $dark-background,
-    dark-color: $dark-color,
-    orangedark: $orangedark,
-    ice: $ice,
-    gray: $gray,
-    gray-text: $gray-text,
-    red: $red,
-    green: $green,
-    indigo: $indigo,
-    purple: $purple,
-    pink: $pink,
-    orange: $orange,
-    yellow: $yellow
-);
+    'primary': $primary,
+    'blue': $blue,
+    'light-background': $light-background,
+    'light-color': $light-color,
+    'dark-background': $dark-background,
+    'dark-color': $dark-color,
+    'orangedark': $orangedark,
+    'ice': $ice,
+    'gray': $gray,
+    'gray-text': $gray-text,
+    'red': $red,
+    'green': $green,
+    'indigo': $indigo,
+    'purple': $purple,
+    'pink': $pink,
+    'orange': $orange,
+    'yellow': $yellow
+  );
 
 // Dinamik sınıflar oluşturma
 @each $name, $color in $colors {

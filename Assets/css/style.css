@@ -242,7 +242,7 @@
 }
 
 .gray-textfade {
-  background-color: rgba(197, 198, 202, 0.1);
+  background-color: rgba(141, 140, 144, 0.1);
   color: #8d8c90;
 }
 .gray-textfade:hover {
@@ -349,7 +349,7 @@ body.dark-mode {
     width: 100%;
   }
 }
-.cards .card-container {
+.cards .card-container-big {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -362,7 +362,7 @@ body.dark-mode {
   position: relative;
   -webkit-box-align: start;
       -ms-flex-align: start;
-          align-items: start;
+          align-items: flex-start;
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
@@ -371,61 +371,41 @@ body.dark-mode {
   background-size: 100% 100%;
   background-repeat: no-repeat;
   padding: 20px;
+  width: 100%;
+  height: 620px;
   -webkit-transition: background-size 3s ease;
   transition: background-size 3s ease;
   overflow: hidden;
 }
 @media (max-width: 1200px) {
-  .cards .card-container {
-    width: 100%;
-  }
-}
-.cards .card-container-big {
-  height: 620px;
-}
-@media (max-width: 1200px) {
   .cards .card-container-big {
-    height: 450px;
-  }
-}
-.cards .card-container-md {
-  height: 250px;
-}
-@media (max-width: 1200px) {
-  .cards .card-container-md {
-    height: 450px;
-  }
-}
-.cards .card-container-sm {
-  width: 45%;
-  height: 350px;
-}
-@media (max-width: 1200px) {
-  .cards .card-container-sm {
     width: 100%;
     height: 450px;
   }
 }
-@media (min-width: 1200px) {
-  .cards .card-container-sm {
-    font-size: 0.7rem;
-  }
+.cards .card-container-big .new {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: small;
+  width: 10%;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #fd7e14;
+  -webkit-box-shadow: 0 2px #e83e8c;
+          box-shadow: 0 2px #e83e8c;
 }
-.cards .card-container-main {
-  width: 45%;
-  height: 300px;
-}
-@media (max-width: 1200px) {
-  .cards .card-container-main {
-    height: 450px;
-  }
-}
-@media (min-width: 1200px) {
-  .cards .card-container-main {
-    font-size: 0.7rem;
-  }
-}
-.cards .card-container .new, .cards .card-container .favori {
+.cards .card-container-big .favori {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -443,26 +423,19 @@ body.dark-mode {
           align-items: center;
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
-}
-.cards .card-container .new {
-  background-color: #fd7e14;
-  -webkit-box-shadow: 0 2px #e83e8c;
-          box-shadow: 0 2px #e83e8c;
-}
-.cards .card-container .favori {
   background-color: #d6293b;
   -webkit-box-shadow: 0 2px #6f42c1;
           box-shadow: 0 2px #6f42c1;
 }
-.cards .card-container .title {
+.cards .card-container-big .title {
   width: -webkit-max-content;
   width: -moz-max-content;
   width: max-content;
 }
-.cards .card-container .title h1, .cards .card-container .title h2, .cards .card-container .title h3, .cards .card-container .title h4, .cards .card-container .title h5, .cards .card-container .title h6 {
+.cards .card-container-big .title h1, .cards .card-container-big .title h2, .cards .card-container-big .title h3, .cards .card-container-big .title h4, .cards .card-container-big .title h5, .cards .card-container-big .title h6 {
   position: relative;
 }
-.cards .card-container .title h1::after, .cards .card-container .title h2::after, .cards .card-container .title h3::after, .cards .card-container .title h4::after, .cards .card-container .title h5::after, .cards .card-container .title h6::after {
+.cards .card-container-big .title h1::after, .cards .card-container-big .title h2::after, .cards .card-container-big .title h3::after, .cards .card-container-big .title h4::after, .cards .card-container-big .title h5::after, .cards .card-container-big .title h6::after {
   content: "";
   position: absolute;
   left: 0;
@@ -478,18 +451,27 @@ body.dark-mode {
   transition: -webkit-transform 2s ease;
   transition: transform 2s ease;
   transition: transform 2s ease, -webkit-transform 2s ease;
+  transform-origin: bottom right;
 }
-.cards .card-container:hover {
+.cards .card-container-big:hover {
   cursor: pointer;
   background-size: 110% 110%;
 }
-.cards .card-container:hover .title h1::after, .cards .card-container:hover h2::after, .cards .card-container:hover h3::after, .cards .card-container:hover h4::after, .cards .card-container:hover h5::after, .cards .card-container:hover h6::after {
+.cards .card-container-big:hover .title {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.cards .card-container-big:hover .title h1, .cards .card-container-big:hover .title h2, .cards .card-container-big:hover .title h3, .cards .card-container-big:hover .title h4, .cards .card-container-big:hover .title h5, .cards .card-container-big:hover .title h6 {
+  position: relative;
+}
+.cards .card-container-big:hover .title h1::after, .cards .card-container-big:hover .title h2::after, .cards .card-container-big:hover .title h3::after, .cards .card-container-big:hover .title h4::after, .cards .card-container-big:hover .title h5::after, .cards .card-container-big:hover .title h6::after {
   -webkit-transform: scaleX(1);
           transform: scaleX(1);
   -webkit-transform-origin: bottom left;
           transform-origin: bottom left;
 }
-.cards .card-container span {
+.cards .card-container-big span {
   position: absolute;
   top: 10px;
   right: 10px;
@@ -505,17 +487,17 @@ body.dark-mode {
   background-repeat: no-repeat;
   color: #ffffff;
 }
-.cards .card-container span:hover {
+.cards .card-container-big span:hover {
   font-size: large;
   background-size: 100% 1px;
   background-position: 0% 100%;
   cursor: default;
 }
-.cards .card-container span:not(:hover) {
+.cards .card-container-big span:not(:hover) {
   background-size: 0% 1px;
   background-position: 100% 100%;
 }
-.cards .card-container .card {
+.cards .card-container-big .card {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -530,10 +512,10 @@ body.dark-mode {
   padding: 20px;
   border-radius: 15px;
 }
-.cards .card-container .card .card-content {
+.cards .card-container-big .card .card-content {
   margin-bottom: 50px;
 }
-.cards .card-container .card .bilgi {
+.cards .card-container-big .card .bilgi {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -542,9 +524,9 @@ body.dark-mode {
           justify-content: center;
   -webkit-box-align: end;
       -ms-flex-align: end;
-          align-items: end;
+          align-items: flex-end;
 }
-.cards .card-container .card .bilgi ul {
+.cards .card-container-big .card .bilgi ul {
   list-style: none;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -558,7 +540,7 @@ body.dark-mode {
           align-items: center;
   border-top: 1px solid black;
 }
-.cards .card-container .card .bilgi ul li {
+.cards .card-container-big .card .bilgi ul li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -570,12 +552,660 @@ body.dark-mode {
   margin-left: 5px;
   font-size: small;
 }
-.cards .card-container .card .bilgi ul li i {
+.cards .card-container-big .card .bilgi ul li i {
   margin-right: 4px;
   color: rgba(255, 255, 255, 0.8);
   background-color: rgba(0, 123, 255, 0.3);
 }
-.cards .card-container .card .bilgi ul li i:hover {
+.cards .card-container-big .card .bilgi ul li i:hover {
+  font-size: medium;
+  color: rgb(255, 255, 255);
+  background-color: rgb(33, 99, 232);
+}
+.cards .card-container-md {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px transparent outset;
+  margin: 10px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  color: #f9fafb;
+  border-radius: 2%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 20px;
+  width: 100%;
+  height: 250px;
+  -webkit-transition: background-size 3s ease;
+  transition: background-size 3s ease;
+  overflow: hidden;
+}
+@media (max-width: 1200px) {
+  .cards .card-container-md {
+    width: 100%;
+    height: 450px;
+  }
+}
+.cards .card-container-md .new {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: small;
+  width: 10%;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #fd7e14;
+  -webkit-box-shadow: 0 2px #e83e8c;
+          box-shadow: 0 2px #e83e8c;
+}
+.cards .card-container-md .favori {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: small;
+  width: 10%;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #d6293b;
+  -webkit-box-shadow: 0 2px #6f42c1;
+          box-shadow: 0 2px #6f42c1;
+}
+.cards .card-container-md .title {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.cards .card-container-md .title h1, .cards .card-container-md .title h2, .cards .card-container-md .title h3, .cards .card-container-md .title h4, .cards .card-container-md .title h5, .cards .card-container-md .title h6 {
+  position: relative;
+}
+.cards .card-container-md .title h1::after, .cards .card-container-md .title h2::after, .cards .card-container-md .title h3::after, .cards .card-container-md .title h4::after, .cards .card-container-md .title h5::after, .cards .card-container-md .title h6::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transition: -webkit-transform 2s ease;
+  transition: -webkit-transform 2s ease;
+  transition: transform 2s ease;
+  transition: transform 2s ease, -webkit-transform 2s ease;
+  transform-origin: bottom right;
+}
+.cards .card-container-md:hover {
+  cursor: pointer;
+  background-size: 110% 110%;
+}
+.cards .card-container-md:hover .title {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.cards .card-container-md:hover .title h1, .cards .card-container-md:hover .title h2, .cards .card-container-md:hover .title h3, .cards .card-container-md:hover .title h4, .cards .card-container-md:hover .title h5, .cards .card-container-md:hover .title h6 {
+  position: relative;
+}
+.cards .card-container-md:hover .title h1::after, .cards .card-container-md:hover .title h2::after, .cards .card-container-md:hover .title h3::after, .cards .card-container-md:hover .title h4::after, .cards .card-container-md:hover .title h5::after, .cards .card-container-md:hover .title h6::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+.cards .card-container-md span {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: small;
+  -webkit-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+  background-color: rgba(214, 41, 59, 0.3);
+  border-bottom: 1px solid transparent;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #49bc87), color-stop(0%, transparent));
+  background-image: linear-gradient(to right, #49bc87 100%, transparent 0%);
+  background-position: 100% 100%;
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  color: #ffffff;
+}
+.cards .card-container-md span:hover {
+  font-size: large;
+  background-size: 100% 1px;
+  background-position: 0% 100%;
+  cursor: default;
+}
+.cards .card-container-md span:not(:hover) {
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+}
+.cards .card-container-md .card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: rgba(70, 70, 70, 0.5);
+  -webkit-box-shadow: 4px 4px 10px rgba(150, 255, 100, 0.5);
+          box-shadow: 4px 4px 10px rgba(150, 255, 100, 0.5);
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+}
+.cards .card-container-md .card .card-content {
+  margin-bottom: 50px;
+}
+.cards .card-container-md .card .bilgi {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+.cards .card-container-md .card .bilgi ul {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top: 1px solid black;
+}
+.cards .card-container-md .card .bilgi ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px outset transparent;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px;
+  margin-left: 5px;
+  font-size: small;
+}
+.cards .card-container-md .card .bilgi ul li i {
+  margin-right: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(0, 123, 255, 0.3);
+}
+.cards .card-container-md .card .bilgi ul li i:hover {
+  font-size: medium;
+  color: rgb(255, 255, 255);
+  background-color: rgb(33, 99, 232);
+}
+.cards .card-container-sm {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px transparent outset;
+  margin: 10px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  color: #f9fafb;
+  border-radius: 2%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 20px;
+  width: 45%;
+  height: 350px;
+  -webkit-transition: background-size 3s ease;
+  transition: background-size 3s ease;
+  overflow: hidden;
+}
+@media (max-width: 1200px) {
+  .cards .card-container-sm {
+    width: 100%;
+    height: 450px;
+  }
+}
+@media (min-width: 1200px) {
+  .cards .card-container-sm {
+    font-size: 0.7rem;
+  }
+}
+.cards .card-container-sm .new {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: small;
+  width: 10%;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #fd7e14;
+  -webkit-box-shadow: 0 2px #e83e8c;
+          box-shadow: 0 2px #e83e8c;
+}
+.cards .card-container-sm .favori {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: small;
+  width: 10%;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #d6293b;
+  -webkit-box-shadow: 0 2px #6f42c1;
+          box-shadow: 0 2px #6f42c1;
+}
+.cards .card-container-sm .title {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.cards .card-container-sm .title h1, .cards .card-container-sm .title h2, .cards .card-container-sm .title h3, .cards .card-container-sm .title h4, .cards .card-container-sm .title h5, .cards .card-container-sm .title h6 {
+  position: relative;
+}
+.cards .card-container-sm .title h1::after, .cards .card-container-sm .title h2::after, .cards .card-container-sm .title h3::after, .cards .card-container-sm .title h4::after, .cards .card-container-sm .title h5::after, .cards .card-container-sm .title h6::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transition: -webkit-transform 2s ease;
+  transition: -webkit-transform 2s ease;
+  transition: transform 2s ease;
+  transition: transform 2s ease, -webkit-transform 2s ease;
+  transform-origin: bottom right;
+}
+.cards .card-container-sm:hover {
+  cursor: pointer;
+  background-size: 110% 110%;
+}
+.cards .card-container-sm:hover .title {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.cards .card-container-sm:hover .title h1, .cards .card-container-sm:hover .title h2, .cards .card-container-sm:hover .title h3, .cards .card-container-sm:hover .title h4, .cards .card-container-sm:hover .title h5, .cards .card-container-sm:hover .title h6 {
+  position: relative;
+}
+.cards .card-container-sm:hover .title h1::after, .cards .card-container-sm:hover .title h2::after, .cards .card-container-sm:hover .title h3::after, .cards .card-container-sm:hover .title h4::after, .cards .card-container-sm:hover .title h5::after, .cards .card-container-sm:hover .title h6::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+.cards .card-container-sm span {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: small;
+  -webkit-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+  background-color: rgba(214, 41, 59, 0.3);
+  border-bottom: 1px solid transparent;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #49bc87), color-stop(0%, transparent));
+  background-image: linear-gradient(to right, #49bc87 100%, transparent 0%);
+  background-position: 100% 100%;
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  color: #ffffff;
+}
+.cards .card-container-sm span:hover {
+  font-size: large;
+  background-size: 100% 1px;
+  background-position: 0% 100%;
+  cursor: default;
+}
+.cards .card-container-sm span:not(:hover) {
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+}
+.cards .card-container-sm .card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: rgba(70, 70, 70, 0.5);
+  -webkit-box-shadow: 4px 4px 10px rgba(150, 255, 100, 0.5);
+          box-shadow: 4px 4px 10px rgba(150, 255, 100, 0.5);
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+}
+.cards .card-container-sm .card .card-content {
+  margin-bottom: 50px;
+}
+.cards .card-container-sm .card .bilgi {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+.cards .card-container-sm .card .bilgi ul {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top: 1px solid black;
+}
+.cards .card-container-sm .card .bilgi ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px outset transparent;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px;
+  margin-left: 5px;
+  font-size: small;
+}
+.cards .card-container-sm .card .bilgi ul li i {
+  margin-right: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(0, 123, 255, 0.3);
+}
+.cards .card-container-sm .card .bilgi ul li i:hover {
+  font-size: medium;
+  color: rgb(255, 255, 255);
+  background-color: rgb(33, 99, 232);
+}
+.cards .card-container-main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 2px #8d8c90 groove;
+  margin: 10px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  position: relative;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  color: #f9fafb;
+  border-radius: 2%;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  padding: 20px;
+  width: 45%;
+  height: 300px;
+  -webkit-transition: background-size 3s ease;
+  transition: background-size 3s ease;
+  overflow: hidden;
+}
+@media (max-width: 1200px) {
+  .cards .card-container-main {
+    width: 100%;
+    height: 450px;
+  }
+}
+@media (min-width: 1200px) {
+  .cards .card-container-main {
+    font-size: 0.7rem;
+  }
+}
+.cards .card-container-main .new {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: small;
+  width: 10%;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #fd7e14;
+  -webkit-box-shadow: 0 2px #e83e8c;
+          box-shadow: 0 2px #e83e8c;
+}
+.cards .card-container-main .favori {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  font-size: small;
+  width: 10%;
+  height: 40px;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: #d6293b;
+  -webkit-box-shadow: 0 2px #6f42c1;
+          box-shadow: 0 2px #6f42c1;
+}
+.cards .card-container-main .title {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.cards .card-container-main .title h1, .cards .card-container-main .title h2, .cards .card-container-main .title h3, .cards .card-container-main .title h4, .cards .card-container-main .title h5, .cards .card-container-main .title h6 {
+  position: relative;
+}
+.cards .card-container-main .title h1::after, .cards .card-container-main .title h2::after, .cards .card-container-main .title h3::after, .cards .card-container-main .title h4::after, .cards .card-container-main .title h5::after, .cards .card-container-main .title h6::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: currentColor;
+  -webkit-transform: scaleX(0);
+          transform: scaleX(0);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+  -webkit-transition: -webkit-transform 2s ease;
+  transition: -webkit-transform 2s ease;
+  transition: transform 2s ease;
+  transition: transform 2s ease, -webkit-transform 2s ease;
+  transform-origin: bottom right;
+}
+.cards .card-container-main:hover {
+  cursor: pointer;
+  background-size: 110% 110%;
+}
+.cards .card-container-main:hover .title {
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+}
+.cards .card-container-main:hover .title h1, .cards .card-container-main:hover .title h2, .cards .card-container-main:hover .title h3, .cards .card-container-main:hover .title h4, .cards .card-container-main:hover .title h5, .cards .card-container-main:hover .title h6 {
+  position: relative;
+}
+.cards .card-container-main:hover .title h1::after, .cards .card-container-main:hover .title h2::after, .cards .card-container-main:hover .title h3::after, .cards .card-container-main:hover .title h4::after, .cards .card-container-main:hover .title h5::after, .cards .card-container-main:hover .title h6::after {
+  -webkit-transform: scaleX(1);
+          transform: scaleX(1);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+.cards .card-container-main span {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: small;
+  -webkit-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+  background-color: rgba(214, 41, 59, 0.3);
+  border-bottom: 1px solid transparent;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(100%, #49bc87), color-stop(0%, transparent));
+  background-image: linear-gradient(to right, #49bc87 100%, transparent 0%);
+  background-position: 100% 100%;
+  background-size: 0% 1px;
+  background-repeat: no-repeat;
+  color: #ffffff;
+}
+.cards .card-container-main span:hover {
+  font-size: large;
+  background-size: 100% 1px;
+  background-position: 0% 100%;
+  cursor: default;
+}
+.cards .card-container-main span:not(:hover) {
+  background-size: 0% 1px;
+  background-position: 100% 100%;
+}
+.cards .card-container-main .card {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  background-color: rgba(70, 70, 70, 0.5);
+  -webkit-box-shadow: 4px 4px 10px rgba(150, 255, 100, 0.5);
+          box-shadow: 4px 4px 10px rgba(150, 255, 100, 0.5);
+  width: 100%;
+  padding: 20px;
+  border-radius: 15px;
+}
+.cards .card-container-main .card .card-content {
+  margin-bottom: 50px;
+}
+.cards .card-container-main .card .bilgi {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+.cards .card-container-main .card .bilgi ul {
+  list-style: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  padding: 0;
+  margin: 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  border-top: 1px solid black;
+}
+.cards .card-container-main .card .bilgi ul li {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  border: 1px outset transparent;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px;
+  margin-left: 5px;
+  font-size: small;
+}
+.cards .card-container-main .card .bilgi ul li i {
+  margin-right: 4px;
+  color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(0, 123, 255, 0.3);
+}
+.cards .card-container-main .card .bilgi ul li i:hover {
   font-size: medium;
   color: rgb(255, 255, 255);
   background-color: rgb(33, 99, 232);
@@ -625,7 +1255,7 @@ body.dark-mode {
   display: flex;
   -webkit-box-pack: start;
       -ms-flex-pack: start;
-          justify-content: start;
+          justify-content: flex-start;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -676,7 +1306,7 @@ body.dark-mode {
   display: flex;
   -webkit-box-pack: end;
       -ms-flex-pack: end;
-          justify-content: end;
+          justify-content: flex-end;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -689,7 +1319,7 @@ body.dark-mode {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  justify-self: end;
+  justify-self: flex-end;
   -webkit-box-pack: space-evenly;
       -ms-flex-pack: space-evenly;
           justify-content: space-evenly;
@@ -987,635 +1617,6 @@ body.dark-mode {
   margin-bottom: 50px;
   margin-left: 0px;
   margin-right: 0px;
-  /*
-  .cards{
-
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      width: 50%;
-      @media (max-width: 1200px) {
-          width: 100%;
-
-
-      }
-
-
-      .card-container-big {
-          display: flex;
-          border:1px transparent outset;
-          margin:10px;
-          flex-direction: column;
-          position: relative;
-          align-items: start;
-          justify-content: space-between;
-          color: $dark-color;
-          border-radius: 2%;
-          background-size: 100% 100%;                
-          background-repeat: no-repeat;
-          padding: 20px;
-          width: 100%;
-          height: 620px;
-          transition: background-size 3s ease;// Geçiş süresini artırarak yavaşlatın
-          overflow: hidden;
-          @media (max-width: 1200px) {
-              width: 100%;
-              height: 450px;
-
-          }
-
-
-          .new{
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: small;
-              width: 10%;
-              height: 40px;
-              position: absolute;
-              right: 0;
-              bottom: 0;
-              border-top-left-radius: 20px;
-              border-bottom-right-radius: 20px;
-              background-color: $orange;
-              box-shadow: 0 2px $pink;
-
-
-          }
-          .favori{
-              display: flex;
-              font-size: small;
-              width: 10%;
-              height: 40px;
-              position: absolute;
-              right: 0;
-              bottom:0;
-              justify-content: center;
-              align-items: center;
-              border-top-left-radius: 20px;
-              border-bottom-right-radius: 20px;
-              background-color: $red;
-              box-shadow: 0 2px $purple;
-
-          }
-
-          .title{
-              width: max-content;
-              h1, h2, h3, h4, h5, h6 {
-                  position: relative;
-
-                  &::after{
-                  content: '';
-                  position: absolute;
-                  left: 0;
-                  bottom: 0;
-                  width: 100%;
-                  height: 2px; // Çizgi kalınlığı
-                  background-color: currentColor; // Renk, metin rengiyle uyumlu olacak
-                  transform: scaleX(0); // Başlangıçta görünmez
-                  transform-origin: bottom right;
-                  transition: transform 2s ease; // Yavaş geçiş efekti
-                  transform-origin: bottom right;
-                  }
-              }
-          }
-
-          &:hover {
-          cursor: pointer;
-          background-size: 110% 110%; // Arka plan resmini %110 boyutuna çıkararak yaklaştırma efekti
-
-          .title{
-              width: max-content;
-              h1, h2, h3, h4, h5, h6 {
-                  position: relative;
-
-                  &::after {
-                      transform: scaleX(1); // Hover durumunda görünür
-                      transform-origin: bottom left;
-                  }
-
-              }
-
-          }
-
-
-
-
-          }
-
-
-          span {
-              position: absolute;
-              top: 10px;
-              right: 10px;
-              font-size: small;
-              transition: all 1s ease-in-out;
-              $my-alpha: 0.3;
-              background-color: rgba-color($red, $my-alpha);
-              border-bottom: 1px solid transparent;
-              background-image: linear-gradient(to right, $green 100%, transparent 0%);
-              background-position: 100% 100%;
-              background-size: 0% 1px;
-              background-repeat: no-repeat;
-              color:$light-background;
-
-              &:hover {
-              font-size: large;
-              background-size: 100% 1px;
-              background-position: 0% 100%;
-              cursor:default
-              }
-
-              &:not(:hover) {
-              background-size: 0% 1px;
-              background-position: 100% 100%;
-              }
-          }
-
-
-
-      .card{
-          display: flex;
-          flex-direction: column;
-          background-color: rgba(70,70,70,0.5);
-          box-shadow: 4px 4px 10px rgba(150,255,100,0.5);
-          width: 100%;
-          padding: 20px;
-          border-radius: 15px;
-          .card-content{
-
-              margin-bottom: 50px;
-
-
-          }
-
-
-
-
-          .bilgi{
-              display: flex;
-              justify-content: center;
-              align-items: end;
-
-
-
-              ul{
-                  list-style: none;
-                  display: flex;
-                  flex-wrap: wrap;
-                  padding: 0;
-                  margin: 0;
-                  align-items: center;
-                  border-top:1px solid black;
-
-                  li{
-                      display: flex;
-                      border:1px outset transparent;
-                      align-items: center;
-                      padding: 5px;
-                      margin-left:5px;
-                      font-size: small;
-                      i{             
-                          margin-right: 4px;               
-
-                          $my-alpha: 0.8;
-                          color: rgba-color($light-background, $my-alpha);
-
-                          $my-alpha: 0.3;
-                          background-color: rgba-color($blue, $my-alpha);
-
-                          &:hover{
-                              font-size: medium;
-                              $my-alpha: 1;
-                              color: rgba-color($light-background, $my-alpha);
-
-                              $my-alpha: 1;
-                              background-color: rgba-color($primary, $my-alpha);
-
-                          }
-                      }
-
-
-                  }
-              }
-          }
-
-
-      }
-      }
-      .card-container-md {
-          display: flex;
-          border:1px transparent outset;
-          margin:10px;
-          flex-direction: column;
-          position: relative;
-          align-items: start;
-          justify-content: space-between;
-          color: $dark-color;
-          border-radius: 2%;
-          background-size: 100% 100%;                
-          background-repeat: no-repeat;
-          padding: 20px;
-          width: 100%;
-          height: 250px;
-          transition: background-size 3s ease;// Geçiş süresini artırarak yavaşlatın
-          overflow: hidden;
-          @media (max-width: 1200px) {
-              width: 100%;
-              height: 450px;
-
-          }
-
-
-
-          .new{
-              display: flex;
-              font-size: small;
-              width: 10%;
-              height: 40px;
-              position: absolute;
-              right: 0;
-              bottom: 0;
-              justify-content: space-evenly;
-              align-items: center;
-              border-top-left-radius: 20px;
-              border-bottom-right-radius: 20px;
-              background-color: $orange;
-              box-shadow: 0 2px $pink;
-
-
-          }
-          .favori{
-              display: flex;
-              font-size: small;
-              width: 10%;
-              height: 40px;
-              position: absolute;
-              right: 0;
-              bottom:0;
-              justify-content: center;
-              align-items: center;
-              border-top-left-radius: 20px;
-              border-bottom-right-radius: 20px;
-              background-color: $red;
-              box-shadow: 0 2px $purple;
-
-          }
-
-          .title{
-              width: max-content;
-              h1, h2, h3, h4, h5, h6 {
-                  position: relative;
-
-                  &::after{
-                  content: '';
-                  position: absolute;
-                  left: 0;
-                  bottom: 0;
-                  width: 100%;
-                  height: 2px; // Çizgi kalınlığı
-                  background-color: currentColor; // Renk, metin rengiyle uyumlu olacak
-                  transform: scaleX(0); // Başlangıçta görünmez
-                  transform-origin: bottom right;
-                  transition: transform 2s ease; // Yavaş geçiş efekti
-                  transform-origin: bottom right;
-                  }
-              }
-          }
-
-          &:hover {
-          cursor: pointer;
-          background-size: 110% 110%; // Arka plan resmini %110 boyutuna çıkararak yaklaştırma efekti
-
-          .title{
-              width: max-content;
-              h1, h2, h3, h4, h5, h6 {
-                  position: relative;
-
-                  &::after {
-                      transform: scaleX(1); // Hover durumunda görünür
-                      transform-origin: bottom left;
-                  }
-
-              }
-
-          }
-
-
-
-
-          }
-
-
-          span {
-              position: absolute;
-              top: 10px;
-              right: 10px;
-              font-size: small;
-              transition: all 1s ease-in-out;
-              $my-alpha: 0.3;
-              background-color: rgba-color($red, $my-alpha);
-              border-bottom: 1px solid transparent;
-              background-image: linear-gradient(to right, $green 100%, transparent 0%);
-              background-position: 100% 100%;
-              background-size: 0% 1px;
-              background-repeat: no-repeat;
-              color:$light-background;
-
-              &:hover {
-              font-size: large;
-              background-size: 100% 1px;
-              background-position: 0% 100%;
-              cursor:default
-              }
-
-              &:not(:hover) {
-              background-size: 0% 1px;
-              background-position: 100% 100%;
-              }
-          }
-
-
-
-      .card{
-          display: flex;
-          flex-direction: column;
-          background-color: rgba(70,70,70,0.5);
-          box-shadow: 4px 4px 10px rgba(150,255,100,0.5);
-          width: 100%;
-          padding: 20px;
-          border-radius: 15px;
-          .card-content{
-
-              margin-bottom: 50px;
-
-
-          }
-
-
-
-
-          .bilgi{
-              display: flex;
-              justify-content: center;
-              align-items: end;
-
-
-
-              ul{
-                  list-style: none;
-                  display: flex;
-                  flex-wrap: wrap;
-                  padding: 0;
-                  margin: 0;
-                  align-items: center;
-                  border-top:1px solid black;
-
-                  li{
-                      display: flex;
-                      border:1px outset transparent;
-                      align-items: center;
-                      padding: 5px;
-                      margin-left:5px;
-                      font-size: small;
-                      i{             
-                          margin-right: 4px;               
-
-                          $my-alpha: 0.8;
-                          color: rgba-color($light-background, $my-alpha);
-
-                          $my-alpha: 0.3;
-                          background-color: rgba-color($blue, $my-alpha);
-
-                          &:hover{
-                              font-size: medium;
-                              $my-alpha: 1;
-                              color: rgba-color($light-background, $my-alpha);
-
-                              $my-alpha: 1;
-                              background-color: rgba-color($primary, $my-alpha);
-
-                          }
-                      }
-
-
-                  }
-              }
-          }
-
-
-      }
-      }
-      .card-container-sm {
-          display: flex;
-          border:1px transparent outset;
-          margin:10px;
-          flex-direction: column;
-          position: relative;
-          align-items: start;
-          justify-content: space-between;
-          color: $dark-color;
-          border-radius: 2%;
-          background-size: 100% 100%;                
-          background-repeat: no-repeat;
-          padding: 20px;
-          width: 45%;
-          height: 350px;
-          transition: background-size 3s ease;// Geçiş süresini artırarak yavaşlatın
-          overflow: hidden;
-          @media (max-width: 1200px) {
-              width: 100%;
-              height: 450px;
-
-          }
-
-          @media (min-width: 1200px) {
-              font-size: 0.7rem;
-
-          }
-
-          .new{
-              display: flex;
-              font-size: small;
-              width: 10%;
-              height: 40px;
-              position: absolute;
-              right: 0;
-              bottom: 0;
-              justify-content: space-evenly;
-              align-items: center;
-              border-top-left-radius: 20px;
-              border-bottom-right-radius: 20px;
-              background-color: $orange;
-              box-shadow: 0 2px $pink;
-
-
-          }
-          .favori{
-              display: flex;
-              font-size: small;
-              width: 10%;
-              height: 40px;
-              position: absolute;
-              right: 0;
-              bottom:0;
-              justify-content: center;
-              align-items: center;
-              border-top-left-radius: 20px;
-              border-bottom-right-radius: 20px;
-              background-color: $red;
-              box-shadow: 0 2px $purple;
-
-          }
-
-          .title{
-              width: max-content;
-
-
-              h1, h2, h3, h4, h5, h6 {
-                  position: relative;
-
-                  &::after{
-                  content: '';
-                  position: absolute;
-                  left: 0;
-                  bottom: 0;
-                  width: 100%;
-                  height: 2px; // Çizgi kalınlığı
-                  background-color: currentColor; // Renk, metin rengiyle uyumlu olacak
-                  transform: scaleX(0); // Başlangıçta görünmez
-                  transform-origin: bottom right;
-                  transition: transform 2s ease; // Yavaş geçiş efekti
-                  transform-origin: bottom right;
-                  }
-              }
-          }
-
-          &:hover {
-          cursor: pointer;
-          background-size: 110% 110%; // Arka plan resmini %110 boyutuna çıkararak yaklaştırma efekti
-
-          .title{
-              width: max-content;
-              h1, h2, h3, h4, h5, h6 {
-                  position: relative;
-
-                  &::after {
-                      transform: scaleX(1); // Hover durumunda görünür
-                      transform-origin: bottom left;
-                  }
-
-              }
-
-          }
-
-
-
-
-          }
-
-
-          span {
-              position: absolute;
-              top: 10px;
-              right: 10px;
-              font-size: small;
-              transition: all 1s ease-in-out;
-              $my-alpha: 0.3;
-              background-color: rgba-color($red, $my-alpha);
-              border-bottom: 1px solid transparent;
-              background-image: linear-gradient(to right, $green 100%, transparent 0%);
-              background-position: 100% 100%;
-              background-size: 0% 1px;
-              background-repeat: no-repeat;
-              color:$light-background;
-
-              &:hover {
-              font-size: large;
-              background-size: 100% 1px;
-              background-position: 0% 100%;
-              cursor:default
-              }
-
-              &:not(:hover) {
-              background-size: 0% 1px;
-              background-position: 100% 100%;
-              }
-          }
-
-
-
-      .card{
-          display: flex;
-          flex-direction: column;
-          background-color: rgba(70,70,70,0.5);
-          box-shadow: 4px 4px 10px rgba(150,255,100,0.5);
-          width: 100%;
-          padding: 20px;
-          border-radius: 15px;
-          .card-content{
-
-              margin-bottom: 50px;
-
-
-          }
-
-
-
-
-          .bilgi{
-              display: flex;
-              justify-content: center;
-              align-items: end;
-
-
-
-              ul{
-                  list-style: none;
-                  display: flex;
-                  flex-wrap: wrap;
-                  padding: 0;
-                  margin: 0;
-                  align-items: center;
-                  border-top:1px solid black;
-
-                  li{
-                      display: flex;
-                      border:1px outset transparent;
-                      align-items: center;
-                      padding: 5px;
-                      margin-left:5px;
-                      font-size: small;
-                      i{             
-                          margin-right: 4px;               
-
-                          $my-alpha: 0.8;
-                          color: rgba-color($light-background, $my-alpha);
-
-                          $my-alpha: 0.3;
-                          background-color: rgba-color($blue, $my-alpha);
-
-                          &:hover{
-                              font-size: medium;
-                              $my-alpha: 1;
-                              color: rgba-color($light-background, $my-alpha);
-
-                              $my-alpha: 1;
-                              background-color: rgba-color($primary, $my-alpha);
-
-                          }
-                      }
-
-
-                  }
-              }
-          }
-
-
-      }
-      }
-  }
-  */
 }
 @media (max-width: 1200px) {
   .main-container .content-container .card-main-container {

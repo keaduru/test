@@ -117,7 +117,7 @@ $('.line').css('width', '100%');
 //#region slide menü
 
 var menuContent = $("#menu").html();
-console.log(menuContent);
+//console.log(menuContent);
 $("#slide-menu").append(menuContent);
 $("#slide-menu li").addClass('btn purple');
 

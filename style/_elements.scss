@@ -80,6 +80,10 @@ a:-webkit-any-link {
     
 }
 
+.text-center{
+    text-align: center;
+}
+
 #arrowup{
     position: fixed;
     color: $orange;
@@ -115,6 +119,10 @@ a:-webkit-any-link {
     box-shadow: 5px 5px 10px 1px $gray-text ;
     border-radius: 10px;
     padding: 5px;
+}
+
+.greenshadow{
+    box-shadow: 2px 0 5px rgba(50,199,100,0.5);
 }
 
 .advertisement{

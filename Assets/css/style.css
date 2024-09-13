@@ -7,6 +7,11 @@
   font-family: "Rubik", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Nunito Sans";
+  font-weight: bolder;
+}
+
 .primary {
   background-color: #2163e8;
   color: #f1f5fe;
@@ -1103,7 +1108,7 @@ body.dark-mode {
 }
 .cards .card-container-main:hover {
   cursor: pointer;
-  background-size: 110% 110%;
+  background-size: 102% 102%;
 }
 .cards .card-container-main:hover .title {
   width: -webkit-max-content;
@@ -1890,6 +1895,10 @@ a:-webkit-any-link {
   }
 }
 
+.text-center {
+  text-align: center;
+}
+
 #arrowup {
   position: fixed;
   color: #fd7e14;
@@ -1930,6 +1939,11 @@ a:-webkit-any-link {
           box-shadow: 5px 5px 10px 1px #8d8c90;
   border-radius: 10px;
   padding: 5px;
+}
+
+.greenshadow {
+  -webkit-box-shadow: 2px 0 5px rgba(50, 199, 100, 0.5);
+          box-shadow: 2px 0 5px rgba(50, 199, 100, 0.5);
 }
 
 .advertisement {
@@ -2112,4 +2126,250 @@ footer .dip {
   color: #8d8c90;
   font-size: 85%;
   padding: 30px;
+}
+
+#login {
+  margin: 10px 13%;
+  min-height: 80vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+#login form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border: 1px outset #c5c6ca;
+  border-radius: 10px;
+  padding: 20px;
+}
+@media (max-width: 900px) {
+  #login form {
+    width: 100%;
+  }
+}
+#login form label {
+  -ms-flex-item-align: start;
+      align-self: flex-start;
+  margin-bottom: 5px;
+  font-family: "Nunito Sans";
+}
+#login form input {
+  margin: 10px 0;
+  width: 500px;
+  height: 30px;
+  border-radius: 10px;
+  padding: 10px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: lighter;
+  font-size: large;
+}
+@media (max-width: 900px) {
+  #login form input {
+    width: 100%;
+  }
+}
+
+.panel-tablo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+}
+
+.cerceve {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 7px;
+  width: 24%;
+  height: 15vh;
+  border: 1px solid #c5c6ca;
+  border-radius: 0.7rem;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.i-fa {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 70%;
+  width: 35%;
+  margin: 10px;
+  padding: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 0.7rem;
+}
+
+.info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 100%;
+}
+.info p {
+  font-size: 1.2em;
+  font-weight: bolder;
+}
+.info span {
+  font-size: 0.8em;
+}
+
+@media (max-width: 768px) {
+  .cerceve {
+    width: 45%;
+    margin-bottom: 10px;
+  }
+}
+@media (max-width: 480px) {
+  .cerceve {
+    width: 100%;
+  }
+}
+.categories {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  -webkit-box-shadow: 2px 0 5px rgba(50, 199, 100, 0.5);
+          box-shadow: 2px 0 5px rgba(50, 199, 100, 0.5);
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+@media (max-width: 900px) {
+  .categories {
+    -webkit-box-shadow: none;
+            box-shadow: none;
+  }
+}
+
+.category-container, .category-container-editadd {
+  max-width: 700px;
+  width: 100%;
+  padding: 20px;
+  -webkit-box-shadow: 2px 0 5px rgba(50, 199, 100, 0.5);
+          box-shadow: 2px 0 5px rgba(50, 199, 100, 0.5);
+  border-radius: 5px;
+  margin-bottom: 30px;
+}
+.category-container h2, .category-container-editadd h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.category-container-editadd {
+  background-color: #302e34;
+}
+
+.btn-cont {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding: 10px;
+}
+
+.category-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.category-table th, .category-table td {
+  padding: 10px;
+  border: 2px ridge #2163e8;
+  text-align: center;
+}
+.category-table th {
+  font-weight: bold;
+}
+
+.category-table-edit, .category-table-add {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+.category-table-edit caption, .category-table-add caption {
+  padding: 10px;
+  font-size: 1.1em;
+  font-weight: bold;
+}
+.category-table-edit th, .category-table-edit td, .category-table-add th, .category-table-add td {
+  padding: 10px;
+  border: 2px groove #4f9ef8;
+  text-align: center;
+}
+.category-table-edit th, .category-table-add th {
+  font-weight: bold;
+}
+.category-table-edit select, .category-table-add select {
+  padding: 10px;
+  text-align: center;
+}
+.category-table-edit input, .category-table-add input {
+  padding: 10px;
+}
+
+.posts {
+  min-height: 50vh;
+  border: 1px red solid;
 }/*# sourceMappingURL=style.css.map */

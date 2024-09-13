@@ -9,12 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap" rel="stylesheet">
     
-    <link rel="stylesheet" href="Assets/css/style.css">
-    <link rel="stylesheet" href="Assets/fontawasome/css/all.min.css">
+    <link rel="stylesheet" href="/test/Assets/css/style.css">
+    <link rel="stylesheet" href="/test/Assets/fontawasome/css/all.min.css">
     
     
-    <script src="Assets/js/jquery.js"></script>
-    <script src="Assets/js/app.js"></script>
+    <script src="/test/Assets/js/jquery.js"></script>
+    <script src="/test/Assets/js/app.js"></script>
+    <script src="/test/Assets/js/panel.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 

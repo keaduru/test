@@ -80,6 +80,12 @@ a:-webkit-any-link {
     
 }
 
+@for $i from 0 through 50 {
+    .p-#{$i} {
+      padding: #{$i}px;
+    }
+  }
+
 .text-center{
     text-align: center;
 }

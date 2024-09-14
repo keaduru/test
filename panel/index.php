@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
-<?php require "views/contents/head.php";?>
+<?php require "views/partials/head.php";?>
 
 <?php
     session_start();
@@ -59,10 +59,7 @@
 <div class="body-container">
         <div class="main-container">
             <?php 
-            require_once "views/partials/topcont.php";
-            require_once "views/partials/nav.php";
-            require_once "views/contents/panel.php"
-
+            require_once "views/contents/layout.php";
             ?>
 
 
@@ -76,7 +73,7 @@
 
 
 
-<?php require "views/contents/footer.php"?>
+<?php require "views/partials/footer.php"?>
 
 </body>
 

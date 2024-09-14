@@ -21,11 +21,14 @@
                         <input type="radio" id="option3" name="fontSize" value="large" class="radio-btn">
                         <label for="option3" class="radio-label">A+</label>
                     </div>
+
+                    <!--
                     <div id="brands">
                         <i class="fa-brands fa-square-facebook fa-lg"></i>
                         <i class="fa-brands fa-square-twitter fa-lg "></i>
                         <i class="fa-brands fa-square-youtube fa-lg"></i>
                     </div>
+                    -->
                 </div>
                 
             </div>

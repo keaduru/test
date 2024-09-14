@@ -17,6 +17,10 @@
     <script src="/test/Assets/js/app.js"></script>
     <script src="/test/Assets/js/panel.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <link rel="stylesheet" href="/test/Assets/css/style.css">
 
 
 </head>

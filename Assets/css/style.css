@@ -2578,6 +2578,16 @@ footer .dip {
   -webkit-overflow-scrolling: touch;
   margin-bottom: 40px;
   margin-top: 50px;
+  text-align: center;
+}
+.posts #sirala {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin: 10px 0px;
 }
 
 .post-table {
@@ -2652,4 +2662,105 @@ footer .dip {
 }
 .posteditcontainer #editform button, .posteditcontainer #addform button, .postaddcontainer #editform button, .postaddcontainer #addform button {
   margin-top: 20px;
+}
+
+.settings {
+  text-align: center;
+  margin: 50px 0px;
+}
+.settings #social-form {
+  margin: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: left;
+}
+.settings #social-form input {
+  margin-top: 5px;
+  margin-bottom: 20px;
+  height: 30px;
+}
+
+.profil {
+  text-align: center;
+  margin: 50px 0px;
+}
+.profil #profil-form {
+  margin: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-align: left;
+}
+.profil #profil-form #user-name, .profil #profil-form #password {
+  margin-top: 5px;
+  margin-bottom: 20px;
+  height: 30px;
+}
+
+.profilresmidiv {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 100%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  margin: 20px 0px;
+  padding: 10px;
+}
+.profilresmidiv img {
+  width: 30%;
+  height: 150px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 20px;
+  margin: 10px 0px;
+}
+.profilresmidiv #profilresmibtn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 30%;
+  font-size: 0.6em;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+}
+.profilresmidiv #fileName {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 30%;
+  height: 150px;
+  padding: 10px;
+  font-size: smaller;
 }/*# sourceMappingURL=style.css.map */

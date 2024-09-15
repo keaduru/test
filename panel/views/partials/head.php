@@ -14,6 +14,7 @@
     
     
     <script src="/test/Assets/js/jquery.js"></script>
+    <script src="/test/Assets/js/panel_ajax.js"></script>
     <script src="/test/Assets/js/app.js"></script>
     <script src="/test/Assets/js/panel.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -1,8 +1,19 @@
 <div class="posts greenshadow p-30">
 
+ <h2>İçerikler</h2>
+
 
         <div class="btn-cont">
                     <button class="btn primary" id="add-post"> + İçerik Ekle</button>
+        </div>
+
+                <div id="sirala">
+                    <select id="sort-by">
+                        <option value="id">ID'ye Göre Sırala</option>
+                        <option value="baslik">Başlığa Göre Sırala</option>
+                        <option value="tarih">Tarihe Göre Sırala</option>
+                        <option value="kategori">Kategoriye Göre Sırala</option>
+                    </select>
                 </div>
 
         <table class="post-table">
@@ -21,7 +32,7 @@
                     <tbody>
                         <tr>
                             <td>1</td>
-                            <td>Genel bir konu başlığı</td>
+                            <td>aGenel bir konu başlığı</td>
                             <td>22.01.2024</td>
                             <td><spankategori>Teknoloji</spankategori></td>
                             <td style="display:none">icefade</td>
@@ -34,7 +45,7 @@
                         </tr>
                         <tr>
                             <td>2</td>
-                            <td>Genel bir konu başlığı</td>
+                            <td>cGenel bir konu başlığı</td>
                             <td>22.02.2024</td>
                             <td><spankategori>Kitap</spankategori></td>
                             <td style="display:none">greenfade</td>
@@ -47,7 +58,7 @@
                         </tr>
                         <tr>
                             <td>3</td>
-                            <td>Genel bir konu başlığı</td>
+                            <td>bGenel bir konu başlığı</td>
                             <td>22.02.2024</td>
                             <td><spankategori>Gündem</spankategori></td>
                             <td style="display:none">yellowfade</td>
@@ -83,22 +94,9 @@
             <label for="postCategory">Kategori:</label>
             <input type="text" id="postCategory" name="postCategory" required>
 
-            <label for="postColor">Kategori Renk:</label>
-            <select id="postColor" name="color">
-                            <option value="orangedarkfade">orangedarkfade</option>
-                            <option value="primaryfade">primaryfade</option>
-                            <option value="icefade">icefade</option>
-                            <option value="grayfade">grayfade</option>
-                            <option value="gray-textfade">gray-textfade</option>
-                            <option value="redfade">redfade</option>
-                            <option value="greenfade">greenfade</option>
-                            <option value="bluefade">bluefade</option>
-                            <option value="indigofade">indigofade</option>
-                            <option value="purplefade">purplefade</option>
-                            <option value="pinkfade">pinkfade</option>
-                            <option value="orangefade">orangefade</option>
-                            <option value="yellowfade">yellowfade</option>
-                        </select>
+            <label for="postMeta">Meta Tag:</label>
+            <input type="text" id="postMeta" name="postMeta" required>
+
 
             <label for="postAuthor">Yazar:</label>
             <input type="text" id="postAuthor" name="postAuthor" required>

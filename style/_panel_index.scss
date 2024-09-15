@@ -181,6 +181,13 @@
     -webkit-overflow-scrolling: touch;
     margin-bottom: 40px;
     margin-top: 50px;
+    text-align: center;
+    #sirala{
+        display: flex;
+        justify-content: flex-end;
+        margin:10px 0px;
+
+    }
 }
 .post-table {
     width: 100%;
@@ -259,6 +266,105 @@
 
 
 
+
+
+
+
+//#endregion
+
+
+//#region settings
+.settings{
+        text-align: center;
+        margin:50px 0px;
+    #social-form{
+        margin: 20px;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+
+
+        input{
+
+            margin-top:5px;
+            margin-bottom: 20px;
+            height: 30px;
+        }
+
+
+
+    }
+}
+
+
+
+
+//#endregion
+
+//#region profil içerik
+
+.profil{
+    text-align: center;
+    margin:50px 0px;
+
+    #profil-form{
+        margin:20px;
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        
+        #user-name,#password{
+            margin-top:5px;
+            margin-bottom: 20px;
+            height: 30px;
+
+            
+        }
+
+    }
+
+}
+.profilresmidiv{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    margin:20px 0px;
+    padding: 10px;
+
+    img{
+
+            width: 30%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin: 10px 0px;
+
+        }
+
+    #profilresmibtn{
+        display: flex;
+        width: 30%;
+        font-size:0.6em;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #fileName{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 30%;
+        height: 150px;
+        padding:10px;
+        font-size: smaller;
+    }    
+    
+
+
+}
 
 
 

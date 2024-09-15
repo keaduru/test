@@ -30,7 +30,7 @@
 
 <!DOCTYPE html>
 <html lang="tr">
-<?php require "views/contents/head.php";?>
+<?php require "views/partials/head.php";?>
 <body>
 
 <div class="body-container">
@@ -72,6 +72,6 @@
     <?php endif; ?>
 
 
-<?php require "views/contents/footer.php"?>
+<?php require "views/partials/footer.php"?>
 </body>
 </html>

@@ -57,6 +57,10 @@ $(document).ready(function() {
                         loadCategories();
                         // Formu sıfırla
                         $('#categoryaddForm')[0].reset();
+                        $('.category-container-editadd').hide();
+                        $('.category-table-edit').show();
+                        $('.category-table .btn.green').show();
+                        $('.category-table .btn.red').show();
                     });
                 } else {
                     Swal.fire({

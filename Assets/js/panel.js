@@ -8,7 +8,7 @@ function editcategory(id) {
       dataType: 'json',
       success: function(category) {
           // Formu güncelle
-          $('input[name="category_name"]').val(category.cat_name);
+          $('input[name="category_name_edit"]').val(category.cat_name);
           $('#color-select-edit').val(category.cat_color);
 
           // Edit formunu göster
@@ -17,7 +17,7 @@ function editcategory(id) {
           $('#add_cat').hide();
           $('.category-table .btn.green').hide();
           $('.category-table .btn.red').hide();
-          $('.category-container-editadd .btn.primary').attr('onclick', `saveeditcat(${id})`);
+          $('.category-container-editadd .category-table-edit .btn.primary').attr('onclick', `saveeditcat(${id})`);
 
       },
       error: function() {
@@ -32,7 +32,7 @@ function saveeditcat(id) {
       type: 'POST',
       data: {
           id: id,
-          category_name: $('input[name="category_name"]').val(),
+          category_name: $('input[name="category_name_edit"]').val(),
           category_color: $('#color-select-edit').val()
       },
       dataType: 'json',
@@ -90,32 +90,56 @@ function updateCategoryTable() {
   });
 }
 
-
-
-
-function deletecategory(x) {
+function deletecategory(id) {
     Swal.fire({
         title: 'Emin misiniz?',
-        text: "Kategori Kalıcı Olarak Silinsin mi?",
+        text: "Bu kategoriyi silmek istediğinizden emin misiniz?",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: 'Evet, sil!',
-        cancelButtonText: 'Hayır, silme.'
-      }).then((result) => {
+        cancelButtonText: 'Hayır'
+    }).then((result) => {
         if (result.isConfirmed) {
-
-            Swal.fire(
-                'Silindi!',
-                'Kategori silindi.',
-                'success'
-              );
+            $.ajax({
+                url: '/test/panel/ajax/ajax-category-delete.php', // Silme işlemini gerçekleştirecek PHP dosyası
+                type: 'POST',
+                data: { id: id }, // Silinecek kategori ID'si
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'success') {
+                        Swal.fire({
+                            title: 'Başarılı!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'Tamam'
+                        }).then(() => {
+                            // Tabloyu yeniden yükle
+                            updateCategoryTable(); // Tabloyu yeniden yüklemek için mevcut fonksiyonunuzu çağırabilirsiniz
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Hata!',
+                            text: response.message,
+                            icon: 'error',
+                            confirmButtonText: 'Tamam'
+                        });
+                    }
+                },
+                error: function() {
+                    Swal.fire({
+                        title: 'Hata!',
+                        text: 'Bir hata oluştu.',
+                        icon: 'error',
+                        confirmButtonText: 'Tamam'
+                    });
+                }
+            });
         }
-
-    
-});
+    });
 }
+
 
 function closepostForm(){
   Swal.fire({
@@ -205,7 +229,8 @@ $(document).ready(function(){
         $('.category-table .btn.red').hide();
       });
 
-    $('.cik').click(function(){
+      $('.cik').click(function() {
+        
         Swal.fire({
             title: 'Emin misiniz?',
             text: "İşlem iptal edilsin mi?",
@@ -213,20 +238,21 @@ $(document).ready(function(){
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Evet, sil!',
+            confirmButtonText: 'Evet, iptal et!',
             cancelButtonText: 'Hayır'
-          }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
-              // "Evet" butonuna tıklanmışsa inputları temizle
-              $('.category-container-editadd').find('input, textarea, select').val('');
-              $('.category-container-editadd').hide();
-              $('.category-table-add').show();
-              $('.category-table-edit').show();
-              $('.btn').show();
-
+                // "Evet" butonuna tıklanmışsa inputları temizle
+                $('.category-container-editadd').find('input, textarea, select').val('');
+                
+                // Görünürlük ayarlarını yap
+                $('.category-container-editadd').hide();
+                $('.category-table-add').show();
+                $('.category-table-edit').show();
+                $('.btn').show(); // Tüm butonları göster
             }
-          });
-    })
+        });
+    });
 
     $('.post-table').find('spankategori').addClass("badge");    
     $('.post-table tbody tr').each(function() {
@@ -348,34 +374,42 @@ $(document).ready(function(){
 
 
     $('#summernoteeditpost').summernote({
-      tabsize: 2,
-      height: 300,
-      toolbar: [
-        ['style', ['style']],
-        ['font', ['bold', 'underline', 'clear']],
-        ['color', ['color']],
-        ['para', ['paragraph']],
-
-        ['view', [ 'codeview', 'help']]
-      ],
-
-
+        tabsize: 2,
+        height: 300,
+        callbacks: {
+            onInit: function() {
+                $('#foreColorPicker').attr('id', 'foreColorPicker1');
+                $('#backColorPicker').attr('id', 'backColorPicker1');
+            }
+        },
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['paragraph']],
+            ['view', [ 'codeview', 'help']]
+        ]
     });
-
+    
     $('#summernoteaddpost').summernote({
-      tabsize: 2,
-      height: 300,
-      toolbar: [
-        ['style', ['style']],
-        ['font', ['bold', 'underline', 'clear']],
-        ['color', ['color']],
-        ['para', ['paragraph']],
-
-        ['view', [ 'codeview', 'help']]
-      ],
-
-
+        tabsize: 2,
+        height: 300,
+        callbacks: {
+            onInit: function() {
+                $('#foreColorPicker').attr('id', 'foreColorPicker2');
+                $('#backColorPicker').attr('id', 'backColorPicker2');
+            }
+        },
+        toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['paragraph']],
+            ['view', [ 'codeview', 'help']]
+        ]
     });
+    
+    
 
 
 

@@ -41,7 +41,7 @@
                         <td>
                             <input 
                                 type="text" 
-                                name="category_name" 
+                                name="category_name_add" 
                                 placeholder="Kategori adını girin"
                                 class="w-100 text-center" />
                         </td>
@@ -64,13 +64,13 @@
                         </td>
                         <td>
                             <button type="submit" class="btn primary" id="add-category-btn">Ekle</button>
-                            <button class="btn red cik">Çık</button>
+                            <button class="btn red cik" type="button">İptal</button>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </form>
-
+        
 
         <table class="category-table-edit greenfade">
             <caption>Kategori Düzenle</caption>
@@ -86,7 +86,7 @@
                     <td>
                         <input 
                             type="text" 
-                            name="category_name" 
+                            name="category_name_edit" 
                             placeholder="Kategori adını girin"
                             class="w-100 text-center" />
 

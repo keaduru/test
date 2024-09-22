@@ -307,6 +307,11 @@ $(document).ready(function(){
       });
   });
 
+    
+
+    
+
+
 
     //#endregion
 
@@ -408,6 +413,71 @@ $(document).ready(function(){
             ['view', [ 'codeview', 'help']]
         ]
     });
+
+        // Kategorileri getirme işlemi
+        $.ajax({
+            url: '/test/panel/ajax/ajax-get-categories.php',  // Kategori verilerini çeken PHP dosyası
+            method: 'GET',
+            success: function(response) {
+                var categories = JSON.parse(response);  // JSON veriyi parse et
+                var categorySelect = $('#add-postCategory');  // Kategori dropdown alanı
+                
+                categorySelect.empty();  // Önce dropdown'ı temizle
+
+                // Gelen kategorileri dropdown'a ekle
+                categories.forEach(function(category) {
+                    categorySelect.append('<option value="' + category.id + '" data-color="' + category.cat_color + '">' + category.cat_name + '</option>');
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('Kategoriler alınamadı:', xhr);
+            }
+        });
+
+        // Kategori seçimi değiştiğinde ID'yi gizli inputa yaz
+            $('#add-postCategory').on('change', function() {
+                var selectedCategoryId = $(this).val();
+                $('#categoryId').val(selectedCategoryId);
+                //console.log('Seçilen Kategori ID:', selectedCategoryId);  // Debugging için
+            });
+
+        // Form gönderme işlemi
+        $('#addPostForm').on('submit', function(e) {
+            e.preventDefault();  // Formun varsayılan gönderim işlemini engelle
+
+            var formData = $(this).serialize();  // Formdaki verileri al
+
+            // Summernote içeriğini form verilerine ekle
+            var content = $('#summernoteaddpost').summernote('code');
+            
+            formData += '&add-postContent=' + encodeURIComponent(content);  // İçeriği form verisine ekle
+
+            // Form verilerini console.log ile yazdır (debugging için)
+            console.log('Gönderilen veriler:', formData);
+
+            // AJAX ile formu gönder
+            $.ajax({
+                url: '/test/panel/ajax/ajax-add-post.php',  // Verilerin gönderileceği PHP dosyası
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    var result = JSON.parse(response);  // Yanıtı JSON formatında parse et
+                    if (result.success) {
+                        Swal.fire('Başarılı!', 'Post başarıyla eklendi!', 'success');
+                        $('#addPostForm')[0].reset();  // Formu sıfırla
+                        $('#summernoteaddpost').summernote('code', '');  // Summernote içeriğini temizle
+                    } else {
+                        Swal.fire('Hata!', result.message, 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX Hatası:', xhr.responseText);  // Sunucudan dönen hata mesajı
+                    Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin!', 'error');
+                }
+            });
+        });
+
+
     
     
 

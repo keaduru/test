@@ -10,7 +10,6 @@ function editcategory(id) {
           // Formu güncelle
           $('input[name="category_name_edit"]').val(category.cat_name);
           $('#color-select-edit').val(category.cat_color);
-
           // Edit formunu göster
           $('.category-container-editadd').show();
           $('.category-table-add').hide();
@@ -18,6 +17,10 @@ function editcategory(id) {
           $('.category-table .btn.green').hide();
           $('.category-table .btn.red').hide();
           $('.category-container-editadd .category-table-edit .btn.primary').attr('onclick', `saveeditcat(${id})`);
+
+          $('html, body').animate({
+            scrollTop: $("#categoryaddForm").offset().top - ($(window).height() / 2) + ($("#categoryaddForm").outerHeight() / 2)
+        }, 500); // 500 ms içinde kaydırma işlemi gerçekleşir
 
       },
       error: function() {
@@ -40,12 +43,18 @@ function saveeditcat(id) {
           Swal.fire('Başarılı', response.message, 'success');
           // Tabloyu güncelle
           updateCategoryTable();
+          loadPosts();
           // Formu sıfırla ve gizle
           $('.category-container-editadd').hide();
           $('.category-table-add').show();
           $('#add_cat').show();
           $('.category-table .btn.green').show();
           $('.category-table .btn.red').show();
+
+                  // Form elementine kaydır
+        $('html, body').animate({
+            scrollTop: $("#add_cat").offset().top
+        }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
       },
       error: function() {
           Swal.fire('Hata', 'Güncelleme sırasında bir hata oluştu.', 'error');
@@ -162,24 +171,63 @@ function closepostForm(){
 
         $('.btn').show();
 
+        $('html, body').animate({
+            scrollTop: $("#add-post").offset().top
+        }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
+
       }
     });
 }
 
-function editpost(x){
+function editpost(postId) {
+    // AJAX isteği ile post verilerini getir
+    $.ajax({
+      url: '/test/panel/ajax/ajax-post-get.php', // Post verilerini alacağın endpoint
+      type: 'POST',
+      data: { id: postId }, // İlgili postun ID'si
+      success: function(response) {
+        const data = JSON.parse(response);
+        console.log(data);
+        
+        if (data.status === 'success') {
+          // Form alanlarını doldur
+          $('#edit-postId').val(data.post.id);
+          $('#edit-postTitle').val(data.post.title);
+          const date = data.post.created_at.split(' ')[0]; // "2024-09-19" kısmını al
+          $('#edit-postDate').val(date);
+          $('#edit-postCategory').val(data.post.category_id);
+          $('#edit-postMeta').val(data.post.metatag);
+          $('#edit-postAuthor').val(data.post.author);
+          $('#edit-postStatus').val(data.post.status);
+          $('#edit-postURL').val(data.post.url);
+          $('#edit-postimg').attr('src', data.post.url);
+          $('#edit-postVideoUrl').val(data.post.VideoUrl);
+          const embedURL = data.post.VideoUrl.replace("watch?v=", "embed/").replace("youtube", "youtube-nocookie");
+          $('#edit-postvideo').attr('src', embedURL);
+          $('#summernoteeditpost').summernote('code', data.post.content); // Summernote içeriğini ayarla
 
-    $('.post-edit').show();
-    $('.postaddcontainer').hide();
-    $('#add-post').hide();
-    $('.post-table .btn.green').hide();
-    $('.post-table .btn.red').hide();
+  
+          // Formu göster
+          $('.post-edit').show();
+          $('.postaddcontainer').hide();
+          $('#add-post').hide();
+          $('.post-table .btn.green').hide();
+          $('.post-table .btn.red').hide();
+        } else {
+          Swal.fire('Hata!', data.message, 'error');
+        }
+      },
+      error: function() {
+        Swal.fire('Hata!', 'Bir hata oluştu.', 'error');
+      }
+    });
+  }
+  
 
-}
-
-function deletepost(x) {
-  Swal.fire({
+function deletepost(postId) {
+    Swal.fire({
       title: 'Emin misiniz?',
-      text: "Kategori Kalıcı Olarak Silinsin mi?",
+      text: "Post Kalıcı Olarak Silinsin mi?",
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -188,35 +236,84 @@ function deletepost(x) {
       cancelButtonText: 'Hayır, silme.'
     }).then((result) => {
       if (result.isConfirmed) {
-
-          Swal.fire(
-              'Silindi!',
-              'İçerik silindi.',
-              'success'
+        // AJAX isteği
+        $.ajax({
+          url: '/test/panel/ajax/ajax-post-delete.php', // Silme endpoint'i
+          type: 'POST',
+          data: { id: postId }, // Silinecek postun ID'si
+          success: function(response) {
+            const data = JSON.parse(response); // JSON yanıtını parse et
+            if (data.status === 'success') {
+              Swal.fire(
+                'Silindi!',
+                'İçerik silindi.',
+                'success'
+              );
+              // Post tablosunu güncelle
+              loadPosts(); // Postları yeniden yükle
+            } else {
+              Swal.fire(
+                'Hata!',
+                data.message, // Hata mesajını göster
+                'error'
+              );
+            }
+          },
+          error: function() {
+            Swal.fire(
+              'Hata!',
+              'Bir hata oluştu.',
+              'error'
             );
+          }
+        });
       }
+    });
+  }
 
-  
-});
+  function loadPosts() {
+    $.ajax({
+        url: '/test/panel/ajax/ajax-posts-get.php', // Postları çektiğimiz yer
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            let tableBody = $('.post-table tbody');
+            tableBody.empty(); // Tabloyu temizle
+            $.each(data, function(index, post) {
+                tableBody.append(`
+                    <tr>
+                        <td>${post.id}</td>
+                        <td>${post.title}</td>
+                        <td>${new Date(post.post_date).toLocaleDateString()}</td>
+                        <td><span class="badge ${post.category_color}">${post.category_name}</span></td>
+                        <td>${post.author}</td>
+                        <td><spanyayın class="badge ${post.status === 'Taslak' ? 'yellowfade' : post.status === 'Yayında' ? 'greenfade' : post.status === 'Kaldırıldı' ? 'redfade' : ''}">${post.status}</spanyayın></td>
+
+
+                        <td>
+                            <button class="btn green" onclick="editpost(${post.id})">Düzenle</button>
+                            <button class="btn red" onclick="deletepost(${post.id})">Sil</button>
+                        </td>
+                    </tr>
+                `);
+            });
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Hata!',
+                text: 'Postlar yüklenirken bir hata oluştu.',
+                icon: 'error',
+                confirmButtonText: 'Tamam'
+            });
+        }
+    });
 }
-
+  
+  
 //#endregion
 
 $(document).ready(function(){
 
-  $('.post-table').find('spanyayın').addClass("badge");
-  $('.post-table').find('spanyayın').each(function() {
-    var spanText = $(this).text().trim(); // Span içindeki metni al ve boşlukları temizle
-
-    // Değerine göre class ekle
-    if (spanText === 'Yayında') {
-        $(this).addClass('greenfade');
-    } else if (spanText === 'Taslak') {
-        $(this).addClass('yellowfade');
-    } else if (spanText === 'Kaldırıldı') {
-        $(this).addClass('redfade');
-    }
-});
 
     //#region  Kategori işlemleri
 
@@ -227,6 +324,10 @@ $(document).ready(function(){
         $('.category-table-edit').hide();
         $('.category-table .btn.green').hide();
         $('.category-table .btn.red').hide();
+                // Form elementine kaydır
+                $('html, body').animate({
+                    scrollTop: $("#categoryaddForm").offset().top - ($(window).height() / 2) + ($("#categoryaddForm").outerHeight() / 2)
+                }, 500); // 500 ms içinde kaydırma işlemi gerçekleşir
       });
 
       $('.cik').click(function() {
@@ -250,21 +351,13 @@ $(document).ready(function(){
                 $('.category-table-add').show();
                 $('.category-table-edit').show();
                 $('.btn').show(); // Tüm butonları göster
+
+                $('html, body').animate({
+                    scrollTop: $("#add_cat").offset().top
+                }, 500); // 500 ms içinde kaydırma işlemi gerçekleşir
             }
         });
     });
-
-    $('.post-table').find('spankategori').addClass("badge");    
-    $('.post-table tbody tr').each(function() {
-      // Kategori isminin yer aldığı <spankategori> elemanını seç
-      var $categorySpan = $(this).find('spankategori');
-      
-      // Renk bilgisini almak için 5. <td> elemanını seç
-      var colorClass = $(this).find('td').eq(4).text().trim();
-      
-      // Renk sınıfını kategori isminin yer aldığı <spankategori>'ye ekle
-      $categorySpan.addClass(colorClass);
-  });
 
     //#endregion
 
@@ -273,39 +366,63 @@ $(document).ready(function(){
     $('.post-edit').hide();
 
     $('#add-post').click(function() {
-      $('.post-edit').show();
-      $('.posteditcontainer').hide();
-      $('.post-table .btn.green').hide();
-      $('.post-table .btn.red').hide();
-      $('#add-post').hide();
+        $('.post-edit').show();
+        $('.posteditcontainer').hide();
+        $('.post-table .btn.green').hide();
+        $('.post-table .btn.red').hide();
+        $('#add-post').hide();
+    
+        // Form elementine kaydır
+        $('html, body').animate({
+            scrollTop: $("#addPostForm").offset().top
+        }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
     });
+    
 
-    $('#sort-by').change(function() {
-      var criteria = $(this).val();
-      var rows = $('table.post-table tbody tr').get();
 
-      rows.sort(function(a, b) {
-          var A, B;
-          if (criteria == 'id') {
-              A = parseInt($(a).find('td:eq(0)').text());
-              B = parseInt($(b).find('td:eq(0)').text());
-          } else if (criteria == 'baslik') {
-              A = $(a).find('td:eq(1)').text().toUpperCase();
-              B = $(b).find('td:eq(1)').text().toUpperCase();
-          } else if (criteria == 'tarih') {
-              A = new Date($(a).find('td:eq(2)').text().split('.').reverse().join('-'));
-              B = new Date($(b).find('td:eq(2)').text().split('.').reverse().join('-'));
-          } else if (criteria == 'kategori') {
-              A = $(a).find('spankategori').text().toUpperCase();
-              B = $(b).find('spankategori').text().toUpperCase();
-          }
-          return (A < B) ? -1 : (A > B) ? 1 : 0;
-      });
+    // Sıralama fonksiyonunu bir yere alalım ki hem #sort-by hem de #sort-order tetikleyebilsin
+    function sortTable() {
+        var criteria = $('#sort-by').val();
+        var rows = $('table.post-table tbody tr').get();
+        var desc = $('#sort-order').val();
 
-      $.each(rows, function(index, row) {
-          $('table.post-table tbody').append(row);
-      });
-  });
+        rows.sort(function(a, b) {
+            var A, B;
+
+            if (criteria == 'id') {
+                A = parseInt($(a).find('td:eq(0)').text());
+                B = parseInt($(b).find('td:eq(0)').text());
+            } else if (criteria == 'baslik') {
+                A = $(a).find('td:eq(1)').text().toUpperCase();
+                B = $(b).find('td:eq(1)').text().toUpperCase();
+            } else if (criteria == 'tarih') {
+                A = new Date($(a).find('td:eq(2)').text().split('.').reverse().join('-'));
+                B = new Date($(b).find('td:eq(2)').text().split('.').reverse().join('-'));
+            } else if (criteria == 'kategori') {
+                A = $(a).find('span').text().toUpperCase();
+                B = $(b).find('span').text().toUpperCase();
+            } else if (criteria == 'view') {
+                A = parseInt($(a).find('td:eq(5)').text());
+                B = parseInt($(b).find('td:eq(5)').text());
+            }
+
+            // Sıralama yönü
+            if (desc == "artan") {
+                return (A < B) ? -1 : (A > B) ? 1 : 0;
+            } else if (desc == "azalan") {
+                return (A > B) ? -1 : (A < B) ? 1 : 0;
+            }
+        });
+
+        $.each(rows, function(index, row) {
+            $('table.post-table tbody').append(row);
+        });
+    }
+
+        // Hem #sort-by hem de #sort-order değiştiğinde sıralama yapılmalı
+        $('#sort-by').change(sortTable);
+        $('#sort-order').change(sortTable);
+
 
     
 
@@ -337,6 +454,9 @@ $(document).ready(function(){
       });
   });
   
+
+
+
   $('#profilresmi').change(function() {
       var fileInput = $(this)[0];
       var fileName = '';
@@ -371,12 +491,49 @@ $(document).ready(function(){
           $('#fileName').text('No file chosen');
       }
   });
+
+  $('#add-postUrl').change(function() {
+    var fileInput = $(this)[0];
+    var fileName = '';
+    var fileSize = '';
+    var fileError = '';
+
+    if (fileInput.files.length > 0) {
+        var file = fileInput.files[0];
+        fileName = file.name;
+        fileSize = file.size / 1024 / 1024; // MB cinsinden boyut
+
+        // Dosya türü ve boyutunu kontrol et
+        var allowedExtensions = ['jpeg', 'jpg', 'svg'];
+        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+        if (fileSize > 10) {
+            fileError = 'Dosya boyutu 10 MB\'dan büyük olamaz.';
+        } else if (!allowedExtensions.includes(fileExtension)) {
+            fileError = 'Yalnızca .jpeg, .jpg, ve .svg uzantılı dosyalar seçilebilir.';
+        } else {
+            fileError = ''; // Hata yok
+        }
+
+        if (fileError) {
+            $('#fileName2').text(fileError);
+            // Dosya seçimini temizle
+            $(this).val('');
+        } else {
+            $('#fileName2').text('Seçilen dosya: ' + fileName + ' (Boyut: ' + fileSize.toFixed(2) + ' MB)');
+        }
+    } else {
+        $('#fileName2').text('No file chosen');
+    }
+});
   
       
 
 
     //#endregion
 
+    
+    
 
     $('#summernoteeditpost').summernote({
         tabsize: 2,
@@ -403,6 +560,7 @@ $(document).ready(function(){
             onInit: function() {
                 $('#foreColorPicker').attr('id', 'foreColorPicker2');
                 $('#backColorPicker').attr('id', 'backColorPicker2');
+                
             }
         },
         toolbar: [
@@ -420,14 +578,23 @@ $(document).ready(function(){
             method: 'GET',
             success: function(response) {
                 var categories = JSON.parse(response);  // JSON veriyi parse et
-                var categorySelect = $('#add-postCategory');  // Kategori dropdown alanı
+                var categorySelectadd = $('#add-postCategory');  // Kategori dropdown alanı
+                var categorySelectedit = $('#edit-postCategory');  // Kategori dropdown alanı
                 
-                categorySelect.empty();  // Önce dropdown'ı temizle
+                categorySelectadd.empty();  // Önce dropdown'ı temizle
+                categorySelectedit.empty();  // Önce dropdown'ı temizle
+
+                console.log("merhaba");
 
                 // Gelen kategorileri dropdown'a ekle
-                categories.forEach(function(category) {
-                    categorySelect.append('<option value="' + category.id + '" data-color="' + category.cat_color + '">' + category.cat_name + '</option>');
+                categories.forEach(function(category,index) {
+                    categorySelectadd.append('<option value="' + category.id + '" data-color="' + category.cat_color + '">' + category.cat_name + '</option>');
+                    categorySelectedit.append('<option value="' + category.id + '" data-color="' + category.cat_color + '">' + category.cat_name + '</option>');
+                    if (index === 0) {
+                        $('#categoryId').val(category.id);
+                    }
                 });
+        
             },
             error: function(xhr, status, error) {
                 console.error('Kategoriler alınamadı:', xhr);
@@ -441,45 +608,12 @@ $(document).ready(function(){
                 //console.log('Seçilen Kategori ID:', selectedCategoryId);  // Debugging için
             });
 
-        // Form gönderme işlemi
-        $('#addPostForm').on('submit', function(e) {
-            e.preventDefault();  // Formun varsayılan gönderim işlemini engelle
-
-            var formData = $(this).serialize();  // Formdaki verileri al
-
-            // Summernote içeriğini form verilerine ekle
-            var content = $('#summernoteaddpost').summernote('code');
-            
-            formData += '&add-postContent=' + encodeURIComponent(content);  // İçeriği form verisine ekle
-
-            // Form verilerini console.log ile yazdır (debugging için)
-            console.log('Gönderilen veriler:', formData);
-
-            // AJAX ile formu gönder
-            $.ajax({
-                url: '/test/panel/ajax/ajax-add-post.php',  // Verilerin gönderileceği PHP dosyası
-                method: 'POST',
-                data: formData,
-                success: function(response) {
-                    var result = JSON.parse(response);  // Yanıtı JSON formatında parse et
-                    if (result.success) {
-                        Swal.fire('Başarılı!', 'Post başarıyla eklendi!', 'success');
-                        $('#addPostForm')[0].reset();  // Formu sıfırla
-                        $('#summernoteaddpost').summernote('code', '');  // Summernote içeriğini temizle
-                    } else {
-                        Swal.fire('Hata!', result.message, 'error');
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Hatası:', xhr.responseText);  // Sunucudan dönen hata mesajı
-                    Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin!', 'error');
-                }
-            });
-        });
+       
 
 
     
-    
+
+
 
 
 

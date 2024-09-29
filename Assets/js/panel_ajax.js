@@ -33,6 +33,8 @@ $(document).ready(function() {
         });
     }
 
+    
+
     // Sayfa yüklendiğinde kategorileri yükle
     loadCategories();
 
@@ -82,6 +84,147 @@ $(document).ready(function() {
         });
     });
 
+
+    function loadPosts() {
+        $.ajax({
+            url: '/test/panel/ajax/ajax-posts-get.php', // Postları çektiğimiz yer
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                let tableBody = $('.post-table tbody');
+                tableBody.empty(); // Tabloyu temizle
+                $.each(data, function(index, post) {
+                    tableBody.append(`
+                        <tr>
+                            <td>${post.id}</td>
+                            <td>${post.title}</td>
+                            <td>${new Date(post.post_date).toLocaleDateString()}</td>
+                            <td><span class="badge ${post.category_color}">${post.category_name}</span></td>
+                            <td>${post.author}</td>
+                            <td>${post.view_count}</td>
+                            <td><spanyayın class="badge ${post.status === 'Taslak' ? 'yellowfade' : post.status === 'Yayında' ? 'greenfade' : post.status === 'Kaldırıldı' ? 'redfade' : ''}">${post.status}</spanyayın></td>
+
+                            <td>
+                                <button class="btn w-100 green" onclick="editpost(${post.id})">Düzenle</button>
+                                <button class="btn w-100 red" onclick="deletepost(${post.id})">Sil</button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            },
+            error: function() {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Postlar yüklenirken bir hata oluştu.',
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                });
+            }
+        });
+    }
+
+    // Sayfa yüklendiğinde postları yükle
+    loadPosts();
+
+     // Form gönderme işlemi
+     $('#addPostForm').on('submit', function(e) {
+        e.preventDefault();  // Formun varsayılan gönderim işlemini engelle
+
+        var formData = $(this).serialize();  // Formdaki verileri al
+
+        // Summernote içeriğini form verilerine ekle
+        var content = $('#summernoteaddpost').summernote('code');
+        
+        formData += '&add-postContent=' + encodeURIComponent(content);  // İçeriği form verisine ekle
+
+        // Form verilerini console.log ile yazdır (debugging için)
+        console.log('Gönderilen veriler:', formData);
+
+        // AJAX ile formu gönder
+        $.ajax({
+            url: '/test/panel/ajax/ajax-post-add.php',  // Verilerin gönderileceği PHP dosyası
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                var result = JSON.parse(response);  // Yanıtı JSON formatında parse et
+                if (result.success) {
+                    Swal.fire('Başarılı!', 'Post başarıyla eklendi!', 'success');
+                    $('#addPostForm')[0].reset();  // Formu sıfırla
+                    $('#summernoteaddpost').summernote('code', '');  // Summernote içeriğini temizle
+                    $('.post-edit').hide();
+                    $('.posteditcontainer').show();
+                    $('.post-table .btn.green').show();
+                    $('.post-table .btn.red').show();
+                    $('#add-post').show();
+                    // Tabloyu yeniden yükle
+                    loadPosts(); 
+
+                            // Form elementine kaydır
+                        $('html, body').animate({
+                        scrollTop: $("#add-post").offset().top
+                        }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
+                        } else {
+                            Swal.fire('Hata!', result.message, 'error');
+                        }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Hatası:', xhr.responseText);  // Sunucudan dönen hata mesajı
+                Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin!', 'error');
+            }
+        });
+    });
+
+
+    $('#editform').on('submit', function(e) {
+        e.preventDefault();  // Formun varsayılan gönderim işlemini engelle
+
+        var formData = $(this).serialize();  // Formdaki verileri al
+
+        // Summernote içeriğini form verilerine ekle
+        var content = $('#summernoteeditpost').summernote('code');
+        
+        formData += '&edit-postContent=' + encodeURIComponent(content);  // İçeriği form verisine ekle
+
+        // Form verilerini console.log ile yazdır (debugging için)
+        console.log('Gönderilen veriler:', formData);
+
+        // AJAX ile formu gönder
+        $.ajax({
+            url: '/test/panel/ajax/ajax-post-edit.php',  // Verilerin gönderileceği PHP dosyası
+            method: 'POST',
+            data: formData,
+            success: function(response) {
+                var result = JSON.parse(response);  // Yanıtı JSON formatında parse et
+                if (result.success) {
+                    Swal.fire('Başarılı!', 'Post başarıyla düzenlendi!', 'success');
+                    $('#editform')[0].reset();  // Formu sıfırla
+                    $('#summernoteeditpost').summernote('code', '');  // Summernote içeriğini temizle
+                    $('.post-edit').hide();
+                    $('.posteditcontainer').show();
+                    $('.post-table .btn.green').show();
+                    $('.post-table .btn.red').show();
+                    $('#add-post').show();
+                 
+                    // Tabloyu yeniden yükle
+                    loadPosts(); 
+
+                            // Form elementine kaydır
+                        $('html, body').animate({
+                        scrollTop: $("#add-post").offset().top
+                        }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
+                        } else {
+                            Swal.fire('Hata!', result.message, 'error');
+                        }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Hatası:', xhr.responseText);  // Sunucudan dönen hata mesajı
+                Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin!', 'error');
+            }
+        });
+    });
+
+
+    
 
     });
     

@@ -186,6 +186,9 @@
         display: flex;
         justify-content: flex-end;
         margin:10px 0px;
+        select{
+            margin-left: 10px;
+        }
 
     }
 }
@@ -230,6 +233,19 @@
     color: $light-color;
     background-color: $light-background; /* Arka plan rengini buradan ayarlayın */
   }
+
+
+#edit-postimg{
+    height: 400px;
+    margin: 30px 0;
+    
+    
+
+}
+
+#edit-postvideo{
+    margin: 30px 0;
+}
 
 .posteditcontainer, .postaddcontainer{
     display: flex;

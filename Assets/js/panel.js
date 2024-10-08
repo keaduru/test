@@ -18,6 +18,8 @@ function editcategory(id) {
           $('.category-table .btn.red').hide();
           $('.category-container-editadd .category-table-edit .btn.primary').attr('onclick', `saveeditcat(${id})`);
 
+          $('.page-overlay').show();
+
           $('html, body').animate({
             scrollTop: $("#categoryaddForm").offset().top - ($(window).height() / 2) + ($("#categoryaddForm").outerHeight() / 2)
         }, 500); // 500 ms içinde kaydırma işlemi gerçekleşir
@@ -50,6 +52,9 @@ function saveeditcat(id) {
           $('#add_cat').show();
           $('.category-table .btn.green').show();
           $('.category-table .btn.red').show();
+
+          $('.page-overlay').hide();
+
 
                   // Form elementine kaydır
         $('html, body').animate({
@@ -165,9 +170,14 @@ function closepostForm(){
         // "Evet" butonuna tıklanmışsa inputları temizle
         $('#addform').find('input, textarea, select').val('');
         $('#editform').find('input, textarea, select').val('');
+        $('#add-postUrl').val('');
+        $('#edit-postUrl').val('');
+        $('#fileName, #fileName2, #fileName3').html('');
         $('.post-edit').hide();
         $('.postaddcontainer').show();
         $('.posteditcontainer').show();
+        
+        $('.page-overlay').hide();
 
         $('.btn').show();
 
@@ -187,7 +197,7 @@ function editpost(postId) {
       data: { id: postId }, // İlgili postun ID'si
       success: function(response) {
         const data = JSON.parse(response);
-        console.log(data);
+        //console.log(data);
         
         if (data.status === 'success') {
           // Form alanlarını doldur
@@ -199,11 +209,14 @@ function editpost(postId) {
           $('#edit-postMeta').val(data.post.metatag);
           $('#edit-postAuthor').val(data.post.author);
           $('#edit-postStatus').val(data.post.status);
-          $('#edit-postURL').val(data.post.url);
+          $('#edit-postURLread').val(data.post.url);
           $('#edit-postimg').attr('src', data.post.url);
-          $('#edit-postVideoUrl').val(data.post.VideoUrl);
-          const embedURL = data.post.VideoUrl.replace("watch?v=", "embed/").replace("youtube", "youtube-nocookie");
-          $('#edit-postvideo').attr('src', embedURL);
+          if (data.post.VideoUrl) {
+            $('#edit-postVideoUrl').val(data.post.VideoUrl);
+            const embedURL = data.post.VideoUrl.replace("watch?v=", "embed/") //.replace("youtube", "youtube-nocookie");
+            $('#edit-postvideo').attr('src', embedURL);
+        }
+        
           $('#summernoteeditpost').summernote('code', data.post.content); // Summernote içeriğini ayarla
 
   
@@ -213,6 +226,13 @@ function editpost(postId) {
           $('#add-post').hide();
           $('.post-table .btn.green').hide();
           $('.post-table .btn.red').hide();
+
+          $('.page-overlay').show();
+
+          $('html, body').animate({
+            scrollTop: $(".posteditcontainer").offset().top
+        }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
+
         } else {
           Swal.fire('Hata!', data.message, 'error');
         }
@@ -287,6 +307,7 @@ function deletepost(postId) {
                         <td>${new Date(post.post_date).toLocaleDateString()}</td>
                         <td><span class="badge ${post.category_color}">${post.category_name}</span></td>
                         <td>${post.author}</td>
+                        <td>${post.view_count}</td>
                         <td><spanyayın class="badge ${post.status === 'Taslak' ? 'yellowfade' : post.status === 'Yayında' ? 'greenfade' : post.status === 'Kaldırıldı' ? 'redfade' : ''}">${post.status}</spanyayın></td>
 
 
@@ -320,15 +341,24 @@ $(document).ready(function(){
     $('.category-container-editadd').hide();
 
     $('#add_cat').click(function() {
+        // .category-container-editadd div'ini göster
         $('.category-container-editadd').show();
+        
+        // Diğer öğeleri gizle
         $('.category-table-edit').hide();
         $('.category-table .btn.green').hide();
         $('.category-table .btn.red').hide();
-                // Form elementine kaydır
-                $('html, body').animate({
-                    scrollTop: $("#categoryaddForm").offset().top - ($(window).height() / 2) + ($("#categoryaddForm").outerHeight() / 2)
-                }, 500); // 500 ms içinde kaydırma işlemi gerçekleşir
-      });
+    
+        // Sayfanın geri kalanını yarı saydam hale getiren overlay'i göster
+        $('.page-overlay').show();
+    
+        // Form elementine kaydır
+        $('html, body').animate({
+            scrollTop: $("#categoryaddForm").offset().top - ($(window).height() / 2) + ($("#categoryaddForm").outerHeight() / 2)
+        }, 500); // 500 ms içinde kaydırma işlemi gerçekleşir
+    });
+    
+    
 
       $('.cik').click(function() {
         
@@ -345,7 +375,10 @@ $(document).ready(function(){
             if (result.isConfirmed) {
                 // "Evet" butonuna tıklanmışsa inputları temizle
                 $('.category-container-editadd').find('input, textarea, select').val('');
-                
+                $('#add-postUrl').val('');
+                $('#edit-postUrl').val('');
+                $('#fileName, #fileName2, #fileName3').html('');
+                $('.page-overlay').hide();
                 // Görünürlük ayarlarını yap
                 $('.category-container-editadd').hide();
                 $('.category-table-add').show();
@@ -371,6 +404,9 @@ $(document).ready(function(){
         $('.post-table .btn.green').hide();
         $('.post-table .btn.red').hide();
         $('#add-post').hide();
+
+        $('.page-overlay').show();
+
     
         // Form elementine kaydır
         $('html, body').animate({
@@ -524,6 +560,41 @@ $(document).ready(function(){
         }
     } else {
         $('#fileName2').text('No file chosen');
+    }
+});
+
+$('#edit-postUrl').change(function() {
+    var fileInput = $(this)[0];
+    var fileName = '';
+    var fileSize = '';
+    var fileError = '';
+
+    if (fileInput.files.length > 0) {
+        var file = fileInput.files[0];
+        fileName = file.name;
+        fileSize = file.size / 1024 / 1024; // MB cinsinden boyut
+
+        // Dosya türü ve boyutunu kontrol et
+        var allowedExtensions = ['jpeg', 'jpg', 'svg'];
+        var fileExtension = fileName.split('.').pop().toLowerCase();
+
+        if (fileSize > 10) {
+            fileError = 'Dosya boyutu 10 MB\'dan büyük olamaz.';
+        } else if (!allowedExtensions.includes(fileExtension)) {
+            fileError = 'Yalnızca .jpeg, .jpg, ve .svg uzantılı dosyalar seçilebilir.';
+        } else {
+            fileError = ''; // Hata yok
+        }
+
+        if (fileError) {
+            $('#fileName3').text(fileError);
+            // Dosya seçimini temizle
+            $(this).val('');
+        } else {
+            $('#fileName3').text('Seçilen dosya: ' + fileName + ' (Boyut: ' + fileSize.toFixed(2) + ' MB)');
+        }
+    } else {
+        $('#fileName3').text('No file chosen');
     }
 });
   

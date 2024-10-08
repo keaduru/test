@@ -10,10 +10,33 @@ $content = $_POST['edit-postContent'] ?? '';
 $post_date = $_POST['edit-postDate'] ?? '';
 $category_id = $_POST['edit-postCategory'] ?? '';
 $metatag = $_POST['edit-postMeta'] ?? '';
-$url = $_POST['edit-postURL'] ?? '';
+$url = $_POST['edit-postURLread'] ?? '';
 $VideoUrl = $_POST['edit-postVideoUrl'] ?? '';
 $author = $_POST['edit-postAuthor'] ?? '';
 $status = $_POST['edit-postStatus'] ?? '';
+
+
+if (isset($_FILES['edit-postUrl']) && $_FILES['edit-postUrl']['error'] == 0) {
+    $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/test/assets/images/posts/";  // Dosyanın kaydedileceği dizin
+    $file_name = basename($_FILES['edit-postUrl']['name']);
+    $target_file = $target_dir . $file_name;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Dosya türü kontrolü (isteğe bağlı)
+    $valid_extensions = array("jpg", "jpeg", "png", "gif");
+    if (in_array($imageFileType, $valid_extensions)) {
+        // Dosyayı hedef dizine taşı
+        if (move_uploaded_file($_FILES['edit-postUrl']['tmp_name'], $target_file)) {
+            $url = "/test/assets/images/posts/" . $file_name;  // Dosyanın URL'sini al
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Resim yükleme başarısız.']);
+            exit;
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Geçersiz dosya türü.']);
+        exit;
+    }
+}
 
 // Kategorinin adını ve rengini almak için sorgu
 $sql_category = "SELECT cat_name, cat_color FROM categories WHERE id = :category_id";

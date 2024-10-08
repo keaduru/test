@@ -88,13 +88,45 @@
 
 }
 
-.category-container,.category-container-editadd {
+/* Sayfanın geri kalanını kaplayan opak overlay */
+.page-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Yarı saydam siyah */
+    z-index: 999; /* Önde olacak, ama .category-container-editadd'in altında */
+    display: none; /* Başlangıçta gizli */
+}
+
+
+.category-container {
     max-width: 700px;
     width: 100%;
     padding: 20px;
     box-shadow: 2px 0 5px rgba(50,199,100,0.5);
     border-radius: 5px;
     margin-bottom: 30px;
+
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+
+}
+.category-container-editadd {
+    max-width: 700px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(50,199,100,0.5);
+    border-radius: 5px;
+    margin-bottom: 30px;
+    position: relative;
+    z-index: 1000; /* Üstte kalmasını sağlar */
+    opacity: 1; /* Bu eleman tam görünür olacak */
 
     h2 {
         text-align: center;
@@ -255,6 +287,9 @@
     width: 100%;
     padding: 10px;
     margin:10px;
+    position: relative;
+    z-index: 1000; /* Üstte kalmasını sağlar */
+    opacity: 1;
 
     #editform, #addPostForm{
         

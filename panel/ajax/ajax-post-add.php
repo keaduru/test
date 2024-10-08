@@ -8,9 +8,34 @@ $title = $_POST['add-postTitle'] ?? '';
 $content = $_POST['add-postContent'] ?? '';
 $post_date = $_POST['add-postDate'] ?? '';
 $category_id = $_POST['categoryId'] ?? '';
-$author = $_POST['add-postMeta'] ?? '';
+$metatag = $_POST['add-postMeta'] ?? '';
 $author = $_POST['add-postAuthor'] ?? '';
 $status = $_POST['add-postStatus'] ?? '';
+$VideoUrl = $_POST['add-postVideoUrl'] ?? '';
+
+// Dosya yükleme işlemi
+$url = '';
+if (isset($_FILES['add-postUrl']) && $_FILES['add-postUrl']['error'] == 0) {
+    $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/test/assets/images/posts/";  // Dosyanın kaydedileceği dizin
+    $file_name = basename($_FILES['add-postUrl']['name']);
+    $target_file = $target_dir . $file_name;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+
+    // Dosya türü kontrolü (isteğe bağlı)
+    $valid_extensions = array("jpg", "jpeg", "png", "gif");
+    if (in_array($imageFileType, $valid_extensions)) {
+        // Dosyayı hedef dizine taşı
+        if (move_uploaded_file($_FILES['add-postUrl']['tmp_name'], $target_file)) {
+            $url = "/test/assets/images/posts/" . $file_name;  // Dosyanın URL'sini al
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Resim yükleme başarısız.']);
+            exit;
+        }
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Geçersiz dosya türü.']);
+        exit;
+    }
+}
 
 // Kategorinin adını ve rengini almak için sorgu
 $sql_category = "SELECT cat_name, cat_color FROM categories WHERE id = :category_id";
@@ -25,8 +50,8 @@ if ($category) {
     $category_color = $category['cat_color'];
 
     // Veritabanına post ekle
-    $sql = "INSERT INTO posts (title, content, post_date, category_id, category_name, category_color, metatag, author, status) 
-            VALUES (:title, :content, :post_date, :category_id, :category_name, :category_color, :metatag, :author, :status)";
+    $sql = "INSERT INTO posts (title, content, post_date, category_id, category_name, category_color, metatag, author, status, url, VideoUrl) 
+            VALUES (:title, :content, :post_date, :category_id, :category_name, :category_color, :metatag, :author, :status, :url, :VideoUrl)";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':title', $title);
     $stmt->bindParam(':content', $content);
@@ -37,6 +62,8 @@ if ($category) {
     $stmt->bindParam(':metatag', $metatag);
     $stmt->bindParam(':author', $author);
     $stmt->bindParam(':status', $status);
+    $stmt->bindParam(':url', $url);  // Dosya URL'sini ekliyoruz
+    $stmt->bindParam(':VideoUrl', $VideoUrl);  // Dosya URL'sini ekliyoruz
 
     // Post ekleme işlemi
     if ($stmt->execute()) {
@@ -51,4 +78,5 @@ if ($category) {
 
 // Veritabanı bağlantısını kapat
 $conn = null;
+
 ?>

@@ -74,7 +74,7 @@
 
 
 <?php require "views/partials/footer.php"?>
-
+<div class="page-overlay"></div>
 </body>
 
 </html>

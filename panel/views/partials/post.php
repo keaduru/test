@@ -51,7 +51,7 @@
 
     <div class="posteditcontainer">
         <h2>İçerik Düzenle</h2>
-        <form id="editform">
+        <form id="editform" enctype="multipart/form-data">
             <input type="hidden" id="edit-postId" name="edit-postId">
 
             <label for="edit-postTitle">Başlık:</label>
@@ -80,16 +80,22 @@
 
 
 
-            <label for="edit-postURL">Resim URL:</label>
-            <input type="text" id="edit-postURL" name="edit-postURL">
+            <label for="edit-postURLread">Resim URL:</label>
+            <input type="text" id="edit-postURLread" name="edit-postURLread" readonly>
+
+            <label for="edit-postUrl" class="btn green">Resim Değiştir</label>
+            <div id="fileName3"></div>
+            <input type="file" id="edit-postUrl" name="edit-postUrl" style="display:none">  
             
-            <label for="edit-potimg">Resim Önzilemesi (varsa):</label>
+            <label for="edit-postimg">Resim Önzilemesi (varsa):</label>
             <img id="edit-postimg" src="" alt="">
+
+
             
             <label for="edit-postVideoUrl">Video URL:</label>
             <input type="text" id="edit-postVideoUrl" name="edit-postVideoUrl">
 
-            <label for="edit-postvideo">Video Özizlemesi (varsa):</label>
+            <label for="edit-postvideo">Video Önizlemesi (varsa):</label>
             <iframe id="edit-postvideo" width="100%" height="400" src="" 
                     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     >
@@ -110,7 +116,7 @@
     <div class="postaddcontainer">
         <h2>İçerik Ekle</h2>
 
-        <form id="addPostForm">
+        <form id="addPostForm" enctype="multipart/form-data">
                 <label for="add-postTitle">Başlık:</label>
                 <input type="text" id="add-postTitle" name="add-postTitle" required>
 
@@ -139,9 +145,9 @@
 
                 <label for="add-postUrl" class="btn green">Resim Ekle</label>
                 <div id="fileName2"></div>
-                <input type="file" id="add-postUrl" name="add-postUrl" style="display:none;>
+                <input type="file" id="add-postUrl" name="add-postUrl" style="display:none">
 
-                <label for="add-postVideoUrl">Video URL:</label>
+                <label for="add-postVideoUrl">Video URL: </label>
                 <input type="text" id="add-postVideoUrl" name="add-postVideoUrl">
 
 

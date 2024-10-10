@@ -9,7 +9,7 @@
         header('Location: login.php');
         exit();
     }
-        print_r($_SESSION);
+        //print_r($_SESSION);
 
 
         if (isset($_SESSION['giris'])) {

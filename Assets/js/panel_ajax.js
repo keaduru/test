@@ -1,5 +1,24 @@
 $(document).ready(function() {
 
+    function getCounts() {
+        $.ajax({
+            url: "/test/panel/ajax/ajax-counts.php", // PHP dosyasının yolu
+            type: "GET",
+            dataType: "json", // JSON formatında veri alıyoruz
+            success: function(data) {
+                // Aldığımız post sayısını ve toplam görüntülenmeyi tabloya yazdır
+                $("#postCount p").text(data.post_count);
+                $("#viewTotal p").text(data.total_views);
+            },
+            error: function() {
+                $("#postCount p").text("Error loading data");
+                $("#viewTotal p").text("Error loading data");
+            }
+        });
+    }
+
+    getCounts();
+
     function loadCategories() {
         $.ajax({
             url: '/test/panel/ajax/ajax-category-get.php',
@@ -162,7 +181,8 @@ $(document).ready(function() {
                     $('.page-overlay').hide();
                     
                     // Tabloyu yeniden yükle
-                    loadPosts(); 
+                    loadPosts();
+                    getCounts();
     
                     // Form elementine kaydır
                     $('html, body').animate({
@@ -237,7 +257,77 @@ $(document).ready(function() {
         });
     });
 
+    function getSettings(){
 
+    $.ajax({
+        url: "/test/panel/ajax/ajax-settings-get.php", // PHP dosyasının yolu
+        type: "GET",
+        dataType: "json", // JSON formatında veri alıyoruz
+        success: function(data) {
+            // Dinamik form alanlarını oluşturacağımız yeri seçiyoruz
+            var form = $("#social-form");
+            form.empty();
+
+            // Gelen verileri dinamik olarak input alanlarına çeviriyoruz
+            $.each(data, function(index, setting) {
+                // Dinamik olarak label ve input alanlarını oluştur
+                var label = $('<label>').attr('for', setting.name).text(setting.name.charAt(0).toUpperCase() + setting.name.slice(1) + ' URL:');
+                var input = $('<input>').attr({
+                    type: 'text',
+                    id: setting.name,
+                    name: setting.name,
+                    value: setting.url,
+                    required: true
+                });
+
+                // Oluşturulan label ve inputları forma ekle
+                form.append(label);
+                form.append(input);
+            });
+
+            // Son olarak submit butonunu ekle
+            form.append('<button type="submit" class="btn purple">Kaydet</button>');
+        },
+        error: function() {
+            Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin!', 'error');
+        }
+    });
+
+}
+
+getSettings();
+
+    // Formu submit ettiğinde yapılacak işlem (Opsiyonel: Bu kısım ileride ayarları güncellemek için kullanılabilir)
+    $('#social-form').on('submit', function(e) {
+        e.preventDefault();
+        // Formdaki verileri JSON formatında topluyoruz
+        var formData = {};
+        $('#social-form').find('input').each(function() {
+            var name = $(this).attr('name');
+            var value = $(this).val();
+            formData[name] = value; // Her input'un name ve value değerini topluyoruz
+        });
+
+             // AJAX ile veritabanına güncelleme isteği gönder
+            $.ajax({
+                url: "/test/panel/ajax/ajax-settings-update.php", // Güncelleme işlemi yapan PHP dosyası
+                type: "POST",
+                contentType: "application/json", // Veriyi JSON formatında gönderiyoruz
+                data: JSON.stringify(formData), // JSON string olarak gönderiyoruz
+                success: function(response) {
+                    var result = JSON.parse(response);
+                    if (result.status === 'success') {
+                        Swal.fire('Başarılı',result.message,'success'); // Başarılı mesajı göster
+                       
+                    } else {
+                        Swal.fire('Hata!',result.message,'danger'); // Hata mesajı göster
+                    }
+                },
+                error: function() {
+                    Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin!', 'success');
+                }
+            });
+    });
     
 
     });

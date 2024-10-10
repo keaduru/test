@@ -1,11 +1,13 @@
 <div class="panel-tablo greenshadow p-25">
+
     <div class="panel">
+        
             <div class="cerceve">
                 <div class="i-fa greenfade">
                     <i class="fa-regular fa-eye fa-2xl"></i>
                     
                 </div>
-                <div class="info">
+                <div class="info" id="viewTotal">
                             <p>125</p>
                             <span>Görüntülenme</span>
                 </div>
@@ -15,9 +17,9 @@
                     <i class="fa-regular fa-file-lines fa-2xl"></i>
                     
                 </div>
-                <div class="info">
+                <div class="info" id="postCount">
                             <p>125</p>
-                            <span>Gönderi</span>
+                            <span>İçerik</span>
                 </div>
             </div>
             <div class="cerceve">

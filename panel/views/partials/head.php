@@ -12,7 +12,11 @@
     <link rel="stylesheet" href="/test/Assets/css/style.css">
     <link rel="stylesheet" href="/test/Assets/fontawasome/css/all.min.css">
     
-    
+    <script>
+        const currentUserId = <?php echo $_SESSION['user_id'] ?>;
+        const currentUserRole = '<?php echo $_SESSION['yetki']; ?>';
+        const currentUsername = '<?php echo $_SESSION['username']; ?>'; // PHP'den yetki bilgisini al
+    </script>
     <script src="/test/Assets/js/jquery.js"></script>
     <script src="/test/Assets/js/panel_ajax.js"></script>
     <script src="/test/Assets/js/app.js"></script>

@@ -1,4 +1,4 @@
-<div class="categories">
+<div class="categories" id="section-categories">
     <div class="category-container">
         <h2>Kategoriler</h2>
 
@@ -39,11 +39,13 @@
                 <tbody>
                     <tr>
                         <td>
-                            <input 
-                                type="text" 
-                                name="category_name_add" 
-                                placeholder="Kategori adını girin"
-                                class="w-100 text-center" />
+                        <input 
+                            type="text" 
+                            name="category_name_add" 
+                            placeholder="Kategori adını girin"
+                            class="w-100 text-center" 
+                            required/>
+
                         </td>
                         <td>
                             <select id="color-select-add" name="category_color">
@@ -84,11 +86,13 @@
             <tbody>
                 <tr>
                     <td>
-                        <input 
-                            type="text" 
-                            name="category_name_edit" 
-                            placeholder="Kategori adını girin"
-                            class="w-100 text-center" />
+                    <input 
+                        type="text" 
+                        name="category_name_edit" 
+                        placeholder="Kategori adını girin"
+                        class="w-100 text-center" 
+                        required/>
+
 
                     </td>
                     <td>

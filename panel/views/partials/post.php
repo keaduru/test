@@ -1,4 +1,4 @@
-<div class="posts greenshadow p-30">
+<div class="posts greenshadow p-30" id="section-icerikler">
 
     <h2>İçerikler</h2>
 
@@ -134,7 +134,9 @@
                 <input type="text" id="add-postMeta" name="add-postMeta">
 
                 <label for="add-postAuthor">Yazar:</label>
-                <input type="text" id="add-postAuthor" name="add-postAuthor" required>
+                    <select id="add-postAuthor" name="add-postAuthor" required>
+                    <option value="">Yazar Seçin</option> <!-- Varsayılan seçenek -->
+                    </select>
 
                 <label for="add-postStatus">Durum:</label>
                 <select id="add-postStatus" name="add-postStatus" required>

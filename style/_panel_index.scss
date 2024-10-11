@@ -20,6 +20,12 @@
     border: 1px solid $gray;
     border-radius: 0.7rem;
     align-items: center;
+    transition: 2s;
+    &:hover{
+        background-color: $indigo;
+        cursor:auto;
+
+    }
 }
 
 .i-fa{
@@ -71,6 +77,8 @@
 //#region Categories
 
 .categories{
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -354,68 +362,88 @@
 
 //#region profil içerik
 
-.profil{
+.profil {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     text-align: center;
-    margin:50px 0px;
+    margin: 50px 0px;
 
-    #profil-form{
-        margin:20px;
-        display: flex;
-        flex-direction: column;
-        text-align: left;
-        
-        #user-name,#password{
-            margin-top:5px;
-            margin-bottom: 20px;
-            height: 30px;
+    
+}
 
-            
-        }
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
 
+    th, td {
+        padding: 10px;
+        border: 2px ridge $purple;
+        text-align: center;
+    }
+
+    th {
+
+        font-weight: bold;
+    }
+
+    #profiletableimg {
+        height: clamp(50px, 7vw, 70px); /* Yükseklik için */
+        width: clamp(50px, 7vw, 70px);  /* Genişlik için */
+        object-fit: cover; /* Resmin oranını korumak için */
+        border-radius: 20%;
     }
 
 }
-.profilresmidiv{
+
+.modal {
+    display: none; /* Başlangıçta gizle */
+    position: fixed;
+    z-index: 1000; /* Diğer içeriklerin üstünde görünsün */
+    left: 0;
+    top: 0;
+    width: 100%; /* Modal genişliği */
+    height: 100%; /* Modal yüksekliği */
+    overflow: auto; /* İçeriğin taşmaması için kaydırma */
+    background-color: rgba(0, 0, 0, 0.8); /* Arka planı koyulaştır */
+}
+
+.modal-content {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    margin:20px 0px;
-    padding: 10px;
-
-    img{
-
-            width: 30%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 20px;
-            margin: 10px 0px;
-
-        }
-
-    #profilresmibtn{
-        display: flex;
-        width: 30%;
-        font-size:0.6em;
-        align-items: center;
-        justify-content: space-evenly;
-    }
-
-    #fileName{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 30%;
-        height: 150px;
-        padding:10px;
-        font-size: smaller;
-    }    
-    
-
-
+    background-color: white;
+    color: black;
+    margin: 5% auto; /* Üstten 5% mesafe */
+    padding: 20px;
+    border-radius: 8px; /* Köşeleri yuvarlaştır */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Gölgelendirme efekti */
+    width: 60%; /* Modal genişliği */
+    max-width: 600px; /* Maksimum genişlik */
 }
+
+.closemodal {
+    color: $pink;
+    font-size: xx-large;
+    align-self: flex-end; /* Sağ üst köşeye hizala */
+    cursor: pointer; /* Üzerine gelince imleci değiştir */
+}
+
+.closemodal:hover {
+    color: $orange; /* Üzerine gelince renk değişimi */
+}
+
+/* Form elemanlarını güzelleştirmek için ek stil */
+input, select, textarea {
+    width: 100%; /* Genişlik */
+    padding: 10px; /* İçerik için boşluk */
+    margin: 10px 0; /* Üst ve alt boşluk */
+    border: 1px solid #ccc; /* Kenarlık */
+    border-radius: 4px; /* Kenar yuvarlama */
+    box-sizing: border-box; /* Boyut hesaplama */
+}
+
+
+
+
 
 
 

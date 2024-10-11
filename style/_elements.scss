@@ -66,18 +66,15 @@ a:-webkit-any-link {
 
 }
 
-.w-100{
-    width: 100%;
-}
 
-.w-50{
-    width: 50%;
-    @media (max-width: 1200px) {
-        
-        width: 100%;
+@for $i from 0 through 100 {
+    .w-#{$i} {
+        width: #{$i + "%"};
 
-      }
-    
+        @media (max-width: 1200px) {
+            width: 100%;
+        }
+    }
 }
 
 @for $i from 0 through 50 {

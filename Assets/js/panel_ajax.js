@@ -1,3 +1,30 @@
+function editprofile(id) {
+    // Modalı aç
+    $('#editProfileModal').css('display', 'block');
+    
+    // AJAX ile mevcut verileri yükle
+    $.ajax({
+        url: `/test/panel/ajax/ajax-profile-get.php?id=${id}`,
+        type: 'GET',
+        dataType: 'json',
+        success: function(profile) {
+            // Mevcut verileri form alanlarına yerleştir
+            $('#user_id').val(profile.id);
+            $('#username').val(profile.username);
+            $('#isim').val(profile.isim);
+            $('#yetki').val(profile.yetki);
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Hata!',
+                text: 'Profil verileri yüklenirken bir hata oluştu.',
+                icon: 'error',
+                confirmButtonText: 'Tamam'
+            });
+        }
+    });
+}
+
 $(document).ready(function() {
 
     function getCounts() {
@@ -19,6 +46,7 @@ $(document).ready(function() {
 
     getCounts();
 
+    
     function loadCategories() {
         $.ajax({
             url: '/test/panel/ajax/ajax-category-get.php',
@@ -28,6 +56,11 @@ $(document).ready(function() {
                 let tableBody = $('.category-table tbody');
                 tableBody.empty(); // Tabloyu temizle
                 $.each(data, function(index, category) {
+                    // Admin olup olmadığını kontrol et
+                    const deleteButton = (currentUserRole === 'admin') 
+                        ? `<button class="btn red" onclick="deletecategory(${category.id})">Sil</button>` 
+                        : ''; // Admin değilse sil butonunu boş bırak
+    
                     tableBody.append(`
                         <tr>
                             <td>${category.id}</td>
@@ -35,7 +68,7 @@ $(document).ready(function() {
                             <td>${category.cat_color}</td>
                             <td>
                                 <button class="btn green" onclick="editcategory(${category.id})">Düzenle</button>
-                                <button class="btn red" onclick="deletecategory(${category.id})">Sil</button>
+                                ${deleteButton} <!-- Sil butonunu buraya ekle -->
                             </td>
                         </tr>
                     `);
@@ -51,6 +84,7 @@ $(document).ready(function() {
             }
         });
     }
+    
 
     
 
@@ -60,7 +94,14 @@ $(document).ready(function() {
 
     $('#add-category-btn').click(function(e) {
         e.preventDefault();
-
+    
+        // Formun geçerli olup olmadığını kontrol et
+        const form = document.getElementById('categoryaddForm');
+        if (!form.checkValidity()) {
+            form.reportValidity(); // Geçersiz alanları kullanıcıya gösterir
+            return; // Form geçersizse devam etme
+        }
+    
         $.ajax({
             url: '/test/panel/ajax/ajax-category-add.php',
             type: 'POST',
@@ -80,10 +121,7 @@ $(document).ready(function() {
                         $('#categoryaddForm')[0].reset();
                         $('.category-container-editadd').hide();
                         $('.category-table-edit').show();
-                        $('.category-table .btn.green').show();
-                        $('.category-table .btn.red').show();
                         $('.page-overlay').hide();
-
                     });
                 } else {
                     Swal.fire({
@@ -104,7 +142,7 @@ $(document).ready(function() {
             }
         });
     });
-
+    
 
     function loadPosts() {
         $.ajax({
@@ -115,6 +153,16 @@ $(document).ready(function() {
                 let tableBody = $('.post-table tbody');
                 tableBody.empty(); // Tabloyu temizle
                 $.each(data, function(index, post) {
+                    // Admin olup olmadığını kontrol et
+                    const deleteButton = (currentUserRole === 'admin') 
+                        ? `<button class="btn w-100 red" onclick="deletepost(${post.id})">Sil</button>` 
+                        : ''; // Admin değilse sil butonunu boş bırak
+    
+                    // Kullanıcı kendi yazısı ise düzenle butonunu göster
+                    const editButton = (currentUserRole === 'admin' || post.author === currentUsername)
+                        ? `<button class="btn w-100 green" onclick="editpost(${post.id})">Düzenle</button>`
+                        : ''; // Kullanıcı kendi yazısı değilse düzenle butonunu boş bırak
+    
                     tableBody.append(`
                         <tr>
                             <td>${post.id}</td>
@@ -123,11 +171,11 @@ $(document).ready(function() {
                             <td><span class="badge ${post.category_color}">${post.category_name}</span></td>
                             <td>${post.author}</td>
                             <td>${post.view_count}</td>
-                            <td><spanyayın class="badge ${post.status === 'Taslak' ? 'yellowfade' : post.status === 'Yayında' ? 'greenfade' : post.status === 'Kaldırıldı' ? 'redfade' : ''}">${post.status}</spanyayın></td>
-
+                            <td><span class="badge ${post.status === 'Taslak' ? 'yellowfade' : post.status === 'Yayında' ? 'greenfade' : post.status === 'Kaldırıldı' ? 'redfade' : ''}">${post.status}</span></td>
+    
                             <td>
-                                <button class="btn w-100 green" onclick="editpost(${post.id})">Düzenle</button>
-                                <button class="btn w-100 red" onclick="deletepost(${post.id})">Sil</button>
+                                ${editButton} <!-- Düzenle butonunu burada ekle -->
+                                ${deleteButton} <!-- Sil butonunu burada ekle -->
                             </td>
                         </tr>
                     `);
@@ -143,9 +191,45 @@ $(document).ready(function() {
             }
         });
     }
+    
+    
 
     // Sayfa yüklendiğinde postları yükle
     loadPosts();
+
+    function loadAuthors() {
+        $.ajax({
+            url: '/test/panel/ajax/ajax-profiles-get.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                let authorSelect = $('#add-postAuthor'); // Yazar select elementini seç
+                authorSelect.empty(); // Önceki değerleri temizle
+    
+                if (currentUserRole === 'admin') {
+                    // Adminse, mevcut kullanıcıları yükle
+                    $.each(data, function(index, profile) {
+                        authorSelect.append(new Option(profile.username, profile.username)); // Kullanıcı adını seçeneğe ekle
+                    });
+                    authorSelect.prepend('<option value="">Yazar Seçin</option>'); // Varsayılan seçenek ekle
+                } else {
+                    // Kullanıcı ise, kendi kullanıcı adını seç
+                    authorSelect.append(new Option(currentUsername, currentUsername)); // Kullanıcı adını ekle
+                    authorSelect.prop('disabled', true); // Seçenekleri devre dışı bırak
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Yazarlar yüklenirken bir hata oluştu.',
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                });
+            }
+        });
+    }
+
+    loadAuthors();
 
      // Form gönderme işlemi
      $('#addPostForm').on('submit', function(e) {
@@ -175,8 +259,6 @@ $(document).ready(function() {
                     $('#summernoteaddpost').summernote('code', '');  // Summernote içeriğini temizle
                     $('.post-edit').hide();
                     $('.posteditcontainer').show();
-                    $('.post-table .btn.green').show();
-                    $('.post-table .btn.red').show();
                     $('#add-post').show();
                     $('.page-overlay').hide();
                     
@@ -199,12 +281,6 @@ $(document).ready(function() {
         });
     });
     
-    
-    
-    
-
-    
-
     $('#editform').on('submit', function(e) {
         e.preventDefault();  // Formun varsayılan gönderim işlemini engelle
 
@@ -233,8 +309,6 @@ $(document).ready(function() {
                     $('.post-edit').hide();
                     $('.posteditcontainer').show();
                     $('.postaddcontainer').show();
-                    $('.post-table .btn.green').show();
-                    $('.post-table .btn.red').show();
                     $('#add-post').show();
 
                     $('.page-overlay').hide();
@@ -259,7 +333,7 @@ $(document).ready(function() {
 
     function getSettings(){
 
-    $.ajax({
+        $.ajax({
         url: "/test/panel/ajax/ajax-settings-get.php", // PHP dosyasının yolu
         type: "GET",
         dataType: "json", // JSON formatında veri alıyoruz
@@ -277,7 +351,8 @@ $(document).ready(function() {
                     id: setting.name,
                     name: setting.name,
                     value: setting.url,
-                    required: true
+                    required: true,
+                    readonly: currentUserRole !== 'admin'
                 });
 
                 // Oluşturulan label ve inputları forma ekle
@@ -286,16 +361,18 @@ $(document).ready(function() {
             });
 
             // Son olarak submit butonunu ekle
-            form.append('<button type="submit" class="btn purple">Kaydet</button>');
+            if (currentUserRole === 'admin') {
+                form.append('<button type="submit" class="btn purple">Kaydet</button>');
+            }
         },
         error: function() {
             Swal.fire('Hata!', 'Bir hata oluştu, lütfen tekrar deneyin!', 'error');
         }
     });
 
-}
+    }
 
-getSettings();
+    getSettings();
 
     // Formu submit ettiğinde yapılacak işlem (Opsiyonel: Bu kısım ileride ayarları güncellemek için kullanılabilir)
     $('#social-form').on('submit', function(e) {
@@ -328,9 +405,174 @@ getSettings();
                 }
             });
     });
+
+
+
+
+    function loadProfiles() {
+        $.ajax({
+            url: '/test/panel/ajax/ajax-profiles-get.php',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                let tableBody = $('.profile-table tbody');
+                tableBody.empty(); // Tabloyu temizle
+                $.each(data, function(index, profile) {
+                    // Kullanıcı ID'si ve yetkisini kontrol et
+                    let buttons = ''; // Butonları tutmak için boş bir değişken
+    
+                    if (currentUserRole === 'admin') {
+                        // Eğer kullanıcı admin ise hem düzenleme hem de silme butonlarını göster
+                        buttons = `
+                            <td>
+                                <button class="btn green w-45" onclick="editprofile(${profile.id})">Düzenle</button>
+                                <button class="btn red w-45" onclick="deleteprofile(${profile.id})">Sil</button>
+                            </td>`;
+                    } else if (profile.id === currentUserId) {
+                        // Eğer kullanıcı normal bir kullanıcı ise ve kendi profilini görüntülüyorsa yalnızca düzenleme butonunu göster
+                        buttons = `
+                            <td>
+                                <button class="btn green w-45" onclick="editprofile(${profile.id})">Düzenle</button>
+                            </td>`;
+                    }
+    
+                    tableBody.append(`
+                        <tr>
+                            <td>${profile.id}</td>
+                            <td>${profile.username}</td>
+                            <td>${profile.yetki}</td>
+                            <td>${profile.isim}</td>
+                            <td><img src="${profile.url}" alt="${profile.isim}" id="profiletableimg"></td>
+                            ${buttons} <!-- Butonları burada ekle -->
+                        </tr>
+                    `);
+                });
+            },
+            error: function() {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Profiller yüklenirken bir hata oluştu.',
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                });
+            }
+        });
+    }
+    
+    
+    
+    
+    
+    
+    loadProfiles();
+
+
+    $('#add_profile').click(function() {
+      
+        $('#addProfileModal').css('display', 'block');
+    });
+    // Modal kapatma
+    $('.closemodal').click(function() {
+        $('#editProfileForm')[0].reset();
+        $('#addProfileForm')[0].reset();
+        $('#editProfileModal').css('display', 'none');
+        $('#addProfileModal').css('display', 'none');
+    });
+    
+    // Form gönderimi
+    $('#editProfileForm').on('submit', function(e) {
+        e.preventDefault(); // Formun normal şekilde gönderilmesini engelle
+
+        // Form verilerini al
+        let formData = new FormData(this);
+
+        $.ajax({
+            url: '/test/panel/ajax/ajax-profile-update.php',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                let data = JSON.parse(response); // JSON yanıtı ayrıştır
+
+                // SweetAlert ile başarı mesajı göster
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: 'Profil güncellendi.',
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                });
+                loadProfiles();
+                // Sağ menüyü güncelle
+                $('#profileimg').attr('src', data.url); // Yeni profil resmini güncelle
+                $('#profile-name').text(data.username[0].toUpperCase() + data.username.slice(1));
+                $('#dropdown-menu p.welcome').text("Hoşgeldin " + data.isim); // Hoşgeldin mesajını güncelle
+                $('#dropdown-menu p.role').text("Şu An Rol'ün: " + data.yetki); // Rol'ü güncelle
+                $('#dropdown-menu p.username').text("Kullanıcı Adın: " + data.username); // Kullanıcı adını güncelle
+                
+                // Modal içeriğini temizle
+                $('#editProfileForm')[0].reset(); // Form verilerini sıfırla
+                $('#editProfileModal').css('display', 'none'); // Modalı kapat
+                loadProfiles();
+            },
+            error: function() {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                });
+            }
+        });
+    });
+
+    // Kullanıcı ekleme formu gönderimi
+    $('#addProfileForm').on('submit', function(e) {
+        e.preventDefault(); // Formun normal şekilde gönderilmesini engelle
+
+        // Form verilerini al
+        let formData = new FormData(this);
+
+        $.ajax({
+            url: '/test/panel/ajax/ajax-profile-add.php', // Kullanıcı ekleme işlemi için PHP dosyasının yolu
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                let data = JSON.parse(response); // JSON yanıtı ayrıştır
+
+                // SweetAlert ile başarı mesajı göster
+                Swal.fire({
+                    title: 'Başarılı!',
+                    text: 'Kullanıcı başarıyla eklendi.',
+                    icon: 'success',
+                    confirmButtonText: 'Tamam'
+                });
+
+                loadProfiles(); // Profilleri tekrar yükle
+                $('#addProfileModal').css('display', 'none'); // Modalı kapat
+                $('#addProfileForm')[0].reset(); // Form verilerini sıfırla
+            },
+            error: function() {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                });
+            }
+        });
+    });
+
+
+    
+    
     
 
     });
+
+
     
 
     

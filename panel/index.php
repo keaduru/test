@@ -1,80 +1,71 @@
 <!DOCTYPE html>
 <html lang="tr">
-<?php require "views/partials/head.php";?>
 
 <?php
     session_start();
+    require "views/partials/head.php";
+    $isAdmin = $_SESSION['yetki'] === 'admin';
 
+    // Kullanıcı oturum açmamışsa login sayfasına yönlendir
     if (!isset($_SESSION['loggedin'])) {
         header('Location: login.php');
         exit();
     }
-        //print_r($_SESSION);
 
+    // Giriş başarılı olduğunda kullanıcıya "Hoşgeldin" mesajı göster
+    if (isset($_SESSION['giris'])) {
+        $isim = ucfirst($_SESSION['isim']); // İsmin ilk harfini büyük yap
+        unset($_SESSION['giris']); // Swal mesajından sonra temizlemek için unset
+    }
 
-        if (isset($_SESSION['giris'])) {
-            ?>
-            <script>
-            Swal.fire({
-                icon: 'success',
-                title: 'Giriş Başarılı!',
-                text: 'Başarıyla giriş yaptınız',
-            }).then(function() {
-                // "OK" butonuna basıldığında çalışacak kısım
-                window.location.href = "<?php echo $_SERVER['PHP_SELF']; ?>?clear_session=true";
-            });
-            </script>
-            <?php
-        }
-        if (isset($_GET['clear_session']) && $_GET['clear_session'] == 'true') {
-            unset($_SESSION['giris']);
-            header('Location: ' . $_SERVER['PHP_SELF']); // Sayfayı tekrar yönlendir
-            exit();
+    // Çıkış işlemi
+    if (isset($_POST['logout'])) {
+        // Tüm session verilerini temizle
+        $_SESSION = [];
+
+        // Oturum kimliğini yok et
+        if (ini_get("session.use_cookies")) {
+            $params = session_get_cookie_params();
+            setcookie(session_name(), '', time() - 42000,
+                $params["path"], $params["domain"],
+                $params["secure"], $params["httponly"]
+            );
         }
 
-        if (isset($_POST['logout'])) {
-            // Tüm session verilerini temizle
-            $_SESSION = [];
+        // Oturumu sonlandır
+        session_destroy();
 
-            // Oturum kimliğini yok et
-            if (ini_get("session.use_cookies")) {
-                $params = session_get_cookie_params();
-                setcookie(session_name(), '', time() - 42000,
-                    $params["path"], $params["domain"],
-                    $params["secure"], $params["httponly"]
-                );
-            }
-
-            // Oturumu sonlandır
-            session_destroy();
-
-            header('Location: login.php');
-            exit();
-        }
+        header('Location: login.php');
+        exit();
+    }
 ?>
-
 
 <body class="medium-font">
 
+<?php 
+//print_r($_SESSION); 
+?>
+
+
 <div class="body-container">
-        <div class="main-container">
-            <?php 
-            require_once "views/contents/layout.php";
-            ?>
-
-
-
-
-        </div>
+    <div class="main-container">
+        <?php require_once "views/contents/layout.php"; ?>
     </div>
+</div>
 
+<?php if (isset($isim)) : ?>
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Giriş Başarılı!',
+            text: 'Hoşgeldin <?php echo $isim; ?>.',
+        }).then(function() {
+            window.location.href = "<?php echo $_SERVER['PHP_SELF']; ?>";
+        });
+    </script>
+<?php endif; ?>
 
-
-
-
-
-<?php require "views/partials/footer.php"?>
+<?php require "views/partials/footer.php" ?>
 <div class="page-overlay"></div>
 </body>
-
 </html>

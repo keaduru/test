@@ -93,6 +93,7 @@ $colors: (
     @mixin fade-class($name, $color, $fade-color) {
         background-color: $fade-color;
         color: $color;
+        transition: 2s;
     
         &:hover {
         background-color: $color;

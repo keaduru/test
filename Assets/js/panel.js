@@ -13,9 +13,8 @@ function editcategory(id) {
           // Edit formunu göster
           $('.category-container-editadd').show();
           $('.category-table-add').hide();
-          $('#add_cat').hide();
-          $('.category-table .btn.green').hide();
-          $('.category-table .btn.red').hide();
+
+
           $('.category-container-editadd .category-table-edit .btn.primary').attr('onclick', `saveeditcat(${id})`);
 
           $('.page-overlay').show();
@@ -32,77 +31,91 @@ function editcategory(id) {
 }
 
 function saveeditcat(id) {
-  $.ajax({
+    const categoryName = $('input[name="category_name_edit"]').val(); // Kategori ismini al
+    const categoryColor = $('#color-select-edit').val(); // Kategori rengini al
+  
+    if (!categoryName || !categoryColor) {
+      Swal.fire('Hata', 'Lütfen tüm alanları doldurun.', 'error');
+      return;
+    }
+  
+    $.ajax({
       url: '/test/panel/ajax/ajax-category-update.php',
       type: 'POST',
       data: {
-          id: id,
-          category_name: $('input[name="category_name_edit"]').val(),
-          category_color: $('#color-select-edit').val()
+        id: id,
+        category_name: categoryName,
+        category_color: categoryColor
       },
       dataType: 'json',
       success: function(response) {
+        if (response.status === 'success') {
           Swal.fire('Başarılı', response.message, 'success');
           // Tabloyu güncelle
           updateCategoryTable();
           loadPosts();
-          // Formu sıfırla ve gizle
+          // Düzenleme formunu gizle
           $('.category-container-editadd').hide();
           $('.category-table-add').show();
-          $('#add_cat').show();
-          $('.category-table .btn.green').show();
-          $('.category-table .btn.red').show();
 
           $('.page-overlay').hide();
-
-
-                  // Form elementine kaydır
-        $('html, body').animate({
+  
+          $('html, body').animate({
             scrollTop: $("#add_cat").offset().top
-        }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
+          }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
+        } else {
+          Swal.fire('Hata', response.message, 'error');
+        }
       },
       error: function() {
-          Swal.fire('Hata', 'Güncelleme sırasında bir hata oluştu.', 'error');
+        Swal.fire('Hata', 'Güncelleme sırasında bir hata oluştu.', 'error');
       }
-  });
-}
+    });
+  }
+  
 
 
-function updateCategoryTable() {
-  $.ajax({
+  function updateCategoryTable() {
+    $.ajax({
       url: '/test/panel/ajax/ajax-category-get.php',
       type: 'GET',
       dataType: 'json',
       success: function(categories) {
-          var tableBody = $('.category-table tbody');
-          tableBody.empty(); // Mevcut tabloyu temizle
-
-          $.each(categories, function(index, category) {
-              tableBody.append(`
-                  <tr>
-                      <td>${category.id}</td>
-                      <td class="${category.cat_color}">${category.cat_name}</td>
-                      <td>${category.cat_color}</td>
-                      <td>
-                          <button class="btn green" onclick="editcategory(${category.id})">Düzenle</button>
-                          <button class="btn red" onclick="deletecategory(${category.id})">Sil</button>
-                      </td>
-                  </tr>
-              `);
-          });
-
-          // Kategori isimlerini seçili renk ile renklendir
-          $('.category-table tbody tr').each(function() {
-              var $categoryCell = $(this).find('td').eq(1);
-              var colorClass = $(this).find('td').eq(2).text().trim();
-              $categoryCell.addClass(colorClass);
-          });
+        var tableBody = $('.category-table tbody');
+        tableBody.empty(); // Mevcut tabloyu temizle
+  
+        $.each(categories, function(index, category) {
+          // Admin olup olmadığını kontrol et
+          const deleteButton = (currentUserRole === 'admin') 
+            ? `<button class="btn red" onclick="deletecategory(${category.id})">Sil</button>` 
+            : ''; // Eğer admin değilse sil butonunu boş bırak
+          
+          tableBody.append(`
+            <tr>
+              <td>${category.id}</td>
+              <td class="${category.cat_color}">${category.cat_name}</td>
+              <td>${category.cat_color}</td>
+              <td>
+                <button class="btn green" onclick="editcategory(${category.id})">Düzenle</button>
+                ${deleteButton} <!-- Sil butonunu burada koşullu olarak ekle -->
+              </td>
+            </tr>
+          `);
+        });
+  
+        // Kategori isimlerini seçili renk ile renklendir
+        $('.category-table tbody tr').each(function() {
+          var $categoryCell = $(this).find('td').eq(1);
+          var colorClass = $(this).find('td').eq(2).text().trim();
+          $categoryCell.addClass(colorClass);
+        });
       },
       error: function() {
-          Swal.fire('Hata', 'Kategoriler yüklenirken bir hata oluştu.', 'error');
+        Swal.fire('Hata', 'Kategoriler yüklenirken bir hata oluştu.', 'error');
       }
-  });
-}
+    });
+  }
+  
 
 function deletecategory(id) {
     Swal.fire({
@@ -179,7 +192,6 @@ function closepostForm(){
         
         $('.page-overlay').hide();
 
-        $('.btn').show();
 
         $('html, body').animate({
             scrollTop: $("#add-post").offset().top
@@ -192,56 +204,93 @@ function closepostForm(){
 function editpost(postId) {
     // AJAX isteği ile post verilerini getir
     $.ajax({
-      url: '/test/panel/ajax/ajax-post-get.php', // Post verilerini alacağın endpoint
-      type: 'POST',
-      data: { id: postId }, // İlgili postun ID'si
-      success: function(response) {
-        const data = JSON.parse(response);
-        //console.log(data);
-        
-        if (data.status === 'success') {
-          // Form alanlarını doldur
-          $('#edit-postId').val(data.post.id);
-          $('#edit-postTitle').val(data.post.title);
-          const date = data.post.created_at.split(' ')[0]; // "2024-09-19" kısmını al
-          $('#edit-postDate').val(date);
-          $('#edit-postCategory').val(data.post.category_id);
-          $('#edit-postMeta').val(data.post.metatag);
-          $('#edit-postAuthor').val(data.post.author);
-          $('#edit-postStatus').val(data.post.status);
-          $('#edit-postURLread').val(data.post.url);
-          $('#edit-postimg').attr('src', data.post.url);
-          if (data.post.VideoUrl) {
-            $('#edit-postVideoUrl').val(data.post.VideoUrl);
-            const embedURL = data.post.VideoUrl.replace("watch?v=", "embed/") //.replace("youtube", "youtube-nocookie");
-            $('#edit-postvideo').attr('src', embedURL);
+        url: '/test/panel/ajax/ajax-post-get.php', // Post verilerini alacağın endpoint
+        type: 'POST',
+        data: { id: postId }, // İlgili postun ID'si
+        success: function(response) {
+            const data = JSON.parse(response);
+            
+            if (data.status === 'success') {
+                // Form alanlarını doldur
+                $('#edit-postId').val(data.post.id);
+                $('#edit-postTitle').val(data.post.title);
+                const date = data.post.created_at.split(' ')[0]; // "2024-09-19" kısmını al
+                $('#edit-postDate').val(date);
+                
+                // Kategorileri yükle
+                loadCategoriesForEdit(data.post.category_id); // Kategoriyi seçmek için ID'yi gönder
+                
+                $('#edit-postMeta').val(data.post.metatag);
+                $('#edit-postAuthor').val(data.post.author);
+                
+                // Admin kontrolü: sadece admin yazar adını görebilir
+                if (currentUserRole !== 'admin') {
+                    $('#edit-postAuthor').prop('readonly', true); // Yazar alanını readonly yap
+                } else {
+                    $('#edit-postAuthor').prop('readonly', false); // Admin ise yazarı düzenleyebilir
+                }
+
+                $('#edit-postStatus').val(data.post.status);
+                $('#edit-postURLread').val(data.post.url);
+                $('#edit-postimg').attr('src', data.post.url);
+                if (data.post.VideoUrl) {
+                    $('#edit-postVideoUrl').val(data.post.VideoUrl);
+                    const embedURL = data.post.VideoUrl.replace("watch?v=", "embed/");
+                    $('#edit-postvideo').attr('src', embedURL);
+                }
+
+                $('#summernoteeditpost').summernote('code', data.post.content); // Summernote içeriğini ayarla
+
+                // Formu göster
+                $('.post-edit').show();
+                $('.postaddcontainer').hide();
+
+
+                $('.page-overlay').show();
+
+                $('html, body').animate({
+                    scrollTop: $(".posteditcontainer").offset().top
+                }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
+
+            } else {
+                Swal.fire('Hata!', data.message, 'error');
+            }
+        },
+        error: function() {
+            Swal.fire('Hata!', 'Bir hata oluştu.', 'error');
         }
-        
-          $('#summernoteeditpost').summernote('code', data.post.content); // Summernote içeriğini ayarla
-
-  
-          // Formu göster
-          $('.post-edit').show();
-          $('.postaddcontainer').hide();
-          $('#add-post').hide();
-          $('.post-table .btn.green').hide();
-          $('.post-table .btn.red').hide();
-
-          $('.page-overlay').show();
-
-          $('html, body').animate({
-            scrollTop: $(".posteditcontainer").offset().top
-        }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
-
-        } else {
-          Swal.fire('Hata!', data.message, 'error');
-        }
-      },
-      error: function() {
-        Swal.fire('Hata!', 'Bir hata oluştu.', 'error');
-      }
     });
-  }
+}
+
+// Kategorileri yükleyen fonksiyon
+function loadCategoriesForEdit(selectedCategoryId) {
+    $.ajax({
+        url: '/test/panel/ajax/ajax-category-get.php', // Kategorileri alacağın endpoint
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            let categorySelect = $('#edit-postCategory');
+            categorySelect.empty(); // Mevcut seçenekleri temizle
+
+            // Kategorileri select içine ekle
+            $.each(data, function(index, category) {
+                const selected = (category.id === selectedCategoryId) ? 'selected' : ''; // Seçili kategori
+                categorySelect.append(`
+                    <option value="${category.id}" ${selected}>${category.cat_name}</option>
+                `);
+            });
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Hata!',
+                text: 'Kategoriler yüklenirken bir hata oluştu.',
+                icon: 'error',
+                confirmButtonText: 'Tamam'
+            });
+        }
+    });
+}
+
   
 
 function deletepost(postId) {
@@ -300,6 +349,16 @@ function deletepost(postId) {
             let tableBody = $('.post-table tbody');
             tableBody.empty(); // Tabloyu temizle
             $.each(data, function(index, post) {
+                // Admin olup olmadığını kontrol et
+                const deleteButton = (currentUserRole === 'admin') 
+                    ? `<button class="btn w-100 red" onclick="deletepost(${post.id})">Sil</button>` 
+                    : ''; // Admin değilse sil butonunu boş bırak
+
+                // Kullanıcı kendi yazısı ise düzenle butonunu göster
+                const editButton = (currentUserRole === 'admin' || post.author === currentUsername)
+                    ? `<button class="btn w-100 green" onclick="editpost(${post.id})">Düzenle</button>`
+                    : ''; // Kullanıcı kendi yazısı değilse düzenle butonunu boş bırak
+
                 tableBody.append(`
                     <tr>
                         <td>${post.id}</td>
@@ -308,12 +367,11 @@ function deletepost(postId) {
                         <td><span class="badge ${post.category_color}">${post.category_name}</span></td>
                         <td>${post.author}</td>
                         <td>${post.view_count}</td>
-                        <td><spanyayın class="badge ${post.status === 'Taslak' ? 'yellowfade' : post.status === 'Yayında' ? 'greenfade' : post.status === 'Kaldırıldı' ? 'redfade' : ''}">${post.status}</spanyayın></td>
-
+                        <td><span class="badge ${post.status === 'Taslak' ? 'yellowfade' : post.status === 'Yayında' ? 'greenfade' : post.status === 'Kaldırıldı' ? 'redfade' : ''}">${post.status}</span></td>
 
                         <td>
-                            <button class="btn green" onclick="editpost(${post.id})">Düzenle</button>
-                            <button class="btn red" onclick="deletepost(${post.id})">Sil</button>
+                            ${editButton} <!-- Düzenle butonunu burada ekle -->
+                            ${deleteButton} <!-- Sil butonunu burada ekle -->
                         </td>
                     </tr>
                 `);
@@ -335,6 +393,63 @@ function deletepost(postId) {
 
 $(document).ready(function(){
 
+        $('#summernoteeditpost').summernote({
+            tabsize: 2,
+            height: 300,
+            callbacks: {
+                onInit: function() {
+                    $('#foreColorPicker').attr('id', 'foreColorPicker1');
+                    $('#backColorPicker').attr('id', 'backColorPicker1');
+                }
+            },
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['paragraph']],
+                ['view', [ 'codeview', 'help']]
+            ]
+        });
+        
+        $('#summernoteaddpost').summernote({
+            tabsize: 2,
+            height: 300,
+            callbacks: {
+                onInit: function() {
+                    $('#foreColorPicker').attr('id', 'foreColorPicker2');
+                    $('#backColorPicker').attr('id', 'backColorPicker2');
+                    
+                }
+            },
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['paragraph']],
+                ['view', [ 'codeview', 'help']]
+            ]
+        });
+
+        $('.left-menu #menu li, #slide-menu li').on('click', function() {
+            var target = $(this).data('target'); // Hedef bölümün id'sini al
+            $('html, body').animate({
+                scrollTop: $(target).offset().top // Hedef bölüme kaydır
+            }, 800); // 800ms içinde kaydır
+        });
+        // Profil resmine tıklandığında menüyü aç veya kapat
+        $('#profile-container').on('click', function(event) {
+            event.stopPropagation(); // Olayın yayılmasını durdur
+            $('#dropdown-menu').toggle(); // Menü görünürlüğünü değiştir
+        });
+        // Dışarı tıklanınca menüyü kapat
+        $(document).on('click', function(event) {
+            // Eğer tıklanan element profil resmi veya menü değilse
+            if (!$(event.target).closest('#profileimg').length && !$(event.target).closest('#dropdown-menu').length) {
+                $('#dropdown-menu').hide(); // Menüyü gizle
+            }
+        });
+
+
 
     //#region  Kategori işlemleri
 
@@ -346,8 +461,7 @@ $(document).ready(function(){
         
         // Diğer öğeleri gizle
         $('.category-table-edit').hide();
-        $('.category-table .btn.green').hide();
-        $('.category-table .btn.red').hide();
+
     
         // Sayfanın geri kalanını yarı saydam hale getiren overlay'i göster
         $('.page-overlay').show();
@@ -383,7 +497,6 @@ $(document).ready(function(){
                 $('.category-container-editadd').hide();
                 $('.category-table-add').show();
                 $('.category-table-edit').show();
-                $('.btn').show(); // Tüm butonları göster
 
                 $('html, body').animate({
                     scrollTop: $("#add_cat").offset().top
@@ -391,6 +504,10 @@ $(document).ready(function(){
             }
         });
     });
+
+
+    
+
 
     //#endregion
 
@@ -401,18 +518,47 @@ $(document).ready(function(){
     $('#add-post').click(function() {
         $('.post-edit').show();
         $('.posteditcontainer').hide();
-        $('.post-table .btn.green').hide();
-        $('.post-table .btn.red').hide();
-        $('#add-post').hide();
 
+    
         $('.page-overlay').show();
-
+    
+        // Kategorileri yükle ve select'e ekle
+        loadCategoriesForAddPost(); // Yeni kategori fonksiyonunu çağır
     
         // Form elementine kaydır
         $('html, body').animate({
             scrollTop: $("#addPostForm").offset().top
         }, 1000);  // 1000 ms (1 saniye) süresince kaydırma yapar
     });
+    
+    // Yeni post için kategorileri yükleyen fonksiyon
+    function loadCategoriesForAddPost() {
+        $.ajax({
+            url: '/test/panel/ajax/ajax-category-get.php', // Kategorileri alacağın endpoint
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                let categorySelect = $('#add-postCategory');
+                categorySelect.empty(); // Mevcut seçenekleri temizle
+    
+                // Kategorileri select içine ekle
+                $.each(data, function(index, category) {
+                    categorySelect.append(`
+                        <option value="${category.id}">${category.cat_name}</option>
+                    `);
+                });
+            },
+            error: function() {
+                Swal.fire({
+                    title: 'Hata!',
+                    text: 'Kategoriler yüklenirken bir hata oluştu.',
+                    icon: 'error',
+                    confirmButtonText: 'Tamam'
+                });
+            }
+        });
+    }
+    
     
 
 
@@ -460,7 +606,75 @@ $(document).ready(function(){
         $('#sort-order').change(sortTable);
 
 
-    
+        $('#add-postUrl').change(function() {
+            var fileInput = $(this)[0];
+            var fileName = '';
+            var fileSize = '';
+            var fileError = '';
+        
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                fileName = file.name;
+                fileSize = file.size / 1024 / 1024; // MB cinsinden boyut
+        
+                // Dosya türü ve boyutunu kontrol et
+                var allowedExtensions = ['jpeg', 'jpg', 'svg'];
+                var fileExtension = fileName.split('.').pop().toLowerCase();
+        
+                if (fileSize > 10) {
+                    fileError = 'Dosya boyutu 10 MB\'dan büyük olamaz.';
+                } else if (!allowedExtensions.includes(fileExtension)) {
+                    fileError = 'Yalnızca .jpeg, .jpg, ve .svg uzantılı dosyalar seçilebilir.';
+                } else {
+                    fileError = ''; // Hata yok
+                }
+        
+                if (fileError) {
+                    $('#fileName2').text(fileError);
+                    // Dosya seçimini temizle
+                    $(this).val('');
+                } else {
+                    $('#fileName2').text('Seçilen dosya: ' + fileName + ' (Boyut: ' + fileSize.toFixed(2) + ' MB)');
+                }
+            } else {
+                $('#fileName2').text('No file chosen');
+            }
+            });
+        
+        $('#edit-postUrl').change(function() {
+            var fileInput = $(this)[0];
+            var fileName = '';
+            var fileSize = '';
+            var fileError = '';
+        
+            if (fileInput.files.length > 0) {
+                var file = fileInput.files[0];
+                fileName = file.name;
+                fileSize = file.size / 1024 / 1024; // MB cinsinden boyut
+        
+                // Dosya türü ve boyutunu kontrol et
+                var allowedExtensions = ['jpeg', 'jpg', 'svg'];
+                var fileExtension = fileName.split('.').pop().toLowerCase();
+        
+                if (fileSize > 10) {
+                    fileError = 'Dosya boyutu 10 MB\'dan büyük olamaz.';
+                } else if (!allowedExtensions.includes(fileExtension)) {
+                    fileError = 'Yalnızca .jpeg, .jpg, ve .svg uzantılı dosyalar seçilebilir.';
+                } else {
+                    fileError = ''; // Hata yok
+                }
+        
+                if (fileError) {
+                    $('#fileName3').text(fileError);
+                    // Dosya seçimini temizle
+                    $(this).val('');
+                } else {
+                    $('#fileName3').text('Seçilen dosya: ' + fileName + ' (Boyut: ' + fileSize.toFixed(2) + ' MB)');
+                }
+            } else {
+                $('#fileName3').text('No file chosen');
+            }
+            });
 
     
 
@@ -469,134 +683,14 @@ $(document).ready(function(){
     //#endregion
 
     //#region profil işlemleri
-   
-    $('#profilresmibtn').click(function(event) {
-      event.preventDefault(); // Dosya seçicinin hemen açılmasını engeller
-  
-      Swal.fire({
-          title: 'Emin misiniz?',
-          text: "Seçim yapıp kaydettiğinizde mevcut resim kalıcı olarak silinecektir!",
-          icon: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#3085d6',
-          cancelButtonColor: '#d33',
-          confirmButtonText: 'Evet, silinebilir!',
-          cancelButtonText: 'Hayır'
-      }).then((result) => {
-          if (result.isConfirmed) {
-              // "Evet" butonuna tıklanmışsa dosya seçici inputu tetikle
-              $('#profilresmi').click();
-          }
-      });
-  });
+
   
 
 
 
-  $('#profilresmi').change(function() {
-      var fileInput = $(this)[0];
-      var fileName = '';
-      var fileSize = '';
-      var fileError = '';
-  
-      if (fileInput.files.length > 0) {
-          var file = fileInput.files[0];
-          fileName = file.name;
-          fileSize = file.size / 1024 / 1024; // MB cinsinden boyut
-  
-          // Dosya türü ve boyutunu kontrol et
-          var allowedExtensions = ['jpeg', 'jpg', 'svg'];
-          var fileExtension = fileName.split('.').pop().toLowerCase();
-  
-          if (fileSize > 10) {
-              fileError = 'Dosya boyutu 10 MB\'dan büyük olamaz.';
-          } else if (!allowedExtensions.includes(fileExtension)) {
-              fileError = 'Yalnızca .jpeg, .jpg, ve .svg uzantılı dosyalar seçilebilir.';
-          } else {
-              fileError = ''; // Hata yok
-          }
-  
-          if (fileError) {
-              $('#fileName').text(fileError);
-              // Dosya seçimini temizle
-              $(this).val('');
-          } else {
-              $('#fileName').text('Seçilen dosya: ' + fileName + ' (Boyut: ' + fileSize.toFixed(2) + ' MB)');
-          }
-      } else {
-          $('#fileName').text('No file chosen');
-      }
-  });
 
-  $('#add-postUrl').change(function() {
-    var fileInput = $(this)[0];
-    var fileName = '';
-    var fileSize = '';
-    var fileError = '';
 
-    if (fileInput.files.length > 0) {
-        var file = fileInput.files[0];
-        fileName = file.name;
-        fileSize = file.size / 1024 / 1024; // MB cinsinden boyut
 
-        // Dosya türü ve boyutunu kontrol et
-        var allowedExtensions = ['jpeg', 'jpg', 'svg'];
-        var fileExtension = fileName.split('.').pop().toLowerCase();
-
-        if (fileSize > 10) {
-            fileError = 'Dosya boyutu 10 MB\'dan büyük olamaz.';
-        } else if (!allowedExtensions.includes(fileExtension)) {
-            fileError = 'Yalnızca .jpeg, .jpg, ve .svg uzantılı dosyalar seçilebilir.';
-        } else {
-            fileError = ''; // Hata yok
-        }
-
-        if (fileError) {
-            $('#fileName2').text(fileError);
-            // Dosya seçimini temizle
-            $(this).val('');
-        } else {
-            $('#fileName2').text('Seçilen dosya: ' + fileName + ' (Boyut: ' + fileSize.toFixed(2) + ' MB)');
-        }
-    } else {
-        $('#fileName2').text('No file chosen');
-    }
-});
-
-$('#edit-postUrl').change(function() {
-    var fileInput = $(this)[0];
-    var fileName = '';
-    var fileSize = '';
-    var fileError = '';
-
-    if (fileInput.files.length > 0) {
-        var file = fileInput.files[0];
-        fileName = file.name;
-        fileSize = file.size / 1024 / 1024; // MB cinsinden boyut
-
-        // Dosya türü ve boyutunu kontrol et
-        var allowedExtensions = ['jpeg', 'jpg', 'svg'];
-        var fileExtension = fileName.split('.').pop().toLowerCase();
-
-        if (fileSize > 10) {
-            fileError = 'Dosya boyutu 10 MB\'dan büyük olamaz.';
-        } else if (!allowedExtensions.includes(fileExtension)) {
-            fileError = 'Yalnızca .jpeg, .jpg, ve .svg uzantılı dosyalar seçilebilir.';
-        } else {
-            fileError = ''; // Hata yok
-        }
-
-        if (fileError) {
-            $('#fileName3').text(fileError);
-            // Dosya seçimini temizle
-            $(this).val('');
-        } else {
-            $('#fileName3').text('Seçilen dosya: ' + fileName + ' (Boyut: ' + fileSize.toFixed(2) + ' MB)');
-        }
-    } else {
-        $('#fileName3').text('No file chosen');
-    }
-});
   
       
 
@@ -606,78 +700,9 @@ $('#edit-postUrl').change(function() {
     
     
 
-    $('#summernoteeditpost').summernote({
-        tabsize: 2,
-        height: 300,
-        callbacks: {
-            onInit: function() {
-                $('#foreColorPicker').attr('id', 'foreColorPicker1');
-                $('#backColorPicker').attr('id', 'backColorPicker1');
-            }
-        },
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['paragraph']],
-            ['view', [ 'codeview', 'help']]
-        ]
-    });
-    
-    $('#summernoteaddpost').summernote({
-        tabsize: 2,
-        height: 300,
-        callbacks: {
-            onInit: function() {
-                $('#foreColorPicker').attr('id', 'foreColorPicker2');
-                $('#backColorPicker').attr('id', 'backColorPicker2');
-                
-            }
-        },
-        toolbar: [
-            ['style', ['style']],
-            ['font', ['bold', 'underline', 'clear']],
-            ['color', ['color']],
-            ['para', ['paragraph']],
-            ['view', [ 'codeview', 'help']]
-        ]
-    });
 
-        // Kategorileri getirme işlemi
-        $.ajax({
-            url: '/test/panel/ajax/ajax-get-categories.php',  // Kategori verilerini çeken PHP dosyası
-            method: 'GET',
-            success: function(response) {
-                var categories = JSON.parse(response);  // JSON veriyi parse et
-                var categorySelectadd = $('#add-postCategory');  // Kategori dropdown alanı
-                var categorySelectedit = $('#edit-postCategory');  // Kategori dropdown alanı
-                
-                categorySelectadd.empty();  // Önce dropdown'ı temizle
-                categorySelectedit.empty();  // Önce dropdown'ı temizle
 
-                console.log("merhaba");
 
-                // Gelen kategorileri dropdown'a ekle
-                categories.forEach(function(category,index) {
-                    categorySelectadd.append('<option value="' + category.id + '" data-color="' + category.cat_color + '">' + category.cat_name + '</option>');
-                    categorySelectedit.append('<option value="' + category.id + '" data-color="' + category.cat_color + '">' + category.cat_name + '</option>');
-                    if (index === 0) {
-                        $('#categoryId').val(category.id);
-                    }
-                });
-        
-            },
-            error: function(xhr, status, error) {
-                console.error('Kategoriler alınamadı:', xhr);
-            }
-        });
-
-        // Kategori seçimi değiştiğinde ID'yi gizli inputa yaz
-            $('#add-postCategory').on('change', function() {
-                var selectedCategoryId = $(this).val();
-                $('#categoryId').val(selectedCategoryId);
-                //console.log('Seçilen Kategori ID:', selectedCategoryId);  // Debugging için
-            });
 
        
 

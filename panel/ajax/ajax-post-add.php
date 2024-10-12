@@ -1,5 +1,6 @@
 <?php
 require_once '../../config/database.php';
+session_start(); // Oturumları başlat
 
 $conn = getDB();
 
@@ -9,9 +10,14 @@ $content = $_POST['add-postContent'] ?? '';
 $post_date = $_POST['add-postDate'] ?? '';
 $category_id = $_POST['categoryId'] ?? '';
 $metatag = $_POST['add-postMeta'] ?? '';
-$author = $_POST['add-postAuthor'] ?? '';
+$author = $_POST['add-postAuthor'] ?? ''; // Boş olabilir
 $status = $_POST['add-postStatus'] ?? '';
 $VideoUrl = $_POST['add-postVideoUrl'] ?? '';
+
+// Eğer author boşsa, session'dan gelen username'i kullan
+if (empty($author) && isset($_SESSION['username'])) {
+    $author = $_SESSION['username'];
+}
 
 // Dosya yükleme işlemi
 $url = '';
@@ -60,10 +66,10 @@ if ($category) {
     $stmt->bindParam(':category_name', $category_name);
     $stmt->bindParam(':category_color', $category_color);
     $stmt->bindParam(':metatag', $metatag);
-    $stmt->bindParam(':author', $author);
+    $stmt->bindParam(':author', $author); // Author burada ayarlanıyor
     $stmt->bindParam(':status', $status);
     $stmt->bindParam(':url', $url);  // Dosya URL'sini ekliyoruz
-    $stmt->bindParam(':VideoUrl', $VideoUrl);  // Dosya URL'sini ekliyoruz
+    $stmt->bindParam(':VideoUrl', $VideoUrl);  // Video URL'sini ekliyoruz
 
     // Post ekleme işlemi
     if ($stmt->execute()) {

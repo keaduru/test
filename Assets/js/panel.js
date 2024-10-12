@@ -221,14 +221,9 @@ function editpost(postId) {
                 loadCategoriesForEdit(data.post.category_id); // Kategoriyi seçmek için ID'yi gönder
                 
                 $('#edit-postMeta').val(data.post.metatag);
-                $('#edit-postAuthor').val(data.post.author);
                 
-                // Admin kontrolü: sadece admin yazar adını görebilir
-                if (currentUserRole !== 'admin') {
-                    $('#edit-postAuthor').prop('readonly', true); // Yazar alanını readonly yap
-                } else {
-                    $('#edit-postAuthor').prop('readonly', false); // Admin ise yazarı düzenleyebilir
-                }
+                // Kullanıcı isimlerini yükle
+                loadUsersForSelect(data.post.author_id); // Kullanıcıyı seçmek için ID'yi gönder
 
                 $('#edit-postStatus').val(data.post.status);
                 $('#edit-postURLread').val(data.post.url);
@@ -244,8 +239,6 @@ function editpost(postId) {
                 // Formu göster
                 $('.post-edit').show();
                 $('.postaddcontainer').hide();
-
-
                 $('.page-overlay').show();
 
                 $('html, body').animate({
@@ -261,6 +254,7 @@ function editpost(postId) {
         }
     });
 }
+
 
 // Kategorileri yükleyen fonksiyon
 function loadCategoriesForEdit(selectedCategoryId) {
@@ -287,6 +281,35 @@ function loadCategoriesForEdit(selectedCategoryId) {
                 icon: 'error',
                 confirmButtonText: 'Tamam'
             });
+        }
+    });
+}
+// Kullanıcı isimlerini yükle
+function loadUsersForSelect(selectedUserId = null) {
+    $.ajax({
+        url: '/test/panel/ajax/ajax-profiles-get.php', // Kullanıcıları alacağın endpoint
+        type: 'GET',
+        success: function(response) {
+            const users = JSON.parse(response);
+            const userSelect = $('#edit-postAuthor'); // Kullanıcı seçimi için select alanı
+            userSelect.empty(); // Mevcut seçenekleri temizle
+
+            $.each(users, function(index, user) {
+                // Eğer admin değilse yalnızca kendi kullanıcı adını göster
+                if (currentUserRole === 'admin' || user.id === currentUserId) {
+                    const selected = (selectedUserId && selectedUserId === user.id) ? 'selected' : ''; // Seçili olanı kontrol et
+                    userSelect.append(`<option value="${user.id}" ${selected}>${user.username}</option>`);
+                }
+            });
+
+            // Eğer admin değilse, sadece kendi kullanıcı adını göster
+            if (currentUserRole !== 'admin') {
+                userSelect.val(currentUserId); // Admin değilse kendi kullanıcı adını seç
+                userSelect.prop('disabled', true); // Seçimi yalnızca okunabilir yap
+            }
+        },
+        error: function() {
+            Swal.fire('Hata!', 'Kullanıcılar yüklenirken bir hata oluştu.', 'error');
         }
     });
 }
@@ -559,7 +582,13 @@ $(document).ready(function(){
         });
     }
     
-    
+    $('#add-postCategory').change(function() {
+        // Seçili olan değeri al
+        var selectedCategoryId = $(this).val();
+
+        // Değeri categoryId ID'li inputa yaz
+        $('#categoryId').val(selectedCategoryId);
+    });
 
 
     // Sıralama fonksiyonunu bir yere alalım ki hem #sort-by hem de #sort-order tetikleyebilsin

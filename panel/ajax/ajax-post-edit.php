@@ -12,10 +12,24 @@ $category_id = $_POST['edit-postCategory'] ?? '';
 $metatag = $_POST['edit-postMeta'] ?? '';
 $url = $_POST['edit-postURLread'] ?? '';
 $VideoUrl = $_POST['edit-postVideoUrl'] ?? '';
-$author = $_POST['edit-postAuthor'] ?? '';
+$author = $_POST['edit-postAuthor'] ?? ''; // Yeni author değeri
 $status = $_POST['edit-postStatus'] ?? '';
 
+// Eğer author değeri gelmemişse, mevcut author değerini veritabanından al
+if (empty($author)) {
+    $sql_author = "SELECT author FROM posts WHERE id = :id"; // Mevcut author'ı almak için sorgu
+    $stmt_author = $conn->prepare($sql_author);
+    $stmt_author->bindParam(':id', $id, PDO::PARAM_INT);
+    $stmt_author->execute();
+    $existing_post = $stmt_author->fetch(PDO::FETCH_ASSOC);
+    
+    // Eğer mevcut post varsa, author değerini al
+    if ($existing_post) {
+        $author = $existing_post['author']; // Mevcut author'ı kullan
+    }
+}
 
+// Resim yükleme işlemi
 if (isset($_FILES['edit-postUrl']) && $_FILES['edit-postUrl']['error'] == 0) {
     $target_dir = $_SERVER['DOCUMENT_ROOT'] . "/test/assets/images/posts/";  // Dosyanın kaydedileceği dizin
     $file_name = basename($_FILES['edit-postUrl']['name']);
@@ -64,6 +78,7 @@ if ($category) {
         author = :author, 
         status = :status 
     WHERE id = :id";
+    
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);  // Güncellenen postun ID'si
     $stmt->bindParam(':title', $title);
@@ -75,7 +90,7 @@ if ($category) {
     $stmt->bindParam(':metatag', $metatag);
     $stmt->bindParam(':url', $url);
     $stmt->bindParam(':VideoUrl', $VideoUrl);
-    $stmt->bindParam(':author', $author);
+    $stmt->bindParam(':author', $author); // Author burada kullanılacak
     $stmt->bindParam(':status', $status);
 
     // Post ekleme işlemi

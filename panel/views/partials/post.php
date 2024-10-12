@@ -69,7 +69,9 @@
             <input type="text" id="edit-postMeta" name="edit-postMeta" required>
 
             <label for="edit-postAuthor">Yazar:</label>
-            <input type="text" id="edit-postAuthor" name="edit-postAuthor" required>
+            <select id="edit-postAuthor" name="edit-postAuthor" required>
+                <!-- Kullanıcı isimleri buraya yüklenecek -->
+            </select>
 
             <label for="edit-postStatus">Durum:</label>
             <select id="edit-postStatus" name="edit-postStatus" required>

@@ -211,7 +211,7 @@ $(document).ready(function() {
                     $.each(data, function(index, profile) {
                         authorSelect.append(new Option(profile.username, profile.username)); // Kullanıcı adını seçeneğe ekle
                     });
-                    authorSelect.prepend('<option value="">Yazar Seçin</option>'); // Varsayılan seçenek ekle
+                    //authorSelect.prepend('<option value="">Yazar Seçin</option>'); // Varsayılan seçenek ekle
                 } else {
                     // Kullanıcı ise, kendi kullanıcı adını seç
                     authorSelect.append(new Option(currentUsername, currentUsername)); // Kullanıcı adını ekle

@@ -11,6 +11,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Kullanıcı Adı</th>
+                    <th>E-Posta</th>
                     <th>Yetki</th>
                     <th>İsim</th>
                     <th>Resim</th>
@@ -33,6 +34,9 @@
 
             <label for="username">Kullanıcı Adı:</label>
             <input type="text" id="username" name="username" required>
+
+            <label for="email">E-posta:</label>
+            <input type="email" id="email" name="email" required>
 
             <label for="isim">İsim:</label>
             <input type="text" id="isim" name="isim" required>
@@ -65,6 +69,9 @@
         <form id="addProfileForm" enctype="multipart/form-data">
             <label for="add-username">Kullanıcı Adı:</label>
             <input type="text" id="add-username" name="username" required>
+
+            <label for="add-email">Email:</label>
+            <input type="email" id="add-email" name="email" required>
 
             <label for="add-isim">İsim:</label>
             <input type="text" id="add-isim" name="isim" required>

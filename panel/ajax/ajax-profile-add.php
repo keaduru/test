@@ -7,6 +7,7 @@ $conn = getDB();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Formdan verileri al
     $username = $_POST['username'];
+    $email = $_POST['email'];
     $isim = $_POST['isim'];
     $yetki = $_POST['yetki'];
     $password = $_POST['password'];
@@ -42,9 +43,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Dosyayı kaydet
         if (move_uploaded_file($file['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $filePath)) {
             // Veritabanında URL'yi güncelle
-            $sql = "INSERT INTO users (username, isim, yetki, password, url) VALUES (:username, :isim, :yetki, :password, :url)";
+            $sql = "INSERT INTO users (username, email, isim, yetki, password, url) VALUES (:username, :email, :isim, :yetki, :password, :url)";
             $stmt = $conn->prepare($sql);
             $stmt->bindParam(':username', $username);
+            $stmt->bindParam(':email', $email);
             $stmt->bindParam(':isim', $isim);
             $stmt->bindParam(':yetki', $yetki);
             $stmt->bindParam(':password', $hashedPassword);
@@ -57,9 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     } else {
         // Dosya yüklenmediyse veritabanına kullanıcı ekle
-        $sql = "INSERT INTO users (username, isim, yetki, password) VALUES (:username, :isim, :yetki, :password)";
+        $sql = "INSERT INTO users (username, email, isim, yetki, password) VALUES (:username, :isim, :yetki, :password)";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':username', $username);
+        $stmt->bindParam(':email', $email);
         $stmt->bindParam(':isim', $isim);
         $stmt->bindParam(':yetki', $yetki);
         $stmt->bindParam(':password', $hashedPassword);

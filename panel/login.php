@@ -1,6 +1,6 @@
 <?php
 session_start();
-print_r($_SESSION);
+//print_r($_SESSION);
 require_once '../config/database.php'; // Veritabanı bağlantısı
 
 // Eğer zaten oturum açılmışsa, kullanıcıyı panel index sayfasına yönlendirin

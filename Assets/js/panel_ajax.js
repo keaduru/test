@@ -11,6 +11,7 @@ function editprofile(id) {
             // Mevcut verileri form alanlarına yerleştir
             $('#user_id').val(profile.id);
             $('#username').val(profile.username);
+            $('#email').val(profile.email);
             $('#isim').val(profile.isim);
             $('#yetki').val(profile.yetki);
         },
@@ -440,6 +441,7 @@ $(document).ready(function() {
                         <tr>
                             <td>${profile.id}</td>
                             <td>${profile.username}</td>
+                            <td>${profile.email}</td>
                             <td>${profile.yetki}</td>
                             <td>${profile.isim}</td>
                             <td><img src="${profile.url}" alt="${profile.isim}" id="profiletableimg"></td>

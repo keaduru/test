@@ -1,18 +1,18 @@
 RewriteEngine On
-RewriteBase /test/
+RewriteBase /
 
 # SEO uyumlu URL'ler için yönlendirme
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
 # Panel URL'leri için yönlendirme
-RewriteRule ^panel/(.*)$ panel/$1.php [L,QSA]
+RewriteRule ^panel/(.*)$ /test/panel/$1.php [L,QSA]
 
 # 'index' URL'sini ana sayfaya yönlendirme
-RewriteRule ^index/?$ index.php?page=home [L,QSA]
+RewriteRule ^index/?$ /test/index.php?page=home [L,QSA]
 
 # Diğer SEO uyumlu URL'ler için yönlendirme
-RewriteRule ^([^/]+)/?$ index.php?page=$1 [L,QSA]
+RewriteRule ^([^/]+)/?$ /test/index.php?page=$1 [L,QSA]
 
 # Boş URL'yi home route'una yönlendirme
-RewriteRule ^$ index.php?page=home [L,QSA]
+RewriteRule ^$ /test/index.php?page=home [L,QSA]

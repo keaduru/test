@@ -43,8 +43,9 @@
 
             <label for="yetki">Yetki:</label>
             <select id="yetki" name="yetki" <?php echo (!$isAdmin) ? 'disabled' : ''; ?>>
-                <option value="user" <?php echo ($currentRole == 'user') ? 'selected' : ''; ?>>User</option>
-                <option value="admin" <?php echo ($currentRole == 'admin') ? 'selected' : ''; ?>>Admin</option>
+                <option value="user" <?php echo ($_SESSION['yetki'] == 'user') ? 'selected' : ''; ?>>User</option>
+<option value="admin" <?php echo ($_SESSION['yetki'] == 'admin') ? 'selected' : ''; ?>>Admin</option>
+
             </select>
 
 

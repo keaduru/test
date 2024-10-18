@@ -483,50 +483,53 @@ $(document).ready(function() {
     
     // Form gönderimi
     $('#editProfileForm').on('submit', function(e) {
-        e.preventDefault(); // Formun normal şekilde gönderilmesini engelle
+    e.preventDefault(); // Formun normal şekilde gönderilmesini engelle
 
-        // Form verilerini al
-        let formData = new FormData(this);
+    // Form verilerini al
+    let formData = new FormData(this);
 
-        $.ajax({
-            url: '/test/panel/ajax/ajax-profile-update.php',
-            type: 'POST',
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response) {
-                let data = JSON.parse(response); // JSON yanıtı ayrıştır
+    $.ajax({
+        url: '/test/panel/ajax/ajax-profile-update.php',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            let data = JSON.parse(response); // JSON yanıtı ayrıştır
 
-                // SweetAlert ile başarı mesajı göster
-                Swal.fire({
-                    title: 'Başarılı!',
-                    text: 'Profil güncellendi.',
-                    icon: 'success',
-                    confirmButtonText: 'Tamam'
-                });
-                loadProfiles();
-                // Sağ menüyü güncelle
+            // SweetAlert ile başarı mesajı göster
+            Swal.fire({
+                title: 'Başarılı!',
+                text: 'Profil güncellendi.',
+                icon: 'success',
+                confirmButtonText: 'Tamam'
+            });
+
+            // Sadece oturumdaki kullanıcı güncellenmişse sağ menüyü güncelle
+            if (data.user_id == currentUserId) { // currentUserId oturumdaki kullanıcının ID'si
                 $('#profileimg').attr('src', data.url); // Yeni profil resmini güncelle
                 $('#profile-name').text(data.username[0].toUpperCase() + data.username.slice(1));
                 $('#dropdown-menu p.welcome').text("Hoşgeldin " + data.isim); // Hoşgeldin mesajını güncelle
                 $('#dropdown-menu p.role').text("Şu An Rol'ün: " + data.yetki); // Rol'ü güncelle
                 $('#dropdown-menu p.username').text("Kullanıcı Adın: " + data.username); // Kullanıcı adını güncelle
-                
-                // Modal içeriğini temizle
-                $('#editProfileForm')[0].reset(); // Form verilerini sıfırla
-                $('#editProfileModal').css('display', 'none'); // Modalı kapat
-                loadProfiles();
-            },
-            error: function() {
-                Swal.fire({
-                    title: 'Hata!',
-                    text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
-                    icon: 'error',
-                    confirmButtonText: 'Tamam'
-                });
             }
-        });
+
+            // Modal içeriğini temizle
+            $('#editProfileForm')[0].reset(); // Form verilerini sıfırla
+            $('#editProfileModal').css('display', 'none'); // Modalı kapat
+            loadProfiles();
+        },
+        error: function() {
+            Swal.fire({
+                title: 'Hata!',
+                text: 'Bir hata oluştu. Lütfen tekrar deneyin.',
+                icon: 'error',
+                confirmButtonText: 'Tamam'
+            });
+        }
     });
+});
+
 
     // Kullanıcı ekleme formu gönderimi
     $('#addProfileForm').on('submit', function(e) {

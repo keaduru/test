@@ -3,7 +3,7 @@
         <h3 class="bordershadow">Son Eklenenler ve Dikkat Çekenler</h3>
             <div class="card-main-container">
             <div class="w-50 cards">
-                <div class="card-container-big" data-image="Assets/images/selale.jpeg">
+                <div class="card-container-big" data-image="assets/images/selale.jpeg">
                     <span><i class="fa-regular fa-eye">123</i></span>
                     <a href="#" class="badge green">Teknoloji</a>
                     <div class="new">
@@ -34,7 +34,7 @@
                 </div>
                 
             <div class="w-50 cards">
-                    <div class="card-container-md" data-image="Assets/images/orman.jpeg">
+                    <div class="card-container-md" data-image="assets/images/orman.jpeg">
                         <span><i class="fa-regular fa-eye">123</i></span>
                         <a href="#" class="badge green">Teknoloji</a>
                         <div class="favori">
@@ -61,7 +61,7 @@
                             </div>
                         </div>
                 
-                        <div class="card-container-sm" data-image="Assets/images/pnrm.jpeg">
+                        <div class="card-container-sm" data-image="assets/images/pnrm.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">
@@ -87,7 +87,7 @@
                                 
                             </div>
                         </div>
-                        <div class="card-container-sm" data-image="Assets/images/dodo.jpeg">
+                        <div class="card-container-sm" data-image="assets/images/dodo.jpeg">
                             <span><i class="fa-regular fa-eye">123</i></span>
                             <a href="#" class="badge green">Teknoloji</a>
                             <div class="favori">

@@ -1,3 +1,7 @@
+<?php print_r($_SESSION);
+$target_dir = $_SERVER['DOCUMENT_ROOT'] ;
+echo($target_dir);?>
+
 <div class="top-container">
                 <div class="left-top">
                     <ul>

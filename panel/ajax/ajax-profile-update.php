@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 require_once '../../config/database.php';
 
 $conn = getDB();
@@ -8,11 +9,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Kullanıcı ID'sini al
     $user_id = $_POST['user_id'];
 
+    // Kullanıcı bilgilerini güncellemeden önce mevcut verileri al
+    $sql = "SELECT username, email, isim, yetki, url FROM users WHERE id = :user_id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':user_id', $user_id);
+    $stmt->execute();
+    $existingData = $stmt->fetch(PDO::FETCH_ASSOC);
+
     // Formdan verileri al
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $isim = $_POST['isim'];
-    $yetki = $_POST['yetki'];
+    $username = !empty($_POST['username']) ? $_POST['username'] : $existingData['username'];
+    $email = !empty($_POST['email']) ? $_POST['email'] : $existingData['email'];
+    $isim = !empty($_POST['isim']) ? $_POST['isim'] : $existingData['isim'];
+    $yetki = !empty($_POST['yetki']) ? $_POST['yetki'] : $existingData['yetki'];
     $password = $_POST['password'];
 
     // Eğer yeni bir parola girilmişse hashle
@@ -21,15 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     }
 
-    // Kullanıcı bilgilerini güncellemeden önce mevcut resmi al
-    $sql = "SELECT url FROM users WHERE id = :user_id"; // Mevcut resmi al
-    $stmt = $conn->prepare($sql);
-    $stmt->bindParam(':user_id', $user_id);
-    $stmt->execute();
-    $currentUrl = $stmt->fetchColumn(); // Mevcut resmin URL'sini al
-
-    // Dosyayı kontrol et ve yükle
-    $filePath = null; // Profil resminin dosya yolunu tutmak için
+    // Dosya yüklenirse yeni dosya yolunu belirle
+    $filePath = $existingData['url']; // Mevcut URL, yeni resim yüklenmezse değişmez
     if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == UPLOAD_ERR_OK) {
         $file = $_FILES['profileImage'];
         $maxFileSize = 15 * 1024 * 1024; // 15MB
@@ -49,24 +50,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             exit();
         }
 
-        // Dosya yolu ve yeni isim oluştur
-        $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION); // Dosya uzantısını al
-        $filePath = "/test/Assets/images/profile/{$user_id}{$username}.{$fileExtension}"; // Uzantıyı kullanarak dosya yolu oluştur
+        // Dosya uzantısını al
+        $fileExtension = pathinfo($file['name'], PATHINFO_EXTENSION);
+
+        // Kısa benzersiz dosya adı üret (userID, username ve random sayı)
+        $randomNumber = rand(1000, 9999); // 1000 ile 9999 arasında rastgele bir sayı
+        $uniqueFileName = "{$user_id}_{$username}_{$randomNumber}.{$fileExtension}";
+        $filePath = "/test/assets/images/profile/{$uniqueFileName}"; // Benzersiz dosya yolu
 
         // Eski resmi sil
-        if ($currentUrl && file_exists($_SERVER['DOCUMENT_ROOT'] . $currentUrl)) {
-            unlink($_SERVER['DOCUMENT_ROOT'] . $currentUrl); // Eski resmi sil
+        if ($existingData['url'] && file_exists($_SERVER['DOCUMENT_ROOT'] . $existingData['url'])) {
+            unlink($_SERVER['DOCUMENT_ROOT'] . $existingData['url']); // Eski resmi sil
         }
 
         // Dosyayı kaydet
-        if (move_uploaded_file($file['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $filePath)) {
-            // Veritabanında URL'yi güncelle
-            $sql = "UPDATE users SET url = :url WHERE id = :user_id";
-            $stmt = $conn->prepare($sql);
-            $stmt->bindParam(':url', $filePath);
-            $stmt->bindParam(':user_id', $user_id);
-            $stmt->execute();
-        } else {
+        if (!move_uploaded_file($file['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $filePath)) {
             http_response_code(500);
             echo json_encode(['message' => 'Dosya yüklenirken bir hata oluştu.']);
             exit();
@@ -74,36 +72,48 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Kullanıcı bilgilerini güncelle
-    $sql = "UPDATE users SET username = :username, email = :email, isim = :isim, yetki = :yetki" . (isset($hashedPassword) ? ", password = :password" : "") . " WHERE id = :user_id";
+    $sql = "UPDATE users SET username = :username, email = :email, isim = :isim, yetki = :yetki, url = :url" . 
+           (!empty($password) ? ", password = :password" : "") . " WHERE id = :user_id";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':username', $username);
     $stmt->bindParam(':email', $email);
     $stmt->bindParam(':isim', $isim);
     $stmt->bindParam(':yetki', $yetki);
-    if (isset($hashedPassword)) {
+    $stmt->bindParam(':url', $filePath); // URL'yi burada güncelliyoruz
+    if (!empty($password)) {
         $stmt->bindParam(':password', $hashedPassword);
     }
     $stmt->bindParam(':user_id', $user_id);
     $stmt->execute();
 
-    // Session değerlerini güncelle
-    $_SESSION['username'] = $username;
-    $_SESSION['isim'] = $isim;
-    $_SESSION['yetki'] = $yetki;
-    if ($filePath) {
-        $_SESSION['url'] = $filePath; // Eğer profil resmi yüklendiyse güncelle
+    // Eğer güncellenen kullanıcı oturumdaki id ile aynıysa oturum bilgilerini güncelle
+    if ($_SESSION['user_id'] == $user_id) {
+        $_SESSION['username'] = $username;
+        $_SESSION['isim'] = $isim;
+        $_SESSION['yetki'] = $yetki;
+        $_SESSION['url'] = $filePath; // Profil resmi güncellendiyse oturumda da güncelle
     }
 
-    // Güncellenen verileri döndür
-    echo json_encode([
-        'message' => 'Profil başarıyla güncellendi.',
-        'url' => $_SESSION['url'],
-        'username' => $_SESSION['username'],
-        'isim' => $_SESSION['isim'],
-        'yetki' => $_SESSION['yetki']
-    ]);
+// Güncellemeyi yaptıktan sonra veritabanından tekrar güncellenen bilgileri alalım
+$sql = "SELECT username, isim, yetki, url FROM users WHERE id = :user_id";
+$stmt = $conn->prepare($sql);
+$stmt->bindParam(':user_id', $user_id);
+$stmt->execute();
+$updatedUserData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// JSON formatında güncellenmiş verileri döndür
+echo json_encode([
+    'message' => 'Profil başarıyla güncellendi.',
+    'user_id' => $user_id, // Güncellenen kullanıcı ID'sini ekliyoruz
+    'url' => $updatedUserData['url'],
+    'username' => $updatedUserData['username'],
+    'isim' => $updatedUserData['isim'],
+    'yetki' => $updatedUserData['yetki']
+]);
+
 } else {
     http_response_code(405);
     echo json_encode(['message' => 'Geçersiz istek.']);
 }
+
 ?>

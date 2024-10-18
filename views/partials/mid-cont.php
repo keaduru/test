@@ -3,7 +3,7 @@
                 <div id="content-slider">
 
                    <div class="w-100 cards">
-                       <div class="card-container-main" data-image="Assets/images/orman.jpeg">
+                       <div class="card-container-main" data-image="assets/images/orman.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -30,7 +30,7 @@
                                </div>
                        </div>
                
-                       <div class="card-container-main" data-image="Assets/images/pnrm.jpeg">
+                       <div class="card-container-main" data-image="assets/images/pnrm.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -56,7 +56,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main" data-image="Assets/images/dodo.jpeg">
+                       <div class="card-container-main" data-image="assets/images/dodo.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -82,7 +82,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main" data-image="Assets/images/dodo.jpeg">
+                       <div class="card-container-main" data-image="assets/images/dodo.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -108,7 +108,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main" data-image="Assets/images/dodo.jpeg">
+                       <div class="card-container-main" data-image="assets/images/dodo.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -134,7 +134,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main " data-image="Assets/images/dodo.jpeg">
+                       <div class="card-container-main " data-image="assets/images/dodo.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -160,7 +160,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main hidden" data-image="Assets/images/dodo.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/dodo.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -186,7 +186,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main hidden" data-image="Assets/images/dodo.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/dodo.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -212,7 +212,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main hidden" data-image="Assets/images/dodo.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/dodo.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -238,7 +238,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main hidden" data-image="Assets/images/dodo.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/dodo.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -264,7 +264,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main hidden" data-image="Assets/images/selale.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/selale.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -290,7 +290,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main hidden" data-image="Assets/images/orman.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/orman.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -316,7 +316,7 @@
                                
                            </div>
                        </div>
-                       <div class="card-container-main hidden" data-image="Assets/images/orman.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/orman.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -342,7 +342,7 @@
                                
                            </div>
                        </div> 
-                       <div class="card-container-main hidden" data-image="Assets/images/selale.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/selale.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -368,7 +368,7 @@
                                
                            </div>
                        </div>                        
-                       <div class="card-container-main hidden" data-image="Assets/images/pnrm.jpeg">
+                       <div class="card-container-main hidden" data-image="assets/images/pnrm.jpeg">
                            <span><i class="fa-regular fa-eye">123</i></span>
                            <a href="#" class="badge green">Teknoloji</a>
                            <div class="favori">
@@ -429,7 +429,7 @@
 
                        <div class="newcont">
                            <div class="newcontimg">
-                               <img src="Assets/images/orman.jpeg" alt="" srcset="">
+                               <img src="assets/images/orman.jpeg" alt="" srcset="">
                                
                            </div>
                            <div class="newconttitle">    
@@ -442,7 +442,7 @@
                        </div>
                        <div class="newcont">
                            <div class="newcontimg">
-                               <img src="Assets/images/denizmanzara.jpeg" alt="" srcset="">
+                               <img src="assets/images/denizmanzara.jpeg" alt="" srcset="">
                                
                            </div>
                            <div class="newconttitle">    

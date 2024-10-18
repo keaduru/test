@@ -5,7 +5,7 @@ require_once '../../config/database.php';
 // Veritabanı bağlantısını al
 $conn = getDB();
 
-// Kategorileri çek
+
 $sql = "SELECT * FROM users";
 $stmt = $conn->prepare($sql);
 $stmt->execute();
